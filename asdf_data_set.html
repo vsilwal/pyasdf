@@ -1,0 +1,353 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ASDF Data Set &mdash; pyasdf 0.1.x documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.2.0/sandstone/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="_static/my-styles.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.x',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="pyasdf 0.1.x documentation" href="index.html" />
+    <link rel="prev" title="API" href="api.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          pyasdf</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.x</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="http://obspy.org">ObsPy</a></li>
+                <li><a href="http://github.com/SeismicData/pyasdf">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">ASDF Data Set</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="asdf-data-set">
+<h1>ASDF Data Set<a class="headerlink" href="#asdf-data-set" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="pyasdf.asdf_data_set.ASDFDataSet">
+<em class="property">class </em><tt class="descclassname">pyasdf.asdf_data_set.</tt><tt class="descname">ASDFDataSet</tt><big>(</big><em>filename</em>, <em>compression=u'gzip-3'</em>, <em>debug=False</em>, <em>mpi=None</em><big>)</big><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Object dealing with Adaptable Seismic Data Format (ASDF).</p>
+<p>Central object of this Python package.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The filename of the HDF5 file (to be).</li>
+<li><strong>compression</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; <p>The compression to use. Defaults to
+<tt class="docutils literal"><span class="pre">&quot;gzip-3&quot;</span></tt> which yielded good results in the past. Will
+only be applied to newly created data sets. Existing ones are not
+touched. Using parallel I/O will also disable compression as it
+is not possible to use both at the same time.</p>
+<p><strong>Available compressions choices (all of them are lossless):</strong></p>
+<ul>
+<li><tt class="docutils literal"><span class="pre">None</span></tt>: No compression</li>
+<li><tt class="docutils literal"><span class="pre">&quot;gzip-0&quot;</span></tt> - <tt class="docutils literal"><span class="pre">&quot;gzip-9&quot;</span></tt>: Gzip compression level 0  (worst
+but fast) to 9 (best but slow)</li>
+<li><tt class="docutils literal"><span class="pre">&quot;lzf&quot;</span></tt>: LZF compression</li>
+<li><tt class="docutils literal"><span class="pre">&quot;szip-ec-8&quot;</span></tt>: szip compression</li>
+<li><tt class="docutils literal"><span class="pre">&quot;szip-ec-10&quot;</span></tt>: szip compression</li>
+<li><tt class="docutils literal"><span class="pre">&quot;szip-nn-8&quot;</span></tt>: szip compression</li>
+<li><tt class="docutils literal"><span class="pre">&quot;szip-nn-10&quot;</span></tt>: szip compression</li>
+</ul>
+</li>
+<li><strong>debug</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; If True, print debug messages. Potentially very verbose.</li>
+<li><strong>mpi</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Force MPI on/off. Don&#8217;t touch this unless you have a
+reason.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="pyasdf.asdf_data_set.ASDFDataSet.add_auxiliary_data">
+<tt class="descname">add_auxiliary_data</tt><big>(</big><em>data</em>, <em>data_type</em>, <em>tag</em>, <em>parameters</em>, <em>provenance=None</em><big>)</big><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.add_auxiliary_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.add_auxiliary_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds auxiliary data to the file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> &#8211; The actual data as a n-dimensional numpy array.</li>
+<li><strong>data_type</strong> &#8211; The type of data, think of it like a subfolder.</li>
+<li><strong>tag</strong> &#8211; The tag of the data. Must be unique per data_type.</li>
+<li><strong>parameters</strong> &#8211; Any additional options, as a Python dictionary.</li>
+<li><strong>provenance</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyasdf.asdf_data_set.ASDFDataSet.add_quakeml">
+<tt class="descname">add_quakeml</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.add_quakeml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.add_quakeml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a QuakeML file or an existing ObsPy event to the data set.</p>
+<p>An exception will be raised if an event is attempted to be added
+that already exists within the data set. Duplicates are detected
+based on the public ids of the events.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> (<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.Event.html#obspy.core.event.Event" title="(in ObsPy Documentation (0.10.1) v0.10)"><tt class="xref py py-class docutils literal"><span class="pre">Event</span></tt></a> or
+<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.Catalog.html#obspy.core.event.Catalog" title="(in ObsPy Documentation (0.10.1) v0.10)"><tt class="xref py py-class docutils literal"><span class="pre">Catalog</span></tt></a>) &#8211; Filename or existing ObsPy event object.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">ValueError</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<p>For now we will create a new ASDF file but one can also use an
+existing one.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">impory</span> <span class="n">pyasdf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">obspy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span> <span class="o">=</span> <span class="n">pyasdf</span><span class="o">.</span><span class="n">ASDFDataSet</span><span class="p">(</span><span class="s">&quot;new_file.h5&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>One can add an event either by passing a filename ...</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">add_quakeml</span><span class="p">(</span><span class="s">&quot;/path/to/quake.xml&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>... or by passing an existing event or catalog object.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">cat</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">readEvents</span><span class="p">(</span><span class="s">&quot;/path/to/quakem.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">add_quakeml</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyasdf.asdf_data_set.ASDFDataSet.add_stationxml">
+<tt class="descname">add_stationxml</tt><big>(</big><em>stationxml</em><big>)</big><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.add_stationxml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.add_stationxml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds the StationXML to the data set object.</p>
+<p>This does some fairly exhaustive processing and will happily
+split the StationXML file and merge it with existing ones.</p>
+<p>If you care to have an a more or less unchanged StationXML file in
+the data set object be sure to add it one station at a time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stationxml</strong> (str or <a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.station.inventory.Inventory.html#obspy.station.inventory.Inventory" title="(in ObsPy Documentation (0.10.1) v0.10)"><tt class="xref py py-class docutils literal"><span class="pre">Inventory</span></tt></a>) &#8211; Filename of StationXML file or an ObsPy inventory
+object containing the same.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyasdf.asdf_data_set.ASDFDataSet.add_waveforms">
+<tt class="descname">add_waveforms</tt><big>(</big><em>waveform</em>, <em>tag</em>, <em>event_id=None</em><big>)</big><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.add_waveforms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.add_waveforms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds one or more waveforms to the file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>waveform</strong> &#8211; The waveform to add. Can either be an ObsPy Stream or
+Trace object or something ObsPy can read.</li>
+<li><strong>tag</strong> (<em>String</em>) &#8211; The tag that will be given to all waveform files. It is
+mandatory for all traces and facilitates identification of the data
+within one ASDF volume.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyasdf.asdf_data_set.ASDFDataSet.asdf_format_version">
+<tt class="descname">asdf_format_version</tt><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.asdf_format_version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.asdf_format_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the version of the ASDF file.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyasdf.asdf_data_set.ASDFDataSet.events">
+<tt class="descname">events</tt><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.events"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.events" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all events stored in the data set.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">An ObsPy <a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.Catalog.html#obspy.core.event.Catalog" title="(in ObsPy Documentation (0.10.1) v0.10)"><tt class="xref py py-class docutils literal"><span class="pre">Catalog</span></tt></a> object.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyasdf.asdf_data_set.ASDFDataSet.filename">
+<tt class="descname">filename</tt><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.filename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the path of the underlying file on the filesystem. Works in most
+circumstances.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyasdf.asdf_data_set.ASDFDataSet.get_data_for_tag">
+<tt class="descname">get_data_for_tag</tt><big>(</big><em>station_name</em>, <em>tag</em><big>)</big><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.get_data_for_tag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.get_data_for_tag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the waveform and station data for the requested station and
+tag.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>station_name</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; A string with network id and station id,
+e.g. <tt class="docutils literal"><span class="pre">&quot;IU.ANMO&quot;</span></tt></li>
+<li><strong>tag</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The tag of the waveform.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">tuple of the waveform and the inventory.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">(<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy Documentation (0.10.1) v0.10)"><tt class="xref py py-class docutils literal"><span class="pre">Stream</span></tt></a>,
+<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.station.inventory.Inventory.html#obspy.station.inventory.Inventory" title="(in ObsPy Documentation (0.10.1) v0.10)"><tt class="xref py py-class docutils literal"><span class="pre">Inventory</span></tt></a>)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyasdf.asdf_data_set.ASDFDataSet.get_station_list">
+<tt class="descname">get_station_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.get_station_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.get_station_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function returning a list of all stations in this ASDF file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyasdf.asdf_data_set.ASDFDataSet.itertag">
+<tt class="descname">itertag</tt><big>(</big><em>tag</em><big>)</big><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.itertag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.itertag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterate over stations. Yields a tuple of an obspy Stream object and
+an inventory object for the station information. The returned
+inventory object can be None.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">st</span><span class="p">,</span> <span class="n">inv</span> <span class="ow">in</span> <span class="n">data_set</span><span class="o">.</span><span class="n">itertag</span><span class="p">(</span><span class="s">&quot;raw_recording&quot;</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">st</span><span class="o">.</span><span class="n">detrend</span><span class="p">(</span><span class="s">&quot;linear&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyasdf.asdf_data_set.ASDFDataSet.mpi">
+<tt class="descname">mpi</tt><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.mpi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.mpi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a named tuple with <tt class="docutils literal"><span class="pre">comm</span></tt>, <tt class="docutils literal"><span class="pre">rank</span></tt>, <tt class="docutils literal"><span class="pre">size</span></tt>, and <tt class="docutils literal"><span class="pre">MPI</span></tt>
+if run with MPI and <tt class="docutils literal"><span class="pre">False</span></tt> otherwise.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyasdf.asdf_data_set.ASDFDataSet.validate">
+<tt class="descname">validate</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate and ASDF file. It currently checks that each waveform file
+has a corresponding station file.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014-2015, Lion Krischer.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installation &mdash; pyasdf 0.1.x documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.2.0/sandstone/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="_static/my-styles.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.x',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="pyasdf 0.1.x documentation" href="index.html" />
+    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="prev" title="pyasdf" href="index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          pyasdf</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.x</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="http://obspy.org">ObsPy</a></li>
+                <li><a href="http://github.com/SeismicData/pyasdf">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="asdf_data_set.html">ASDF Data Set</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="pyasdf-and-dependencies">
+<h2>pyasdf and Dependencies<a class="headerlink" href="#pyasdf-and-dependencies" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">pyasdf</span></tt> supports Python version 2.7 and 3.4 and it depends on the following
+Python modules: <tt class="docutils literal"><span class="pre">NumPy</span></tt>, <tt class="docutils literal"><span class="pre">ObsPy</span></tt>, <tt class="docutils literal"><span class="pre">h5py</span></tt>, <tt class="docutils literal"><span class="pre">mpi4py</span></tt>, <tt class="docutils literal"><span class="pre">colorama</span></tt>,
+<tt class="docutils literal"><span class="pre">flake8</span></tt>, and <tt class="docutils literal"><span class="pre">pytest</span></tt>. Keep in mind that <tt class="docutils literal"><span class="pre">h5py</span></tt> must be compiled with
+parallel I/O support and that it is linked against the same MPI as <tt class="docutils literal"><span class="pre">mpi4py</span></tt>
+which of course should be the same that is used by your computer.</p>
+<p>If you know what you are doing, install it any way you see fit. Otherwise do
+yourself a favor and download the
+<a class="reference external" href="https://store.continuum.io/cshop/anaconda/">Anaconda Python distribution</a>
+for Python 2.7 or 3.4. After downloading update it, and install the
+dependencies.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>conda update conda
+<span class="nv">$ </span>conda install -c obspy obspy colorama pytest pip flake8
+</pre></div>
+</div>
+<p>Installing the parallel libraries is a bit more difficult unfortunately. For
+all the following make sure that the MPI package of your local
+supercomputer/cluster is loaded. The <tt class="docutils literal"><span class="pre">mpi4py</span></tt> potentially shipping with
+Anaconda might not work on your cluster so uninstall it and reinstall with
+<tt class="docutils literal"><span class="pre">pip</span></tt> at which point it should link against your cluster&#8217;s MPI
+implementation.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>conda uninstall mpi4py
+<span class="nv">$ </span>pip install mpi4py
+</pre></div>
+</div>
+<p>Then install parallel <tt class="docutils literal"><span class="pre">h5py</span></tt> according to
+<a class="reference external" href="http://docs.h5py.org/en/latest/mpi.html">these instructions</a>.</p>
+<p>After everything is installed, run the following command to print
+information about the current system.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>python -c <span class="s2">&quot;import pyasdf; pyasdf.print_sys_info()&quot;</span>
+</pre></div>
+</div>
+<p>which will print something along the following lines:</p>
+<div class="highlight-python"><div class="highlight"><pre>pyasdf version 0.1.x
+===============================================================================
+CPython 2.7.9, compiler: GCC 4.2.1 (Apple Inc. build 5577)
+Darwin 14.3.0 64bit
+Machine: x86_64, Processor: i386 with 8 cores
+===============================================================================
+HDF5 version 1.8.13, h5py version: 2.3.1
+MPI: Open MPI, version: 1.8.3, mpi4py version: 1.3.1
+Parallel I/O support: True
+Problematic multiprocessing: False
+===============================================================================
+Other_modules:
+    obspy: 0.10.1
+    lxml: 3.4.2
+    scipy: 0.15.1
+    numpy: 1.9.2
+</pre></div>
+</div>
+<p>This should enable you to judge if <tt class="docutils literal"><span class="pre">pyasdf</span></tt> can run on your system.
+Especially important is the <em>Parallel I/O support</em> line. If multiprocessing
+is problematic, <tt class="docutils literal"><span class="pre">pyasdf</span></tt> will not be able to run on more than one machine
+without MPI. Please see
+<a class="reference external" href="https://github.com/obspy/obspy/wiki/Notes-on-Parallel-Processing-with-Python-and-ObsPy">here</a>
+for information about why and how to fix it.</p>
+</div>
+<div class="section" id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
+<p>To assert that your installation is working properly, execute</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>python -m pyasdf.tests
+</pre></div>
+</div>
+<p>and make sure all tests pass. Otherwise please contact the developers.</p>
+</div>
+<div class="section" id="build-the-documentation">
+<h2>Build the Documentation<a class="headerlink" href="#build-the-documentation" title="Permalink to this headline">¶</a></h2>
+<p>The documentation requires <tt class="docutils literal"><span class="pre">sphinx</span></tt> and the Bootstrap theme. Install both
+with</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pip install sphinx sphinx-bootstrap-theme
+</pre></div>
+</div>
+<p>Build the doc with</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd </span>doc
+<span class="nv">$ </span>make html
+</pre></div>
+</div>
+<p>Finally open the <tt class="docutils literal"><span class="pre">doc/_build/html/index.html</span></tt> file with the browser of your
+choice.</p>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014-2015, Lion Krischer.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
