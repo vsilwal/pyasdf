@@ -38,7 +38,26 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
+
+<style>
+    #forkongithub a{background:#659872;color:#FFFFFF;text-decoration:none;font-family:arial,sans-serif;text-align:center;font-weight:bold;padding:5px
+    40px;font-size:1rem;line-height:2rem;position:relative;transition:0.5s;}
+    #forkongithub a:hover{background:#FFFFFF;color:#659872;}
+    #forkongithub a::after{bottom:1px;top:auto;}
+    @media screen and (min-width:768px){
+        #forkongithub {position:fixed;display:block;top:0;right:0;width:200px;overflow:hidden;height:200px;z-index:9999;}
+        #forkongithub a{width:200px;position:absolute;top:30px;right:-60px;transform:rotate(45deg);-webkit-transform:rotate(45deg);-ms-transform:rotate(45deg);-moz-transform:rotate(45deg);-o-transform:rotate(45deg);box-shadow:4px 4px 10px rgba(0,0,0,0.8);}}
+
+    .navbar-right {
+        display: none
+    }
+</style>
+
+<span id="forkongithub">
+    <a href="https://github.com/SeismicData/pyasdf">Fork me on GitHub</a>
+</span>
+
 
   <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
     <div class="container">
@@ -206,7 +225,7 @@
 
         <span class="c"># Write file format and version information to the file.</span>
         <span class="k">if</span> <span class="s">&quot;file_format&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s">&quot;file_format&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">FORMAT_NAME</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s">&quot;file_format&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span> <span class="o">!=</span> <span class="n">FORMAT_NAME</span><span class="p">:</span>
                 <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot;Not a &#39;</span><span class="si">%s</span><span class="s">&#39; file.&quot;</span> <span class="o">%</span> <span class="n">FORMAT_NAME</span>
                 <span class="k">raise</span> <span class="n">ASDFException</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
             <span class="k">if</span> <span class="s">&quot;file_format_version&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
@@ -214,7 +233,8 @@
                        <span class="s">&quot;program will continue but the result is undefined.&quot;</span> <span class="o">%</span>
                        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span>
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">ASDFWarnings</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s">&quot;file_format_version&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">FORMAT_VERSION</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s">&quot;file_format_version&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span> <span class="o">!=</span> \
+                    <span class="n">FORMAT_VERSION</span><span class="p">:</span>
                 <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;The file &#39;</span><span class="si">%s</span><span class="s">&#39; has version number &#39;</span><span class="si">%s</span><span class="s">&#39;. The reader &quot;</span>
                        <span class="s">&quot;expects version &#39;</span><span class="si">%s</span><span class="s">&#39;. The program will continue but &quot;</span>
                        <span class="s">&quot;the result is undefined.&quot;</span> <span class="o">%</span> <span class="p">(</span>
@@ -223,8 +243,10 @@
                            <span class="n">FORMAT_VERSION</span><span class="p">))</span>
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">ASDFWarnings</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s">&quot;file_format&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">FORMAT_NAME</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s">&quot;file_format_version&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">FORMAT_VERSION</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s">&quot;file_format&quot;</span><span class="p">]</span> <span class="o">=</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">_zeropad_ascii_string</span><span class="p">(</span><span class="n">FORMAT_NAME</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s">&quot;file_format_version&quot;</span><span class="p">]</span> <span class="o">=</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">_zeropad_ascii_string</span><span class="p">(</span><span class="n">FORMAT_VERSION</span><span class="p">)</span>
 
         <span class="c"># Create the waveform and provenance groups.</span>
         <span class="k">if</span> <span class="s">&quot;Waveforms&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">:</span>
@@ -307,6 +329,16 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
+    <span class="k">def</span> <span class="nf">_zeropad_ascii_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a zero padded ASCII string in the most compatible way possible.</span>
+
+<span class="sd">        Might later need to handle bytes/unicode.</span>
+
+<span class="sd">        :param text: The text to be converted.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">string_</span><span class="p">((</span><span class="n">text</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\x00</span><span class="s">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_waveform_group</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">[</span><span class="s">&quot;Waveforms&quot;</span><span class="p">]</span>
@@ -320,22 +352,22 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">[</span><span class="s">&quot;AuxiliaryData&quot;</span><span class="p">]</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="ASDFDataSet.asdf_format_version"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.asdf_format_version">[docs]</a>    <span class="k">def</span> <span class="nf">asdf_format_version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">asdf_format_version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the version of the ASDF file.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s">&quot;file_format_version&quot;</span><span class="p">]</span>
-</div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s">&quot;file_format_version&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="ASDFDataSet.filename"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.filename">[docs]</a>    <span class="k">def</span> <span class="nf">filename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">filename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the path of the underlying file on the filesystem. Works in most</span>
 <span class="sd">        circumstances.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__original_filename</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="ASDFDataSet.mpi"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.mpi">[docs]</a>    <span class="k">def</span> <span class="nf">mpi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">mpi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a named tuple with ``comm``, ``rank``, ``size``, and ``MPI``</span>
 <span class="sd">        if run with MPI and ``False`` otherwise.</span>
@@ -374,7 +406,7 @@
                                    <span class="n">size</span><span class="o">=</span><span class="n">comm</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">MPI</span><span class="o">=</span><span class="n">mpi4py</span><span class="o">.</span><span class="n">MPI</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__is_mpi</span>
-</div>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">events</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -392,7 +424,7 @@
         <span class="k">return</span> <span class="n">cat</span>
 
     <span class="nd">@events.setter</span>
-<div class="viewcode-block" id="ASDFDataSet.events"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.events">[docs]</a>    <span class="k">def</span> <span class="nf">events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the events of the dataset.</span>
 
@@ -414,7 +446,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">[</span><span class="s">&quot;QuakeML&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">[</span><span class="s">&quot;QuakeML&quot;</span><span class="p">][:]</span> <span class="o">=</span> <span class="n">data</span>
-</div>
+
 <div class="viewcode-block" id="ASDFDataSet.add_auxiliary_data"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.add_auxiliary_data">[docs]</a>    <span class="k">def</span> <span class="nf">add_auxiliary_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span>
                            <span class="n">provenance</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -594,9 +626,13 @@
         <span class="n">details</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">AttribDict</span><span class="p">()</span>
         <span class="nb">setattr</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">stats</span><span class="p">,</span> <span class="n">FORMAT_NAME</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">details</span><span class="p">)</span>
         <span class="n">details</span><span class="o">.</span><span class="n">format_version</span> <span class="o">=</span> <span class="n">FORMAT_VERSION</span>
-        <span class="k">if</span> <span class="s">&quot;event_id&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
-            <span class="n">details</span><span class="o">.</span><span class="n">event_id</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">ResourceIdentifier</span><span class="p">(</span>
-                <span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s">&quot;event_id&quot;</span><span class="p">])</span>
+
+        <span class="c"># Read all the ids if they are there.</span>
+        <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;event_id&quot;</span><span class="p">,</span> <span class="s">&quot;origin_id&quot;</span><span class="p">,</span> <span class="s">&quot;magnitude_id&quot;</span><span class="p">,</span> <span class="s">&quot;focal_mechanism_id&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="n">details</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span>
+                        <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">ResourceIdentifier</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">name</span><span class="p">]))</span>
         <span class="k">return</span> <span class="n">tr</span>
 
     <span class="k">def</span> <span class="nf">_get_auxiliary_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
@@ -626,16 +662,96 @@
                 <span class="s">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">auxiliary_data</span><span class="p">))))</span>
         <span class="k">return</span> <span class="n">ret</span>
 
-<div class="viewcode-block" id="ASDFDataSet.add_waveforms"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.add_waveforms">[docs]</a>    <span class="k">def</span> <span class="nf">add_waveforms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">waveform</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">event_id</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ASDFDataSet.add_waveforms"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.add_waveforms">[docs]</a>    <span class="k">def</span> <span class="nf">add_waveforms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">waveform</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">event_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">origin_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="n">magnitude_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">focal_mechanism_id</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Adds one or more waveforms to the file.</span>
+<span class="sd">        Adds one or more waveforms to the current ASDF file.</span>
 
 <span class="sd">        :param waveform: The waveform to add. Can either be an ObsPy Stream or</span>
 <span class="sd">            Trace object or something ObsPy can read.</span>
-<span class="sd">        :type tag: String</span>
+<span class="sd">        :type waveform: :class:`obspy.core.stream.Stream`,</span>
+<span class="sd">            :class:`obspy.core.trace.Trace`, str, ...</span>
 <span class="sd">        :param tag: The tag that will be given to all waveform files. It is</span>
 <span class="sd">            mandatory for all traces and facilitates identification of the data</span>
-<span class="sd">            within one ASDF volume.</span>
+<span class="sd">            within one ASDF volume. The ``&quot;raw_record&quot;`` tag is,</span>
+<span class="sd">            by convention, reserved to raw, recorded, unprocessed data.</span>
+<span class="sd">        :type tag: str</span>
+<span class="sd">        :param event_id: The event or id which the waveform is associated</span>
+<span class="sd">            with. This is useful for recorded data if a clear association is</span>
+<span class="sd">            given, but also for synthetic data.</span>
+<span class="sd">        :type event_id: :class:`obspy.core.event.Event`,</span>
+<span class="sd">            :class:`obspy.core.event.ResourceIdentifier`, or str</span>
+<span class="sd">        :param origin_id: The particular origin this waveform is associated</span>
+<span class="sd">            with. This is mainly useful for synthetic data where the origin</span>
+<span class="sd">            is precisely known.</span>
+<span class="sd">        :type origin_id: :class:`obspy.core.event.Origin`,</span>
+<span class="sd">            :class:`obspy.core.event.ResourceIdentifier`, or str</span>
+<span class="sd">        :param magnitude_id: The particular magnitude this waveform is</span>
+<span class="sd">            associated with. This is mainly useful for synthetic data where</span>
+<span class="sd">            the magnitude is precisely known.</span>
+<span class="sd">        :type magnitude_id: :class:`obspy.core.event.Magnitude`,</span>
+<span class="sd">            :class:`obspy.core.event.ResourceIdentifier`, or str</span>
+<span class="sd">        :param focal_mechanism_id: The particular focal mechanism this</span>
+<span class="sd">            waveform is associated with. This is mainly useful for synthetic</span>
+<span class="sd">            data where the mechanism is precisely known.</span>
+<span class="sd">        :type focal_mechanism_id: :class:`obspy.core.event.FocalMechanism`,</span>
+<span class="sd">            :class:`obspy.core.event.ResourceIdentifier`, or str</span>
+
+<span class="sd">        .. rubric:: Examples</span>
+
+<span class="sd">        We first setup an example ASDF file with a single event.</span>
+
+<span class="sd">        &gt;&gt;&gt; from pyasdf import ASDFDataSet</span>
+<span class="sd">        &gt;&gt;&gt; ds = ASDFDataSet(&quot;event_tests.h5&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; ds.add_quakeml(&quot;quake.xml&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; event = ds.events[0]</span>
+
+<span class="sd">        Now assume we have a MiniSEED file that is an unprocessed</span>
+<span class="sd">        observation of that earthquake straight from a datacenter called</span>
+<span class="sd">        ``recording.mseed``. We will now add it to the file, give it the</span>
+<span class="sd">        ``&quot;raw_recording&quot;`` tag (which is reserved for raw, recorded,</span>
+<span class="sd">        and unproceseed data) and associate it with the event. Keep in mind</span>
+<span class="sd">        that this association is optional.</span>
+
+<span class="sd">        &gt;&gt;&gt; ds.add_waveforms(&quot;recording.mseed&quot;, tag=&quot;raw_recording&quot;,</span>
+<span class="sd">        ...                  event_id=event)</span>
+
+<span class="sd">        It is also possible to directly add</span>
+<span class="sd">        :class:`obspy.core.stream.Stream` objects containing an arbitrary</span>
+<span class="sd">        number of :class:`obspy.core.trace.Trace` objects.</span>
+
+<span class="sd">        &gt;&gt;&gt; import obspy</span>
+<span class="sd">        &gt;&gt;&gt; st = obspy.read()  # Reads an example file without argument.</span>
+<span class="sd">        &gt;&gt;&gt; print(st)</span>
+<span class="sd">        3 Trace(s) in Stream:</span>
+<span class="sd">        BW.RJOB..EHZ | 2009-08-24T00:20:03.00Z - ... | 100.0 Hz, 3000 samples</span>
+<span class="sd">        BW.RJOB..EHN | 2009-08-24T00:20:03.00Z - ... | 100.0 Hz, 3000 samples</span>
+<span class="sd">        BW.RJOB..EHE | 2009-08-24T00:20:03.00Z - ... | 100.0 Hz, 3000 samples</span>
+<span class="sd">        &gt;&gt;&gt; ds.add_waveforms(st, tag=&quot;obspy_example&quot;)</span>
+
+<span class="sd">        Just to demonstrate that all waveforms can also be retrieved again.</span>
+
+<span class="sd">        &gt;&gt;&gt; print(print(ds.waveforms.BW_RJOB.obspy_example))</span>
+<span class="sd">        3 Trace(s) in Stream:</span>
+<span class="sd">        BW.RJOB..EHZ | 2009-08-24T00:20:03.00Z - ... | 100.0 Hz, 3000 samples</span>
+<span class="sd">        BW.RJOB..EHN | 2009-08-24T00:20:03.00Z - ... | 100.0 Hz, 3000 samples</span>
+<span class="sd">        BW.RJOB..EHE | 2009-08-24T00:20:03.00Z - ... | 100.0 Hz, 3000 samples</span>
+
+<span class="sd">        For the last example lets assume we have the result of a simulation</span>
+<span class="sd">        stored in the ``synthetics.sac`` file. In this case we know the</span>
+<span class="sd">        precise source parameters (we specified them before running the</span>
+<span class="sd">        simulation) so it is a good idea to add that association to the</span>
+<span class="sd">        waveform. Please again keep in mind that they are all optional and</span>
+<span class="sd">        depending on your use case they might or might not be</span>
+<span class="sd">        useful/meaningful.</span>
+
+<span class="sd">        &gt;&gt;&gt; origin = event.preferred_origin()</span>
+<span class="sd">        &gt;&gt;&gt; magnitude = event.preferred_magnitude()</span>
+<span class="sd">        &gt;&gt;&gt; focal_mechanism = event.preferred_focal_mechansism()</span>
+<span class="sd">        &gt;&gt;&gt; ds.add_waveforms(&quot;synthetics.sac&quot;, event_id=event,</span>
+<span class="sd">        ...                  origin_id=origin, magnitude_id=magnitude,</span>
+<span class="sd">        ...                  focal_mechanism_id=focal_mechanism)</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># Extract the event_id from the different possibilities.</span>
         <span class="k">if</span> <span class="n">event_id</span><span class="p">:</span>
@@ -649,6 +765,46 @@
                         <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">ResourceIdentifier</span><span class="p">(</span><span class="n">event_id</span><span class="p">))</span>
                 <span class="k">except</span><span class="p">:</span>
                     <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot;Invalid type for event_id.&quot;</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="c"># Do the same for the origin, magnitude, and focal mechanism.</span>
+        <span class="k">if</span> <span class="n">origin_id</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">origin_id</span><span class="p">,</span> <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Origin</span><span class="p">):</span>
+                <span class="n">origin_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">origin_id</span><span class="o">.</span><span class="n">resource_id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">origin_id</span><span class="p">,</span> <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">ResourceIdentifier</span><span class="p">):</span>
+                <span class="n">origin_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">origin_id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">origin_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span>
+                        <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">ResourceIdentifier</span><span class="p">(</span><span class="n">origin_id</span><span class="p">))</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot;Invalid type for origin_id.&quot;</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">magnitude_id</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">magnitude_id</span><span class="p">,</span> <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Magnitude</span><span class="p">):</span>
+                <span class="n">magnitude_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">magnitude_id</span><span class="o">.</span><span class="n">resource_id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">magnitude_id</span><span class="p">,</span> <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">ResourceIdentifier</span><span class="p">):</span>
+                <span class="n">magnitude_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">magnitude_id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">magnitude_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span>
+                        <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">ResourceIdentifier</span><span class="p">(</span><span class="n">magnitude_id</span><span class="p">))</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot;Invalid type for magnitude_id.&quot;</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">focal_mechanism_id</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">focal_mechanism_id</span><span class="p">,</span> <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">FocalMechanism</span><span class="p">):</span>
+                <span class="n">focal_mechanism_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">focal_mechanism_id</span><span class="o">.</span><span class="n">resource_id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">focal_mechanism_id</span><span class="p">,</span>
+                            <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">ResourceIdentifier</span><span class="p">):</span>
+                <span class="n">focal_mechanism_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">focal_mechanism_id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">focal_mechanism_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span>
+                        <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">ResourceIdentifier</span><span class="p">(</span>
+                            <span class="n">focal_mechanism_id</span><span class="p">))</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot;Invalid type for focal_mechanism_id.&quot;</span>
                     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
         <span class="n">tag</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
@@ -669,7 +825,9 @@
             <span class="c"># Complicated multi-step process but it enables one to use</span>
             <span class="c"># parallel I/O with the same functions.</span>
             <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_trace_get_collective_information</span><span class="p">(</span>
-                <span class="n">trace</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">event_id</span><span class="o">=</span><span class="n">event_id</span><span class="p">)</span>
+                <span class="n">trace</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">event_id</span><span class="o">=</span><span class="n">event_id</span><span class="p">,</span> <span class="n">origin_id</span><span class="o">=</span><span class="n">origin_id</span><span class="p">,</span>
+                <span class="n">magnitude_id</span><span class="o">=</span><span class="n">magnitude_id</span><span class="p">,</span>
+                <span class="n">focal_mechanism_id</span><span class="o">=</span><span class="n">focal_mechanism_id</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">info</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_add_trace_write_collective_information</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
@@ -701,8 +859,9 @@
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">info</span><span class="p">[</span><span class="s">&quot;dataset_attrs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
-    <span class="k">def</span> <span class="nf">_add_trace_get_collective_information</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trace</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span>
-                                              <span class="n">event_id</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_add_trace_get_collective_information</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">trace</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">event_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">origin_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+            <span class="n">magnitude_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">focal_mechanism_id</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The information required for the collective part of adding a trace.</span>
 
@@ -750,18 +909,27 @@
                 <span class="s">&quot;maxshape&quot;</span><span class="p">:</span> <span class="p">(</span><span class="bp">None</span><span class="p">,)</span>
             <span class="p">},</span>
             <span class="s">&quot;dataset_attrs&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="c"># Starttime is the timestamp in nanoseconds as an integer.</span>
+                <span class="c"># Starttime is the epoch time in nanoseconds.</span>
                 <span class="s">&quot;starttime&quot;</span><span class="p">:</span>
                     <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">starttime</span><span class="o">.</span><span class="n">timestamp</span> <span class="o">*</span> <span class="mf">1.0E9</span><span class="p">)),</span>
                 <span class="s">&quot;sampling_rate&quot;</span><span class="p">:</span> <span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">sampling_rate</span>
             <span class="p">}</span>
         <span class="p">}</span>
-        <span class="k">if</span> <span class="n">event_id</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> \
-                <span class="nb">hasattr</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="p">,</span> <span class="s">&quot;asdf&quot;</span><span class="p">)</span> <span class="ow">and</span> \
-                <span class="nb">hasattr</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">asdf</span><span class="p">,</span> <span class="s">&quot;event_id&quot;</span><span class="p">):</span>
-            <span class="n">event_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">asdf</span><span class="o">.</span><span class="n">event_id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">event_id</span><span class="p">:</span>
-            <span class="n">info</span><span class="p">[</span><span class="s">&quot;dataset_attrs&quot;</span><span class="p">][</span><span class="s">&quot;event_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">event_id</span><span class="p">)</span>
+
+        <span class="c"># Add all the event ids.</span>
+        <span class="n">ids</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&quot;event_id&quot;</span><span class="p">:</span> <span class="n">event_id</span><span class="p">,</span>
+            <span class="s">&quot;origin_id&quot;</span><span class="p">:</span> <span class="n">origin_id</span><span class="p">,</span>
+            <span class="s">&quot;magnitude_id&quot;</span><span class="p">:</span> <span class="n">magnitude_id</span><span class="p">,</span>
+            <span class="s">&quot;focal_mechanism_id&quot;</span><span class="p">:</span> <span class="n">focal_mechanism_id</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">ids</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> \
+                    <span class="nb">hasattr</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="p">,</span> <span class="s">&quot;asdf&quot;</span><span class="p">)</span> <span class="ow">and</span> \
+                    <span class="nb">hasattr</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">asdf</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">asdf</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">obj</span><span class="p">:</span>
+                <span class="n">info</span><span class="p">[</span><span class="s">&quot;dataset_attrs&quot;</span><span class="p">][</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">info</span>
 
     <span class="k">def</span> <span class="nf">_get_station</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">station_name</span><span class="p">):</span>
@@ -1321,7 +1489,6 @@
                         <span class="n">stream</span><span class="p">,</span> <span class="n">inv</span> <span class="o">=</span> \
                             <span class="n">input_data_set</span><span class="o">.</span><span class="n">get_data_for_tag</span><span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
                         <span class="n">input_data_set</span><span class="o">.</span><span class="n">_flush</span><span class="p">()</span>
-                        <span class="n">input_data_set</span><span class="o">.</span><span class="n">_close</span><span class="p">()</span>
                         <span class="k">del</span> <span class="n">input_data_set</span>
 
                     <span class="n">output_stream</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">processing_function</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">inv</span><span class="p">)</span>
@@ -1406,7 +1573,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2015, Lion Krischer.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

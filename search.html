@@ -45,7 +45,26 @@
 
 
   </head>
-  <body>
+  <body role="document">
+
+<style>
+    #forkongithub a{background:#659872;color:#FFFFFF;text-decoration:none;font-family:arial,sans-serif;text-align:center;font-weight:bold;padding:5px
+    40px;font-size:1rem;line-height:2rem;position:relative;transition:0.5s;}
+    #forkongithub a:hover{background:#FFFFFF;color:#659872;}
+    #forkongithub a::after{bottom:1px;top:auto;}
+    @media screen and (min-width:768px){
+        #forkongithub {position:fixed;display:block;top:0;right:0;width:200px;overflow:hidden;height:200px;z-index:9999;}
+        #forkongithub a{width:200px;position:absolute;top:30px;right:-60px;transform:rotate(45deg);-webkit-transform:rotate(45deg);-ms-transform:rotate(45deg);-moz-transform:rotate(45deg);-o-transform:rotate(45deg);box-shadow:4px 4px 10px rgba(0,0,0,0.8);}}
+
+    .navbar-right {
+        display: none
+    }
+</style>
+
+<span id="forkongithub">
+    <a href="https://github.com/SeismicData/pyasdf">Fork me on GitHub</a>
+</span>
+
 
   <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
     <div class="container">
@@ -145,7 +164,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2015, Lion Krischer.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

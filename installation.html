@@ -39,7 +39,26 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
+
+<style>
+    #forkongithub a{background:#659872;color:#FFFFFF;text-decoration:none;font-family:arial,sans-serif;text-align:center;font-weight:bold;padding:5px
+    40px;font-size:1rem;line-height:2rem;position:relative;transition:0.5s;}
+    #forkongithub a:hover{background:#FFFFFF;color:#659872;}
+    #forkongithub a::after{bottom:1px;top:auto;}
+    @media screen and (min-width:768px){
+        #forkongithub {position:fixed;display:block;top:0;right:0;width:200px;overflow:hidden;height:200px;z-index:9999;}
+        #forkongithub a{width:200px;position:absolute;top:30px;right:-60px;transform:rotate(45deg);-webkit-transform:rotate(45deg);-ms-transform:rotate(45deg);-moz-transform:rotate(45deg);-o-transform:rotate(45deg);box-shadow:4px 4px 10px rgba(0,0,0,0.8);}}
+
+    .navbar-right {
+        display: none
+    }
+</style>
+
+<span id="forkongithub">
+    <a href="https://github.com/SeismicData/pyasdf">Fork me on GitHub</a>
+</span>
+
 
   <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
     <div class="container">
@@ -108,10 +127,10 @@
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="pyasdf-and-dependencies">
 <h2>pyasdf and Dependencies<a class="headerlink" href="#pyasdf-and-dependencies" title="Permalink to this headline">¶</a></h2>
-<p><tt class="docutils literal"><span class="pre">pyasdf</span></tt> supports Python version 2.7 and 3.4 and it depends on the following
-Python modules: <tt class="docutils literal"><span class="pre">NumPy</span></tt>, <tt class="docutils literal"><span class="pre">ObsPy</span></tt>, <tt class="docutils literal"><span class="pre">h5py</span></tt>, <tt class="docutils literal"><span class="pre">mpi4py</span></tt>, <tt class="docutils literal"><span class="pre">colorama</span></tt>,
-<tt class="docutils literal"><span class="pre">flake8</span></tt>, and <tt class="docutils literal"><span class="pre">pytest</span></tt>. Keep in mind that <tt class="docutils literal"><span class="pre">h5py</span></tt> must be compiled with
-parallel I/O support and that it is linked against the same MPI as <tt class="docutils literal"><span class="pre">mpi4py</span></tt>
+<p><code class="docutils literal"><span class="pre">pyasdf</span></code> supports Python version 2.7 and 3.4 and it depends on the following
+Python modules: <code class="docutils literal"><span class="pre">NumPy</span></code>, <code class="docutils literal"><span class="pre">ObsPy</span></code>, <code class="docutils literal"><span class="pre">h5py</span></code>, <code class="docutils literal"><span class="pre">mpi4py</span></code>, <code class="docutils literal"><span class="pre">colorama</span></code>,
+<code class="docutils literal"><span class="pre">flake8</span></code>, and <code class="docutils literal"><span class="pre">pytest</span></code>. Keep in mind that <code class="docutils literal"><span class="pre">h5py</span></code> must be compiled with
+parallel I/O support and that it is linked against the same MPI as <code class="docutils literal"><span class="pre">mpi4py</span></code>
 which of course should be the same that is used by your computer.</p>
 <p>If you know what you are doing, install it any way you see fit. Otherwise do
 yourself a favor and download the
@@ -124,15 +143,15 @@ dependencies.</p>
 </div>
 <p>Installing the parallel libraries is a bit more difficult unfortunately. For
 all the following make sure that the MPI package of your local
-supercomputer/cluster is loaded. The <tt class="docutils literal"><span class="pre">mpi4py</span></tt> potentially shipping with
+supercomputer/cluster is loaded. The <code class="docutils literal"><span class="pre">mpi4py</span></code> potentially shipping with
 Anaconda might not work on your cluster so uninstall it and reinstall with
-<tt class="docutils literal"><span class="pre">pip</span></tt> at which point it should link against your cluster&#8217;s MPI
+<code class="docutils literal"><span class="pre">pip</span></code> at which point it should link against your cluster&#8217;s MPI
 implementation.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>conda uninstall mpi4py
 <span class="nv">$ </span>pip install mpi4py
 </pre></div>
 </div>
-<p>Then install parallel <tt class="docutils literal"><span class="pre">h5py</span></tt> according to
+<p>Then install parallel <code class="docutils literal"><span class="pre">h5py</span></code> according to
 <a class="reference external" href="http://docs.h5py.org/en/latest/mpi.html">these instructions</a>.</p>
 <p>After everything is installed, run the following command to print
 information about the current system.</p>
@@ -158,9 +177,9 @@ Other_modules:
     numpy: 1.9.2
 </pre></div>
 </div>
-<p>This should enable you to judge if <tt class="docutils literal"><span class="pre">pyasdf</span></tt> can run on your system.
+<p>This should enable you to judge if <code class="docutils literal"><span class="pre">pyasdf</span></code> can run on your system.
 Especially important is the <em>Parallel I/O support</em> line. If multiprocessing
-is problematic, <tt class="docutils literal"><span class="pre">pyasdf</span></tt> will not be able to run on more than one machine
+is problematic, <code class="docutils literal"><span class="pre">pyasdf</span></code> will not be able to run on more than one machine
 without MPI. Please see
 <a class="reference external" href="https://github.com/obspy/obspy/wiki/Notes-on-Parallel-Processing-with-Python-and-ObsPy">here</a>
 for information about why and how to fix it.</p>
@@ -175,7 +194,7 @@ for information about why and how to fix it.</p>
 </div>
 <div class="section" id="build-the-documentation">
 <h2>Build the Documentation<a class="headerlink" href="#build-the-documentation" title="Permalink to this headline">¶</a></h2>
-<p>The documentation requires <tt class="docutils literal"><span class="pre">sphinx</span></tt> and the Bootstrap theme. Install both
+<p>The documentation requires <code class="docutils literal"><span class="pre">sphinx</span></code> and the Bootstrap theme. Install both
 with</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pip install sphinx sphinx-bootstrap-theme
 </pre></div>
@@ -185,7 +204,7 @@ with</p>
 <span class="nv">$ </span>make html
 </pre></div>
 </div>
-<p>Finally open the <tt class="docutils literal"><span class="pre">doc/_build/html/index.html</span></tt> file with the browser of your
+<p>Finally open the <code class="docutils literal"><span class="pre">doc/_build/html/index.html</span></code> file with the browser of your
 choice.</p>
 </div>
 </div>
@@ -203,7 +222,7 @@ choice.</p>
     </p>
     <p>
         &copy; Copyright 2014-2015, Lion Krischer.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>
