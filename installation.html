@@ -128,21 +128,33 @@
 <div class="section" id="pyasdf-and-dependencies">
 <h2>pyasdf and Dependencies<a class="headerlink" href="#pyasdf-and-dependencies" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal"><span class="pre">pyasdf</span></code> supports Python version 2.7 and 3.4 and it depends on the following
-Python modules: <code class="docutils literal"><span class="pre">NumPy</span></code>, <code class="docutils literal"><span class="pre">ObsPy</span></code>, <code class="docutils literal"><span class="pre">h5py</span></code>, <code class="docutils literal"><span class="pre">mpi4py</span></code>, <code class="docutils literal"><span class="pre">colorama</span></code>,
-<code class="docutils literal"><span class="pre">flake8</span></code>, and <code class="docutils literal"><span class="pre">pytest</span></code>. Keep in mind that <code class="docutils literal"><span class="pre">h5py</span></code> must be compiled with
-parallel I/O support and that it is linked against the same MPI as <code class="docutils literal"><span class="pre">mpi4py</span></code>
-which of course should be the same that is used by your computer.</p>
+Python modules: <code class="docutils literal"><span class="pre">NumPy</span></code>, <code class="docutils literal"><span class="pre">ObsPy</span></code>, <code class="docutils literal"><span class="pre">h5py</span></code>, <code class="docutils literal"><span class="pre">colorama</span></code>, <code class="docutils literal"><span class="pre">flake8</span></code>,
+<code class="docutils literal"><span class="pre">pytest</span></code>, and optionally <code class="docutils literal"><span class="pre">mpi4py</span></code>. You can install <code class="docutils literal"><span class="pre">pyasdf</span></code> with or
+without parallel I/O support; the later requires <code class="docutils literal"><span class="pre">mpi4py</span></code> and parallel
+versions of <code class="docutils literal"><span class="pre">hdf5</span></code> and <code class="docutils literal"><span class="pre">h5py</span></code>.</p>
 <p>If you know what you are doing, install it any way you see fit. Otherwise do
 yourself a favor and download the
 <a class="reference external" href="https://store.continuum.io/cshop/anaconda/">Anaconda Python distribution</a>
-for Python 2.7 or 3.4. After downloading update it, and install the
+for Python 2.7 or 3.4. After downloading, update it, and install the
 dependencies.</p>
+<div class="section" id="dependencies-for-the-non-parallel-i-o-version">
+<h3>Dependencies for the non-parallel I/O version<a class="headerlink" href="#dependencies-for-the-non-parallel-i-o-version" title="Permalink to this headline">¶</a></h3>
+<p>All dependencies for <code class="docutils literal"><span class="pre">pyasdf</span></code> with no parallel I/O support can be installed
+with <code class="docutils literal"><span class="pre">conda</span></code>:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>conda update conda
+<span class="nv">$ </span>conda install -c obspy obspy colorama pytest pip flake8 h5py
+</pre></div>
+</div>
+</div>
+<div class="section" id="dependencies-for-the-parallel-i-o-version">
+<h3>Dependencies for the parallel I/O version<a class="headerlink" href="#dependencies-for-the-parallel-i-o-version" title="Permalink to this headline">¶</a></h3>
+<p>The version with parallel I/O support is a bit more difficult as the <code class="docutils literal"><span class="pre">h5py</span></code>
+installable via <code class="docutils literal"><span class="pre">conda</span></code> has no parallel I/O support.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>conda update conda
 <span class="nv">$ </span>conda install -c obspy obspy colorama pytest pip flake8
 </pre></div>
 </div>
-<p>Installing the parallel libraries is a bit more difficult unfortunately. For
-all the following make sure that the MPI package of your local
+<p>For all the following make sure that the MPI package of your local
 supercomputer/cluster is loaded. The <code class="docutils literal"><span class="pre">mpi4py</span></code> potentially shipping with
 Anaconda might not work on your cluster so uninstall it and reinstall with
 <code class="docutils literal"><span class="pre">pip</span></code> at which point it should link against your cluster&#8217;s MPI
@@ -151,8 +163,22 @@ implementation.</p>
 <span class="nv">$ </span>pip install mpi4py
 </pre></div>
 </div>
-<p>Then install parallel <code class="docutils literal"><span class="pre">h5py</span></code> according to
+<p>Keep in mind that <code class="docutils literal"><span class="pre">h5py</span></code> must be compiled with parallel I/O support and that
+it is linked against the same MPI as <code class="docutils literal"><span class="pre">mpi4py</span></code> which of course should be the
+same that is used by your computer.</p>
+<p>Install parallel <code class="docutils literal"><span class="pre">h5py</span></code> according to
 <a class="reference external" href="http://docs.h5py.org/en/latest/mpi.html">these instructions</a>.</p>
+</div>
+<div class="section" id="installing-pyasdf">
+<h3>Installing pyasdf<a class="headerlink" href="#installing-pyasdf" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">pyasdf</span></code> is currently not on pypi but eventually be. For now, best install via git.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>git clone https://github.com/SeismicData/pyasdf.git
+<span class="nv">$ </span><span class="nb">cd </span>pyasdf
+<span class="nv">$ </span>pip install -v -e .
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">-e</span></code> flag results in an editable installation meaning the a simple <code class="docutils literal"><span class="pre">git</span>
+<span class="pre">pull</span></code> is enough to update <code class="docutils literal"><span class="pre">pyasdf</span></code>.</p>
 <p>After everything is installed, run the following command to print
 information about the current system.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>python -c <span class="s2">&quot;import pyasdf; pyasdf.print_sys_info()&quot;</span>
@@ -183,6 +209,7 @@ is problematic, <code class="docutils literal"><span class="pre">pyasdf</span></
 without MPI. Please see
 <a class="reference external" href="https://github.com/obspy/obspy/wiki/Notes-on-Parallel-Processing-with-Python-and-ObsPy">here</a>
 for information about why and how to fix it.</p>
+</div>
 </div>
 <div class="section" id="testing">
 <h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
