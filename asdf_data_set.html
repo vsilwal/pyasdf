@@ -195,8 +195,8 @@ based on the public ids of the events.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> (<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.Event.html#obspy.core.event.Event" title="(in ObsPy Documentation (0.10.1) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">Event</span></code></a> or
-<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.Catalog.html#obspy.core.event.Catalog" title="(in ObsPy Documentation (0.10.1) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">Catalog</span></code></a>) &#8211; Filename or existing ObsPy event object.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> (<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.Event.html#obspy.core.event.Event" title="(in ObsPy Documentation (0.10.2) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">Event</span></code></a> or
+<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.Catalog.html#obspy.core.event.Catalog" title="(in ObsPy Documentation (0.10.2) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">Catalog</span></code></a>) &#8211; Filename or existing ObsPy event object.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">ValueError</td>
 </tr>
@@ -233,7 +233,7 @@ the data set object be sure to add it one station at a time.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stationxml</strong> (str or <a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.station.inventory.Inventory.html#obspy.station.inventory.Inventory" title="(in ObsPy Documentation (0.10.1) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">Inventory</span></code></a>) &#8211; Filename of StationXML file or an ObsPy inventory
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stationxml</strong> (str or <a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.station.inventory.Inventory.html#obspy.station.inventory.Inventory" title="(in ObsPy Documentation (0.10.2) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">Inventory</span></code></a>) &#8211; Filename of StationXML file or an ObsPy inventory
 object containing the same.</td>
 </tr>
 </tbody>
@@ -249,27 +249,27 @@ object containing the same.</td>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>waveform</strong> (<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy Documentation (0.10.1) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.stream.Stream</span></code></a>,
-<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.trace.Trace.html#obspy.core.trace.Trace" title="(in ObsPy Documentation (0.10.1) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.trace.Trace</span></code></a>, str, ...) &#8211; The waveform to add. Can either be an ObsPy Stream or
+<li><strong>waveform</strong> (<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy Documentation (0.10.2) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.stream.Stream</span></code></a>,
+<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.trace.Trace.html#obspy.core.trace.Trace" title="(in ObsPy Documentation (0.10.2) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.trace.Trace</span></code></a>, str, ...) &#8211; The waveform to add. Can either be an ObsPy Stream or
 Trace object or something ObsPy can read.</li>
 <li><strong>tag</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The tag that will be given to all waveform files. It is
 mandatory for all traces and facilitates identification of the data
 within one ASDF volume. The <code class="docutils literal"><span class="pre">&quot;raw_record&quot;</span></code> tag is,
 by convention, reserved to raw, recorded, unprocessed data.</li>
-<li><strong>event_id</strong> (<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.Event.html#obspy.core.event.Event" title="(in ObsPy Documentation (0.10.1) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.event.Event</span></code></a>,
-<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.ResourceIdentifier.html#obspy.core.event.ResourceIdentifier" title="(in ObsPy Documentation (0.10.1) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.event.ResourceIdentifier</span></code></a>, or str) &#8211; The event or id which the waveform is associated
+<li><strong>event_id</strong> (<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.Event.html#obspy.core.event.Event" title="(in ObsPy Documentation (0.10.2) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.event.Event</span></code></a>,
+<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.ResourceIdentifier.html#obspy.core.event.ResourceIdentifier" title="(in ObsPy Documentation (0.10.2) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.event.ResourceIdentifier</span></code></a>, or str) &#8211; The event or id which the waveform is associated
 with. This is useful for recorded data if a clear association is
 given, but also for synthetic data.</li>
-<li><strong>origin_id</strong> (<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.Origin.html#obspy.core.event.Origin" title="(in ObsPy Documentation (0.10.1) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.event.Origin</span></code></a>,
-<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.ResourceIdentifier.html#obspy.core.event.ResourceIdentifier" title="(in ObsPy Documentation (0.10.1) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.event.ResourceIdentifier</span></code></a>, or str) &#8211; The particular origin this waveform is associated
+<li><strong>origin_id</strong> (<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.Origin.html#obspy.core.event.Origin" title="(in ObsPy Documentation (0.10.2) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.event.Origin</span></code></a>,
+<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.ResourceIdentifier.html#obspy.core.event.ResourceIdentifier" title="(in ObsPy Documentation (0.10.2) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.event.ResourceIdentifier</span></code></a>, or str) &#8211; The particular origin this waveform is associated
 with. This is mainly useful for synthetic data where the origin
 is precisely known.</li>
-<li><strong>magnitude_id</strong> (<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.Magnitude.html#obspy.core.event.Magnitude" title="(in ObsPy Documentation (0.10.1) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.event.Magnitude</span></code></a>,
-<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.ResourceIdentifier.html#obspy.core.event.ResourceIdentifier" title="(in ObsPy Documentation (0.10.1) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.event.ResourceIdentifier</span></code></a>, or str) &#8211; The particular magnitude this waveform is
+<li><strong>magnitude_id</strong> (<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.Magnitude.html#obspy.core.event.Magnitude" title="(in ObsPy Documentation (0.10.2) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.event.Magnitude</span></code></a>,
+<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.ResourceIdentifier.html#obspy.core.event.ResourceIdentifier" title="(in ObsPy Documentation (0.10.2) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.event.ResourceIdentifier</span></code></a>, or str) &#8211; The particular magnitude this waveform is
 associated with. This is mainly useful for synthetic data where
 the magnitude is precisely known.</li>
-<li><strong>focal_mechanism_id</strong> (<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.FocalMechanism.html#obspy.core.event.FocalMechanism" title="(in ObsPy Documentation (0.10.1) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.event.FocalMechanism</span></code></a>,
-<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.ResourceIdentifier.html#obspy.core.event.ResourceIdentifier" title="(in ObsPy Documentation (0.10.1) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.event.ResourceIdentifier</span></code></a>, or str) &#8211; The particular focal mechanism this
+<li><strong>focal_mechanism_id</strong> (<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.FocalMechanism.html#obspy.core.event.FocalMechanism" title="(in ObsPy Documentation (0.10.2) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.event.FocalMechanism</span></code></a>,
+<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.ResourceIdentifier.html#obspy.core.event.ResourceIdentifier" title="(in ObsPy Documentation (0.10.2) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.event.ResourceIdentifier</span></code></a>, or str) &#8211; The particular focal mechanism this
 waveform is associated with. This is mainly useful for synthetic
 data where the mechanism is precisely known.</li>
 </ul>
@@ -296,8 +296,8 @@ that this association is optional.</p>
 </pre></div>
 </div>
 <p>It is also possible to directly add
-<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy Documentation (0.10.1) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.stream.Stream</span></code></a> objects containing an arbitrary
-number of <a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.trace.Trace.html#obspy.core.trace.Trace" title="(in ObsPy Documentation (0.10.1) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.trace.Trace</span></code></a> objects.</p>
+<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy Documentation (0.10.2) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.stream.Stream</span></code></a> objects containing an arbitrary
+number of <a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.trace.Trace.html#obspy.core.trace.Trace" title="(in ObsPy Documentation (0.10.2) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.trace.Trace</span></code></a> objects.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">obspy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">st</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>  <span class="c"># Reads an example file without argument.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">st</span><span class="p">)</span>
@@ -347,7 +347,7 @@ useful/meaningful.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">An ObsPy <a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.Catalog.html#obspy.core.event.Catalog" title="(in ObsPy Documentation (0.10.1) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">Catalog</span></code></a> object.</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">An ObsPy <a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.Catalog.html#obspy.core.event.Catalog" title="(in ObsPy Documentation (0.10.2) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">Catalog</span></code></a> object.</td>
 </tr>
 </tbody>
 </table>
@@ -379,8 +379,8 @@ e.g. <code class="docutils literal"><span class="pre">&quot;IU.ANMO&quot;</span>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">tuple of the waveform and the inventory.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">(<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy Documentation (0.10.1) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">Stream</span></code></a>,
-<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.station.inventory.Inventory.html#obspy.station.inventory.Inventory" title="(in ObsPy Documentation (0.10.1) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">Inventory</span></code></a>)</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">(<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy Documentation (0.10.2) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">Stream</span></code></a>,
+<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.station.inventory.Inventory.html#obspy.station.inventory.Inventory" title="(in ObsPy Documentation (0.10.2) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">Inventory</span></code></a>)</p>
 </td>
 </tr>
 </tbody>
