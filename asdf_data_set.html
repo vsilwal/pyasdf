@@ -187,6 +187,27 @@ reason.</li>
 </dd></dl>
 
 <dl class="method">
+<dt id="pyasdf.asdf_data_set.ASDFDataSet.add_provenance_document">
+<code class="descname">add_provenance_document</code><span class="sig-paren">(</span><em>document</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.add_provenance_document"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.add_provenance_document" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a provenance document to the open ASDF file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>document</strong> (<em>Filename, file-like objects or prov document.</em>) &#8211; The document to add.</li>
+<li><strong>name</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The name of the document within ASDF. Must be lowercase
+alphanumeric with optional underscores. If not given, it will
+autogenerate one. If given and it already exists, it will be
+overwritten.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="pyasdf.asdf_data_set.ASDFDataSet.add_quakeml">
 <code class="descname">add_quakeml</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.add_quakeml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.add_quakeml" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a QuakeML file or an existing ObsPy event to the data set.</p>
@@ -366,6 +387,12 @@ circumstances.</p>
 <dt id="pyasdf.asdf_data_set.ASDFDataSet.filesize">
 <code class="descname">filesize</code><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.filesize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the current size of the file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyasdf.asdf_data_set.ASDFDataSet.flush">
+<code class="descname">flush</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.flush"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.flush" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flush the underlying HDF5 file.</p>
 </dd></dl>
 
 <dl class="method">
