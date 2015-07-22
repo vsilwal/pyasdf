@@ -164,22 +164,48 @@ reason.</li>
 </table>
 <dl class="method">
 <dt id="pyasdf.asdf_data_set.ASDFDataSet.add_auxiliary_data">
-<code class="descname">add_auxiliary_data</code><span class="sig-paren">(</span><em>data</em>, <em>data_type</em>, <em>tag</em>, <em>parameters</em>, <em>provenance=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.add_auxiliary_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.add_auxiliary_data" title="Permalink to this definition">¶</a></dt>
+<code class="descname">add_auxiliary_data</code><span class="sig-paren">(</span><em>data</em>, <em>data_type</em>, <em>tag</em>, <em>parameters</em>, <em>provenance_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.add_auxiliary_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.add_auxiliary_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds auxiliary data to the file.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>data</strong> &#8211; The actual data as a n-dimensional numpy array.</li>
 <li><strong>data_type</strong> &#8211; The type of data, think of it like a subfolder.</li>
 <li><strong>tag</strong> &#8211; The tag of the data. Must be unique per data_type.</li>
 <li><strong>parameters</strong> &#8211; Any additional options, as a Python dictionary.</li>
-<li><strong>provenance</strong> &#8211; </li>
+<li><strong>provenance_id</strong> &#8211; The id of the provenance of this data. The
+provenance information itself must be added separately. Must be
+given as a qualified name, e.g. <code class="docutils literal"><span class="pre">'{namespace_uri}id'</span></code>.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyasdf.asdf_data_set.ASDFDataSet.add_auxiliary_data_file">
+<code class="descname">add_auxiliary_data_file</code><span class="sig-paren">(</span><em>filename_or_object</em>, <em>tag</em>, <em>parameters=None</em>, <em>provenance_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.add_auxiliary_data_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.add_auxiliary_data_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Special function adding a file or file like object as an auxiliary
+data object denoting a file. This is very useful to store arbirary
+files in ASDF&gt;</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename_or_object</strong> &#8211; Filename, open-file or file-like object.
+File should really be opened in binary mode, but this i not
+checked.</li>
+<li><strong>tag</strong> &#8211; The tag of the file. Has the same limitations as normal
+tags.</li>
+<li><strong>parameters</strong> &#8211; Any additional options, as a Python dictionary.</li>
+<li><strong>provenance_id</strong> &#8211; The id of the provenance of this data. The
+provenance information itself must be added separately. Must be
+given as a qualified name, e.g. <code class="docutils literal"><span class="pre">'{namespace_uri}id'</span></code>.</li>
+</ul>
 </td>
 </tr>
 </tbody>
@@ -265,7 +291,7 @@ object containing the same.</td>
 
 <dl class="method">
 <dt id="pyasdf.asdf_data_set.ASDFDataSet.add_waveforms">
-<code class="descname">add_waveforms</code><span class="sig-paren">(</span><em>waveform</em>, <em>tag</em>, <em>event_id=None</em>, <em>origin_id=None</em>, <em>magnitude_id=None</em>, <em>focal_mechanism_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.add_waveforms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.add_waveforms" title="Permalink to this definition">¶</a></dt>
+<code class="descname">add_waveforms</code><span class="sig-paren">(</span><em>waveform</em>, <em>tag</em>, <em>event_id=None</em>, <em>origin_id=None</em>, <em>magnitude_id=None</em>, <em>focal_mechanism_id=None</em>, <em>provenance_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.add_waveforms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.add_waveforms" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds one or more waveforms to the current ASDF file.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -295,6 +321,9 @@ the magnitude is precisely known.</li>
 <a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.ResourceIdentifier.html#obspy.core.event.ResourceIdentifier" title="(in ObsPy Documentation (0.10.2) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.event.ResourceIdentifier</span></code></a>, or str) &#8211; The particular focal mechanism this
 waveform is associated with. This is mainly useful for synthetic
 data where the mechanism is precisely known.</li>
+<li><strong>provenance_id</strong> &#8211; The id of the provenance of this data. The
+provenance information itself must be added separately. Must be
+given as a qualified name, e.g. <code class="docutils literal"><span class="pre">'{namespace_uri}id'</span></code>.</li>
 </ul>
 </td>
 </tr>
@@ -426,12 +455,6 @@ e.g. <code class="docutils literal"><span class="pre">&quot;IU.ANMO&quot;</span>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyasdf.asdf_data_set.ASDFDataSet.get_station_list">
-<code class="descname">get_station_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.get_station_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.get_station_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>Helper function returning a list of all stations in this ASDF file.</p>
 </dd></dl>
 
 <dl class="method">
