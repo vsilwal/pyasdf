@@ -186,7 +186,7 @@
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">is_mpi_env</span><span class="p">,</span> <span class="n">StationAccessor</span><span class="p">,</span> <span class="n">sizeof_fmt</span><span class="p">,</span> <span class="n">ReceivedMessage</span><span class="p">,</span>\
     <span class="n">pretty_receiver_log</span><span class="p">,</span> <span class="n">pretty_sender_log</span><span class="p">,</span> <span class="n">JobQueueHelper</span><span class="p">,</span> <span class="n">StreamBuffer</span><span class="p">,</span> \
     <span class="n">AuxiliaryDataGroupAccessor</span><span class="p">,</span> <span class="n">AuxiliaryDataContainer</span><span class="p">,</span> <span class="n">get_multiprocessing</span><span class="p">,</span> \
-    <span class="n">ProvenanceAccessor</span><span class="p">,</span> <span class="n">split_qualified_name</span>
+    <span class="n">ProvenanceAccessor</span><span class="p">,</span> <span class="n">split_qualified_name</span><span class="p">,</span> <span class="n">_read_string_array</span>
 <span class="kn">from</span> <span class="nn">.inventory_utils</span> <span class="kn">import</span> <span class="n">isolate_and_merge_station</span><span class="p">,</span> <span class="n">merge_inventories</span>
 
 
@@ -454,9 +454,25 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">value</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Catalog</span><span class="p">()</span>
 
-        <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">tostring</span><span class="p">())</span> <span class="k">as</span> <span class="n">buf</span><span class="p">:</span>
-            <span class="n">cat</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">readEvents</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&quot;quakeml&quot;</span><span class="p">)</span>
-
+        <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">_read_string_array</span><span class="p">(</span><span class="n">data</span><span class="p">))</span> <span class="k">as</span> <span class="n">buf</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">cat</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">readEvents</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&quot;quakeml&quot;</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="c"># ObsPy is not able to read empty QuakeML files but they are</span>
+                <span class="c"># still valid QuakeML files.</span>
+                <span class="n">buf</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="bp">None</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">quakeml</span><span class="o">.</span><span class="n">_validate</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">pass</span>
+                <span class="c"># If validation is successful, but the initial read failed,</span>
+                <span class="c"># it must have been an empty QuakeML object.</span>
+                <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+                    <span class="n">cat</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Catalog</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c"># Re-raise exception</span>
+                    <span class="k">raise</span>
         <span class="k">return</span> <span class="n">cat</span>
 
     <span class="nd">@events.setter</span>
@@ -783,7 +799,7 @@
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">auxiliary_data</span><span class="p">):</span>
             <span class="n">ret</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\n\t</span><span class="s">Contains </span><span class="si">%i</span><span class="s"> type(s) of auxiliary data: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span>
                 <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">auxiliary_data</span><span class="p">),</span>
-                <span class="s">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">auxiliary_data</span><span class="p">))))</span>
+                <span class="s">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">auxiliary_data</span><span class="o">.</span><span class="n">list</span><span class="p">())))</span>
         <span class="k">return</span> <span class="n">ret</span>
 
     <span class="k">def</span> <span class="nf">_repr_pretty_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">cycle</span><span class="p">):</span>
@@ -975,7 +991,7 @@
 
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_provenance_group</span><span class="p">[</span><span class="n">document_name</span><span class="p">]</span>
 
-        <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">tostring</span><span class="p">())</span> <span class="k">as</span> <span class="n">buf</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">_read_string_array</span><span class="p">(</span><span class="n">data</span><span class="p">))</span> <span class="k">as</span> <span class="n">buf</span><span class="p">:</span>
             <span class="n">doc</span> <span class="o">=</span> <span class="n">prov</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&quot;xml&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">doc</span>
 
@@ -1140,7 +1156,7 @@
 
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">[</span><span class="s">&quot;Waveforms&quot;</span><span class="p">][</span><span class="n">station_name</span><span class="p">][</span><span class="s">&quot;StationXML&quot;</span><span class="p">]</span>
 
-        <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">tostring</span><span class="p">())</span> <span class="k">as</span> <span class="n">buf</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">_read_string_array</span><span class="p">(</span><span class="n">data</span><span class="p">))</span> <span class="k">as</span> <span class="n">buf</span><span class="p">:</span>
             <span class="n">inv</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">read_inventory</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&quot;stationxml&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">inv</span>
