@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>API &mdash; pyasdf 0.1.x documentation</title>
+    <title>Utils &mdash; pyasdf 0.1.x documentation</title>
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -31,8 +31,6 @@
     <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="pyasdf 0.1.x documentation" href="index.html" />
-    <link rel="next" title="ASDF Data Set" href="asdf_data_set.html" />
-    <link rel="prev" title="Examples" href="examples.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -89,10 +87,10 @@
      href="index.html">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
+      aria-labelledby="dLabelGlobalToc"><ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="asdf_data_set.html">ASDF Data Set</a></li>
 <li class="toctree-l1"><a class="reference internal" href="station_data.html">Working With Station Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="querying_data.html">Querying a Data Set</a></li>
@@ -125,10 +123,55 @@
   <div class="row">
     <div class="col-md-12">
       
-  <div class="section" id="api">
-<h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference internal" href="asdf_data_set.html"><em>ASDF Data Set</em></a></p>
-<p><a class="reference internal" href="utils.html"><em>Utils</em></a></p>
+  <div class="section" id="utils">
+<h1>Utils<a class="headerlink" href="#utils" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="waveformaccessor">
+<h2>WaveformAccessor<a class="headerlink" href="#waveformaccessor" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyasdf.utils.WaveformAccessor">
+<em class="property">class </em><code class="descclassname">pyasdf.utils.</code><code class="descname">WaveformAccessor</code><span class="sig-paren">(</span><em>station_name</em>, <em>asdf_data_set</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#WaveformAccessor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.WaveformAccessor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper class facilitating access to the actual waveforms and stations.</p>
+<dl class="attribute">
+<dt id="pyasdf.utils.WaveformAccessor.channel_coordinates">
+<code class="descname">channel_coordinates</code><a class="headerlink" href="#pyasdf.utils.WaveformAccessor.channel_coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get coordinates of the station at the channel level if any.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyasdf.utils.WaveformAccessor.coordinates">
+<code class="descname">coordinates</code><a class="headerlink" href="#pyasdf.utils.WaveformAccessor.coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get coordinates of the station if any.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyasdf.utils.WaveformAccessor.filter_waveforms">
+<code class="descname">filter_waveforms</code><span class="sig-paren">(</span><em>queries</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#WaveformAccessor.filter_waveforms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.WaveformAccessor.filter_waveforms" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyasdf.utils.WaveformAccessor.get_waveform_tags">
+<code class="descname">get_waveform_tags</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#WaveformAccessor.get_waveform_tags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.WaveformAccessor.get_waveform_tags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all available waveform tags for this station.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyasdf.utils.WaveformAccessor.list">
+<code class="descname">list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#WaveformAccessor.list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.WaveformAccessor.list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of all data sets for this station.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="filteredwaveformaccessor">
+<h2>FilteredWaveformAccessor<a class="headerlink" href="#filteredwaveformaccessor" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyasdf.utils.FilteredWaveformAccessor">
+<em class="property">class </em><code class="descclassname">pyasdf.utils.</code><code class="descname">FilteredWaveformAccessor</code><span class="sig-paren">(</span><em>station_name</em>, <em>asdf_data_set</em>, <em>filtered_items</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#FilteredWaveformAccessor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.FilteredWaveformAccessor" title="Permalink to this definition">¶</a></dt>
+<dd><p>A version of the waveform accessor returning a limited number of waveforms.</p>
+</dd></dl>
+
+</div>
 </div>
 
 

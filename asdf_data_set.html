@@ -95,6 +95,7 @@
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">ASDF Data Set</a></li>
 <li class="toctree-l1"><a class="reference internal" href="station_data.html">Working With Station Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="querying_data.html">Querying a Data Set</a></li>
 </ul>
 </ul>
 </li>
@@ -291,7 +292,7 @@ object containing the same.</td>
 
 <dl class="method">
 <dt id="pyasdf.asdf_data_set.ASDFDataSet.add_waveforms">
-<code class="descname">add_waveforms</code><span class="sig-paren">(</span><em>waveform</em>, <em>tag</em>, <em>event_id=None</em>, <em>origin_id=None</em>, <em>magnitude_id=None</em>, <em>focal_mechanism_id=None</em>, <em>provenance_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.add_waveforms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.add_waveforms" title="Permalink to this definition">¶</a></dt>
+<code class="descname">add_waveforms</code><span class="sig-paren">(</span><em>waveform</em>, <em>tag</em>, <em>event_id=None</em>, <em>origin_id=None</em>, <em>magnitude_id=None</em>, <em>focal_mechanism_id=None</em>, <em>provenance_id=None</em>, <em>labels=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.add_waveforms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.add_waveforms" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds one or more waveforms to the current ASDF file.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -324,6 +325,8 @@ data where the mechanism is precisely known.</li>
 <li><strong>provenance_id</strong> &#8211; The id of the provenance of this data. The
 provenance information itself must be added separately. Must be
 given as a qualified name, e.g. <code class="docutils literal"><span class="pre">'{namespace_uri}id'</span></code>.</li>
+<li><strong>labels</strong> (<em>list of str</em>) &#8211; A list of labels to associate with all the added
+traces. Must not contain a comma as that is used as a separator.</li>
 </ul>
 </td>
 </tr>
@@ -458,13 +461,15 @@ e.g. <code class="docutils literal"><span class="pre">&quot;IU.ANMO&quot;</span>
 </dd></dl>
 
 <dl class="method">
-<dt id="pyasdf.asdf_data_set.ASDFDataSet.itertag">
-<code class="descname">itertag</code><span class="sig-paren">(</span><em>tag</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.itertag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.itertag" title="Permalink to this definition">¶</a></dt>
-<dd><p>Iterate over stations. Yields a tuple of an obspy Stream object and
-an inventory object for the station information. The returned
-inventory object can be None.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">st</span><span class="p">,</span> <span class="n">inv</span> <span class="ow">in</span> <span class="n">data_set</span><span class="o">.</span><span class="n">itertag</span><span class="p">(</span><span class="s">&quot;raw_recording&quot;</span><span class="p">):</span>
-<span class="gp">... </span>    <span class="n">st</span><span class="o">.</span><span class="n">detrend</span><span class="p">(</span><span class="s">&quot;linear&quot;</span><span class="p">)</span>
+<dt id="pyasdf.asdf_data_set.ASDFDataSet.ifilter">
+<code class="descname">ifilter</code><span class="sig-paren">(</span><em>*query_objects</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.ifilter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.ifilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an iterator containing only the filtered information. Usage
+is fairly complex, a separate documentation page for
+<a class="reference internal" href="querying_data.html"><em>Querying a Data Set</em></a> is available - here is just a quick example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">ifilter</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">network</span> <span class="o">==</span> <span class="s">&quot;B?&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                          <span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">channel</span> <span class="o">==</span> <span class="s">&quot;*Z&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                          <span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">starttime</span> <span class="o">&gt;=</span> <span class="s">&quot;2015-01-01&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="o">...</span>
 </pre></div>
 </div>
 </dd></dl>

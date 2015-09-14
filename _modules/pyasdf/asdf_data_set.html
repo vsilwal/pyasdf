@@ -94,6 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../asdf_data_set.html">ASDF Data Set</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../station_data.html">Working With Station Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../querying_data.html">Querying a Data Set</a></li>
 </ul>
 </ul>
 </li>
@@ -183,10 +184,12 @@
 <span class="kn">from</span> <span class="nn">.header</span> <span class="kn">import</span> <span class="n">COMPRESSIONS</span><span class="p">,</span> <span class="n">FORMAT_NAME</span><span class="p">,</span> \
     <span class="n">FORMAT_VERSION</span><span class="p">,</span> <span class="n">MSG_TAGS</span><span class="p">,</span> <span class="n">MAX_MEMORY_PER_WORKER_IN_MB</span><span class="p">,</span> <span class="n">POISON_PILL</span><span class="p">,</span> \
     <span class="n">PROV_FILENAME_REGEX</span>
+<span class="kn">from</span> <span class="nn">.query</span> <span class="kn">import</span> <span class="n">Query</span><span class="p">,</span> <span class="n">merge_query_functions</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">is_mpi_env</span><span class="p">,</span> <span class="n">StationAccessor</span><span class="p">,</span> <span class="n">sizeof_fmt</span><span class="p">,</span> <span class="n">ReceivedMessage</span><span class="p">,</span>\
     <span class="n">pretty_receiver_log</span><span class="p">,</span> <span class="n">pretty_sender_log</span><span class="p">,</span> <span class="n">JobQueueHelper</span><span class="p">,</span> <span class="n">StreamBuffer</span><span class="p">,</span> \
     <span class="n">AuxiliaryDataGroupAccessor</span><span class="p">,</span> <span class="n">AuxiliaryDataContainer</span><span class="p">,</span> <span class="n">get_multiprocessing</span><span class="p">,</span> \
-    <span class="n">ProvenanceAccessor</span><span class="p">,</span> <span class="n">split_qualified_name</span><span class="p">,</span> <span class="n">_read_string_array</span>
+    <span class="n">ProvenanceAccessor</span><span class="p">,</span> <span class="n">split_qualified_name</span><span class="p">,</span> <span class="n">_read_string_array</span><span class="p">,</span> \
+    <span class="n">FilteredWaveformAccessor</span><span class="p">,</span> <span class="n">label2string</span>
 <span class="kn">from</span> <span class="nn">.inventory_utils</span> <span class="kn">import</span> <span class="n">isolate_and_merge_station</span><span class="p">,</span> <span class="n">merge_inventories</span>
 
 
@@ -196,6 +199,8 @@
 
 <span class="sd">    Central object of this Python package.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">Query</span><span class="p">()</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s">&quot;gzip-3&quot;</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
                  <span class="n">mpi</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -760,6 +765,10 @@
         <span class="k">if</span> <span class="s">&quot;provenance_id&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
             <span class="n">details</span><span class="o">.</span><span class="n">provenance_id</span> <span class="o">=</span> \
                 <span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s">&quot;provenance_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tostring</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="s">&quot;labels&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
+            <span class="n">details</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">_i</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                              <span class="k">for</span> <span class="n">_i</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s">&quot;labels&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">)]</span>
         <span class="k">return</span> <span class="n">tr</span>
 
     <span class="k">def</span> <span class="nf">_get_auxiliary_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
@@ -807,7 +816,7 @@
 
 <div class="viewcode-block" id="ASDFDataSet.add_waveforms"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.add_waveforms">[docs]</a>    <span class="k">def</span> <span class="nf">add_waveforms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">waveform</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">event_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">origin_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                       <span class="n">magnitude_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">focal_mechanism_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                      <span class="n">provenance_id</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+                      <span class="n">provenance_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds one or more waveforms to the current ASDF file.</span>
 
@@ -843,6 +852,9 @@
 <span class="sd">        :param provenance_id: The id of the provenance of this data. The</span>
 <span class="sd">            provenance information itself must be added separately. Must be</span>
 <span class="sd">            given as a qualified name, e.g. ``&#39;{namespace_uri}id&#39;``.</span>
+<span class="sd">        :type labels: list of str</span>
+<span class="sd">        :param labels: A list of labels to associate with all the added</span>
+<span class="sd">            traces. Must not contain a comma as that is used as a separator.</span>
 
 <span class="sd">        .. rubric:: Examples</span>
 
@@ -903,6 +915,10 @@
         <span class="k">if</span> <span class="n">provenance_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="c"># Will raise an error if not a valid qualified name.</span>
             <span class="n">split_qualified_name</span><span class="p">(</span><span class="n">provenance_id</span><span class="p">)</span>
+
+        <span class="c"># Parse labels to a single comma separated string.</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">label2string</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+
         <span class="c"># Extract the event_id from the different possibilities.</span>
         <span class="k">if</span> <span class="n">event_id</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event_id</span><span class="p">,</span> <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Event</span><span class="p">):</span>
@@ -978,7 +994,7 @@
                 <span class="n">trace</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">event_id</span><span class="o">=</span><span class="n">event_id</span><span class="p">,</span> <span class="n">origin_id</span><span class="o">=</span><span class="n">origin_id</span><span class="p">,</span>
                 <span class="n">magnitude_id</span><span class="o">=</span><span class="n">magnitude_id</span><span class="p">,</span>
                 <span class="n">focal_mechanism_id</span><span class="o">=</span><span class="n">focal_mechanism_id</span><span class="p">,</span>
-                <span class="n">provenance_id</span><span class="o">=</span><span class="n">provenance_id</span><span class="p">)</span>
+                <span class="n">provenance_id</span><span class="o">=</span><span class="n">provenance_id</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">info</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_add_trace_write_collective_information</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
@@ -1067,7 +1083,7 @@
     <span class="k">def</span> <span class="nf">_add_trace_get_collective_information</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">trace</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">event_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">origin_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
             <span class="n">magnitude_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">focal_mechanism_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-            <span class="n">provenance_id</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+            <span class="n">provenance_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The information required for the collective part of adding a trace.</span>
 
@@ -1121,6 +1137,16 @@
                 <span class="s">&quot;sampling_rate&quot;</span><span class="p">:</span> <span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">sampling_rate</span>
             <span class="p">}</span>
         <span class="p">}</span>
+
+        <span class="c"># Add the labels if they are given. Given labels overwrite the one</span>
+        <span class="c"># in the attributes.</span>
+        <span class="k">if</span> <span class="n">labels</span><span class="p">:</span>
+            <span class="n">info</span><span class="p">[</span><span class="s">&quot;dataset_attrs&quot;</span><span class="p">][</span><span class="s">&quot;labels&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">labels</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="p">,</span> <span class="s">&quot;asdf&quot;</span><span class="p">)</span> <span class="ow">and</span> \
+                <span class="nb">hasattr</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">asdf</span><span class="p">,</span> <span class="s">&quot;labels&quot;</span><span class="p">)</span> <span class="ow">and</span> \
+                <span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">asdf</span><span class="o">.</span><span class="n">labels</span><span class="p">:</span>
+            <span class="n">labels</span> <span class="o">=</span> <span class="n">label2string</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">asdf</span><span class="o">.</span><span class="n">labels</span><span class="p">)</span>
+            <span class="n">info</span><span class="p">[</span><span class="s">&quot;dataset_attrs&quot;</span><span class="p">][</span><span class="s">&quot;labels&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">labels</span>
 
         <span class="c"># Add all the event ids.</span>
         <span class="n">ids</span> <span class="o">=</span> <span class="p">{</span>
@@ -1265,25 +1291,68 @@
               <span class="n">summary</span><span class="p">[</span><span class="s">&quot;no_waveforms&quot;</span><span class="p">])</span>
         <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t</span><span class="si">%i</span><span class="s"> good stations&quot;</span> <span class="o">%</span> <span class="n">summary</span><span class="p">[</span><span class="s">&quot;good_stations&quot;</span><span class="p">])</span>
 </div>
-<div class="viewcode-block" id="ASDFDataSet.itertag"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.itertag">[docs]</a>    <span class="k">def</span> <span class="nf">itertag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
+<div class="viewcode-block" id="ASDFDataSet.ifilter"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.ifilter">[docs]</a>    <span class="k">def</span> <span class="nf">ifilter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">query_objects</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Iterate over stations. Yields a tuple of an obspy Stream object and</span>
-<span class="sd">        an inventory object for the station information. The returned</span>
-<span class="sd">        inventory object can be None.</span>
+<span class="sd">        Return an iterator containing only the filtered information. Usage</span>
+<span class="sd">        is fairly complex, a separate documentation page for</span>
+<span class="sd">        :doc:`querying_data` is available - here is just a quick example:</span>
 
-<span class="sd">        &gt;&gt;&gt; for st, inv in data_set.itertag(&quot;raw_recording&quot;):</span>
-<span class="sd">        ...     st.detrend(&quot;linear&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; for station in ds.ifilter(ds.q.network == &quot;B?&quot;,</span>
+<span class="sd">        ...                           ds.q.channel == &quot;*Z&quot;,</span>
+<span class="sd">        ...                           ds.q.starttime &gt;= &quot;2015-01-01&quot;)</span>
+<span class="sd">        ...     ...</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">waveforms</span><span class="p">):</span>
-            <span class="n">station</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">waveforms</span><span class="p">,</span> <span class="n">station</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">tag</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">station</span><span class="p">):</span>
+        <span class="n">queries</span> <span class="o">=</span> <span class="n">merge_query_functions</span><span class="p">(</span><span class="n">query_objects</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">waveforms</span><span class="p">:</span>
+            <span class="c"># Cheap checks first.</span>
+            <span class="c"># Test network and station codes if either is given.</span>
+            <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s">&quot;network&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">queries</span><span class="p">[</span><span class="s">&quot;station&quot;</span><span class="p">]:</span>
+                <span class="n">net_code</span><span class="p">,</span> <span class="n">sta_code</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">_station_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;.&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s">&quot;network&quot;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s">&quot;network&quot;</span><span class="p">](</span><span class="n">net_code</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s">&quot;station&quot;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s">&quot;station&quot;</span><span class="p">](</span><span class="n">sta_code</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                        <span class="k">continue</span>
+
+            <span class="c"># Check if the coordinates have to be parsed. Only station level</span>
+            <span class="c"># coordinates are used.</span>
+            <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s">&quot;latitude&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">queries</span><span class="p">[</span><span class="s">&quot;longitude&quot;</span><span class="p">]</span> <span class="ow">or</span> \
+                    <span class="n">queries</span><span class="p">[</span><span class="s">&quot;elevation_in_m&quot;</span><span class="p">]:</span>
+                <span class="c"># This will parse the StationXML files in a very fast manner</span>
+                <span class="c"># (but this is still an I/O heavy process!)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">coords</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">coordinates</span>
+                <span class="k">except</span> <span class="n">NoStationXMLForStation</span><span class="p">:</span>
+                    <span class="c"># If not there, then the station is not part of the</span>
+                    <span class="c"># final result set if any coordinates are required.</span>
+                    <span class="c"># Simple as that.</span>
+                    <span class="k">continue</span>
+
+                <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s">&quot;latitude&quot;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s">&quot;latitude&quot;</span><span class="p">](</span><span class="n">coords</span><span class="p">[</span><span class="s">&quot;latitude&quot;</span><span class="p">])</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                        <span class="k">continue</span>
+
+                <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s">&quot;longitude&quot;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s">&quot;longitude&quot;</span><span class="p">](</span><span class="n">coords</span><span class="p">[</span><span class="s">&quot;longitude&quot;</span><span class="p">])</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                        <span class="k">continue</span>
+
+                <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s">&quot;elevation_in_m&quot;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s">&quot;elevation_in_m&quot;</span><span class="p">](</span><span class="n">coords</span><span class="p">[</span><span class="s">&quot;elevation_in_m&quot;</span><span class="p">])</span> \
+                            <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                        <span class="k">continue</span>
+
+            <span class="n">wfs</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">filter_waveforms</span><span class="p">(</span><span class="n">queries</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">wfs</span><span class="p">:</span>
                 <span class="k">continue</span>
-            <span class="k">if</span> <span class="s">&quot;StationXML&quot;</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">station</span><span class="p">):</span>
-                <span class="n">inv</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">StationXML</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">inv</span> <span class="o">=</span> <span class="bp">None</span>
-            <span class="n">st</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
-            <span class="k">yield</span> <span class="n">st</span><span class="p">,</span> <span class="n">inv</span>
+
+            <span class="k">yield</span> <span class="n">FilteredWaveformAccessor</span><span class="p">(</span>
+                <span class="n">station_name</span><span class="o">=</span><span class="n">station</span><span class="o">.</span><span class="n">_station_name</span><span class="p">,</span>
+                <span class="n">asdf_data_set</span><span class="o">=</span><span class="n">station</span><span class="o">.</span><span class="n">_WaveformAccessor__data_set</span><span class="p">(),</span>
+                <span class="n">filtered_items</span><span class="o">=</span><span class="n">wfs</span><span class="p">)</span>
+
         <span class="k">raise</span> <span class="ne">StopIteration</span>
 </div>
     <span class="k">def</span> <span class="nf">process_two_files_without_parallel_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_ds</span><span class="p">,</span>
