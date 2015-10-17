@@ -6,6 +6,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Running pyflex in Parallel &mdash; pyasdf 0.1.x documentation</title>
@@ -17,7 +18,6 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
   
   
@@ -43,7 +43,7 @@
         <link rel="prev" title="Processing Observed Data in Parallel" href="process_observed.html"/> 
 
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
@@ -53,11 +53,30 @@
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-nav-search">
-        
-          <a href="../index.html" class="fa fa-home"> pyasdf</a>
-        
-        
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> pyasdf
+          
+
+          
+            
+            <img src="../_static/pyasdf_logo.svg" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.x
+              </div>
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -65,51 +84,31 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-      </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-        
           
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
-              <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../installation.html#pyasdf-and-dependencies">pyasdf and Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../installation.html#testing">Testing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../installation.html#building-the-documentation">Building the Documentation</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#learning-python-and-obspy">Learning Python and ObsPy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#using-pyasdf">Using pyasdf</a></li>
-</ul>
-</li>
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../examples.html">Examples</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="create_observed_asdf_file.html">Creating an ASDF File</a></li>
 <li class="toctree-l2"><a class="reference internal" href="process_observed.html">Processing Observed Data in Parallel</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="">Running pyflex in Parallel</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../asdf_data_set.html">ASDF Data Set</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../exceptions.html">Exceptions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../inventory_utils.html">Inventory Utilities</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../query.html">Query</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../utils.html">Utils</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../watermark.html">Watermark</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../detailed_explanations.html">Detailed Explanations</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../of_tags_and_labels.html">Of Tags and Labels</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../querying_data.html">Querying a Data Set</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../station_data.html">Working With Station Data</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../detailed_explanations.html">Detailed Explanations</a></li>
 </ul>
 
+            
           
-        
+        </div>
       </div>
-      &nbsp;
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
@@ -124,7 +123,13 @@
       
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="../index.html">Docs</a> &raquo;</li>
       
@@ -133,13 +138,16 @@
     <li>Running pyflex in Parallel</li>
       <li class="wy-breadcrumbs-aside">
         
-          <a href="../_sources/examples/parallel_pyflex.txt" rel="nofollow"> View page source</a>
+          
+            <a href="../_sources/examples/parallel_pyflex.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
   </ul>
   <hr/>
 </div>
-          <div role="main" class="document">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="running-pyflex-in-parallel">
 <h1>Running pyflex in Parallel<a class="headerlink" href="#running-pyflex-in-parallel" title="Permalink to this headline">¶</a></h1>
@@ -297,15 +305,16 @@ windows given a data set of observed and another data set of synthetic data.</p>
 </div>
 
 
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../api.html" class="btn btn-neutral float-right" title="API">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../api.html" class="btn btn-neutral float-right" title="API" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="process_observed.html" class="btn btn-neutral" title="Processing Observed Data in Parallel"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="process_observed.html" class="btn btn-neutral" title="Processing Observed Data in Parallel" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -315,12 +324,13 @@ windows given a data set of observed and another data set of synthetic data.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2015, Lion Krischer.
+
     </p>
   </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-  
 </footer>
+
         </div>
       </div>
 
