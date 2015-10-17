@@ -1,0 +1,276 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Inventory Utilities &mdash; pyasdf 0.1.x documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="stylesheet" href="_static/my-styles.css" type="text/css" />
+  
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  
+    <link rel="top" title="pyasdf 0.1.x documentation" href="index.html"/>
+        <link rel="up" title="API" href="api.html"/>
+        <link rel="next" title="Query" href="query.html"/>
+        <link rel="prev" title="Exceptions" href="exceptions.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="index.html" class="fa fa-home"> pyasdf</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#pyasdf-and-dependencies">pyasdf and Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#building-the-documentation">Building the Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#learning-python-and-obspy">Learning Python and ObsPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#using-pyasdf">Using pyasdf</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/create_observed_asdf_file.html">Creating an ASDF File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/process_observed.html">Processing Observed Data in Parallel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/parallel_pyflex.html">Running pyflex in Parallel</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="asdf_data_set.html">ASDF Data Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Inventory Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="query.html">Query</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watermark.html">Watermark</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="detailed_explanations.html">Detailed Explanations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="of_tags_and_labels.html">Of Tags and Labels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="querying_data.html">Querying a Data Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="station_data.html">Working With Station Data</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">pyasdf</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="api.html">API</a> &raquo;</li>
+      
+    <li>Inventory Utilities</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="_sources/inventory_utils.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="module-pyasdf.inventory_utils">
+<span id="inventory-utilities"></span><h1>Inventory Utilities<a class="headerlink" href="#module-pyasdf.inventory_utils" title="Permalink to this headline">¶</a></h1>
+<p>Utilities for dealing with inventory objects.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">copyright:</th><td class="field-body">Lion Krischer (<a class="reference external" href="mailto:krischer&#37;&#52;&#48;geophysik&#46;uni-muenchen&#46;de">krischer<span>&#64;</span>geophysik<span>&#46;</span>uni-muenchen<span>&#46;</span>de</a>), 2015</td>
+</tr>
+<tr class="field-even field"><th class="field-name">license:</th><td class="field-body">BSD 3-Clause (&#8220;BSD New&#8221; or &#8220;BSD Simplified&#8221;)</td>
+</tr>
+</tbody>
+</table>
+<dl class="function">
+<dt id="pyasdf.inventory_utils.get_coordinates">
+<code class="descclassname">pyasdf.inventory_utils.</code><code class="descname">get_coordinates</code><span class="sig-paren">(</span><em>data</em>, <em>level=u'station'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/inventory_utils.html#get_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.inventory_utils.get_coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Very quick way to get coordinates from a StationXML file.</p>
+<p>Can extract coordinates at the station and at the channel level.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyasdf.inventory_utils.isolate_and_merge_station">
+<code class="descclassname">pyasdf.inventory_utils.</code><code class="descname">isolate_and_merge_station</code><span class="sig-paren">(</span><em>inv</em>, <em>network_id</em>, <em>station_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/inventory_utils.html#isolate_and_merge_station"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.inventory_utils.isolate_and_merge_station" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes an inventory object, isolates the given station and merged them.</p>
+<p>Merging is sometimes necessary as many files have the same station
+multiple times.</p>
+<p>Returns the processed inventory object. The original one will not be
+changed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>inv</strong> (<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.station.inventory.Inventory.html#obspy.station.inventory.Inventory" title="(in ObsPy Documentation (0.10.2) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">Inventory</span></code></a>) &#8211; The inventory.</li>
+<li><strong>network_id</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The network id.</li>
+<li><strong>station_id</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The station id.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyasdf.inventory_utils.merge_inventories">
+<code class="descclassname">pyasdf.inventory_utils.</code><code class="descname">merge_inventories</code><span class="sig-paren">(</span><em>inv_a</em>, <em>inv_b</em>, <em>network_id</em>, <em>station_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/inventory_utils.html#merge_inventories"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.inventory_utils.merge_inventories" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes two inventories, merges the contents of both and isolates the
+contents of a certain network and station id.</p>
+<p>Returns the processed inventory object. The original one will not be
+changed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>inv_a</strong> (<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.station.inventory.Inventory.html#obspy.station.inventory.Inventory" title="(in ObsPy Documentation (0.10.2) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">Inventory</span></code></a>) &#8211; Inventory A. Contents of that inventory will be prioritized.</li>
+<li><strong>inv_b</strong> (<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.station.inventory.Inventory.html#obspy.station.inventory.Inventory" title="(in ObsPy Documentation (0.10.2) v0.10)"><code class="xref py py-class docutils literal"><span class="pre">Inventory</span></code></a>) &#8211; Inventory B.</li>
+<li><strong>network_id</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The network id.</li>
+<li><strong>station_id</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The station id.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="query.html" class="btn btn-neutral float-right" title="Query">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="exceptions.html" class="btn btn-neutral" title="Exceptions"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2015, Lion Krischer.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.x',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

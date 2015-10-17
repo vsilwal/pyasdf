@@ -1,132 +1,302 @@
 
+
+
 <!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Utils &mdash; pyasdf 0.1.x documentation</title>
+  
 
+  
+  
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
     
-    <title>Utils &mdash; pyasdf 0.1.x documentation</title>
-    
-    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootswatch-3.3.4/sandstone/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
     <link rel="stylesheet" href="_static/my-styles.css" type="text/css" />
+  
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  
+    <link rel="top" title="pyasdf 0.1.x documentation" href="index.html"/>
+        <link rel="up" title="API" href="api.html"/>
+        <link rel="next" title="Watermark" href="watermark.html"/>
+        <link rel="prev" title="Query" href="query.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
     
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '0.1.x',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="pyasdf 0.1.x documentation" href="index.html" />
-<meta charset='utf-8'>
-<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
-<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
-<meta name="apple-mobile-web-app-capable" content="yes">
-
-  </head>
-  <body role="document">
-
-<style>
-    #forkongithub a{background:#659872;color:#FFFFFF;text-decoration:none;font-family:arial,sans-serif;text-align:center;font-weight:bold;padding:5px
-    40px;font-size:1rem;line-height:2rem;position:relative;transition:0.5s;}
-    #forkongithub a:hover{background:#FFFFFF;color:#659872;}
-    #forkongithub a::after{bottom:1px;top:auto;}
-    @media screen and (min-width:768px){
-        #forkongithub {position:fixed;display:block;top:0;right:0;width:200px;overflow:hidden;height:200px;z-index:9999;}
-        #forkongithub a{width:200px;position:absolute;top:30px;right:-60px;transform:rotate(45deg);-webkit-transform:rotate(45deg);-ms-transform:rotate(45deg);-moz-transform:rotate(45deg);-o-transform:rotate(45deg);box-shadow:4px 4px 10px rgba(0,0,0,0.8);}}
-
-    .navbar-right {
-        display: none
-    }
-</style>
-
-<span id="forkongithub">
-    <a href="https://github.com/SeismicData/pyasdf">Fork me on GitHub</a>
-</span>
-
-
-  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="index.html">
-          pyasdf</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.x</b></span>
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="index.html" class="fa fa-home"> pyasdf</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
       </div>
 
-        <div class="collapse navbar-collapse nav-collapse">
-          <ul class="nav navbar-nav">
-            
-                <li><a href="http://obspy.org">ObsPy</a></li>
-                <li><a href="http://github.com/SeismicData/pyasdf">GitHub</a></li>
-            
-            
-              <li class="dropdown globaltoc-container">
-  <a role="button"
-     id="dLabelGlobalToc"
-     data-toggle="dropdown"
-     data-target="#"
-     href="index.html">Site <b class="caret"></b></a>
-  <ul class="dropdown-menu globaltoc"
-      role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="asdf_data_set.html">ASDF Data Set</a></li>
-<li class="toctree-l1"><a class="reference internal" href="station_data.html">Working With Station Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="querying_data.html">Querying a Data Set</a></li>
-</ul>
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#pyasdf-and-dependencies">pyasdf and Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#building-the-documentation">Building the Documentation</a></li>
 </ul>
 </li>
-              
-            
-            
-            
-            
-            
-          </ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#learning-python-and-obspy">Learning Python and ObsPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#using-pyasdf">Using pyasdf</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/create_observed_asdf_file.html">Creating an ASDF File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/process_observed.html">Processing Observed Data in Parallel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/parallel_pyflex.html">Running pyflex in Parallel</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="asdf_data_set.html">ASDF Data Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inventory_utils.html">Inventory Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="query.html">Query</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watermark.html">Watermark</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="detailed_explanations.html">Detailed Explanations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="of_tags_and_labels.html">Of Tags and Labels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="querying_data.html">Querying a Data Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="station_data.html">Working With Station Data</a></li>
+</ul>
+</li>
+</ul>
 
           
-            
-<form class="navbar-form navbar-right" action="search.html" method="get">
- <div class="form-group">
-  <input type="text" name="q" class="form-control" placeholder="Search" />
- </div>
-  <input type="hidden" name="check_keywords" value="yes" />
-  <input type="hidden" name="area" value="default" />
-</form>
-          
-        </div>
-    </div>
-  </div>
+        
+      </div>
+      &nbsp;
+    </nav>
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
       
-  <div class="section" id="utils">
-<h1>Utils<a class="headerlink" href="#utils" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="waveformaccessor">
-<h2>WaveformAccessor<a class="headerlink" href="#waveformaccessor" title="Permalink to this headline">¶</a></h2>
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">pyasdf</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="api.html">API</a> &raquo;</li>
+      
+    <li>Utils</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="_sources/utils.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="module-pyasdf.utils">
+<span id="utils"></span><h1>Utils<a class="headerlink" href="#module-pyasdf.utils" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">copyright:</th><td class="field-body">Lion Krischer (<a class="reference external" href="mailto:krischer&#37;&#52;&#48;geophysik&#46;uni-muenchen&#46;de">krischer<span>&#64;</span>geophysik<span>&#46;</span>uni-muenchen<span>&#46;</span>de</a>), 2013-2014</td>
+</tr>
+<tr class="field-even field"><th class="field-name">license:</th><td class="field-body">BSD 3-Clause (&#8220;BSD New&#8221; or &#8220;BSD Simplified&#8221;)</td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="pyasdf.utils.AuxiliaryDataAccessor">
+<em class="property">class </em><code class="descclassname">pyasdf.utils.</code><code class="descname">AuxiliaryDataAccessor</code><span class="sig-paren">(</span><em>auxiliary_data_type</em>, <em>asdf_data_set</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#AuxiliaryDataAccessor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.AuxiliaryDataAccessor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper class to access auxiliary data items.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyasdf.utils.AuxiliaryDataGroupAccessor">
+<em class="property">class </em><code class="descclassname">pyasdf.utils.</code><code class="descname">AuxiliaryDataGroupAccessor</code><span class="sig-paren">(</span><em>asdf_data_set</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#AuxiliaryDataGroupAccessor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.AuxiliaryDataGroupAccessor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper class to facilitate access to the auxiliary data types.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyasdf.utils.FilteredWaveformAccessor">
+<em class="property">class </em><code class="descclassname">pyasdf.utils.</code><code class="descname">FilteredWaveformAccessor</code><span class="sig-paren">(</span><em>station_name</em>, <em>asdf_data_set</em>, <em>filtered_items</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#FilteredWaveformAccessor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.FilteredWaveformAccessor" title="Permalink to this definition">¶</a></dt>
+<dd><p>A version of the waveform accessor returning a limited number of waveforms.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyasdf.utils.JobQueueHelper">
+<em class="property">class </em><code class="descclassname">pyasdf.utils.</code><code class="descname">JobQueueHelper</code><span class="sig-paren">(</span><em>jobs</em>, <em>worker_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#JobQueueHelper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.JobQueueHelper" title="Permalink to this definition">¶</a></dt>
+<dd><p>A simple helper class managing job distribution to workers.</p>
+<p>Init with a list of jobs and a list of workers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>jobs</strong> (<em>List of arguments distributed to the jobs.</em>) &#8211; A list of jobs that will be distributed to the workers.</li>
+<li><strong>workers</strong> &#8211; A list of usually integers, each denoting a worker.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Type:</th><td class="field-body"><p class="first last">list of integers</p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="pyasdf.utils.JobQueueHelper.get_job_for_worker">
+<code class="descname">get_job_for_worker</code><span class="sig-paren">(</span><em>worker_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#JobQueueHelper.get_job_for_worker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.JobQueueHelper.get_job_for_worker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a job for a worker.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>worker_name</strong> &#8211; The name of the worker requesting work.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyasdf.utils.JobQueueHelper.poison_pill_received">
+<code class="descname">poison_pill_received</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#JobQueueHelper.poison_pill_received"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.JobQueueHelper.poison_pill_received" title="Permalink to this definition">¶</a></dt>
+<dd><p>Increment the point pills received counter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyasdf.utils.JobQueueHelper.received_job_from_worker">
+<code class="descname">received_job_from_worker</code><span class="sig-paren">(</span><em>arguments</em>, <em>result</em>, <em>worker_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#JobQueueHelper.received_job_from_worker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.JobQueueHelper.received_job_from_worker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call when a worker returned a job.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>arguments</strong> &#8211; The arguments the jobs was called with.</li>
+<li><strong>result</strong> &#8211; The result of the job</li>
+<li><strong>worker_name</strong> &#8211; The name of the worker.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyasdf.utils.ProvenanceAccessor">
+<em class="property">class </em><code class="descclassname">pyasdf.utils.</code><code class="descname">ProvenanceAccessor</code><span class="sig-paren">(</span><em>asdf_data_set</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#ProvenanceAccessor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.ProvenanceAccessor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor helper for the provenance records.</p>
+<dl class="method">
+<dt id="pyasdf.utils.ProvenanceAccessor.get_provenance_document_for_id">
+<code class="descname">get_provenance_document_for_id</code><span class="sig-paren">(</span><em>provenance_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#ProvenanceAccessor.get_provenance_document_for_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.ProvenanceAccessor.get_provenance_document_for_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the provenance document containing a record with a certain id.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>provenance_id</strong> &#8211; The id of the provenance record whose
+containing document is searched. Must be given as a qualified name,
+e.g. <code class="docutils literal"><span class="pre">'{namespace_uri}id'</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyasdf.utils.ProvenanceAccessor.list">
+<code class="descname">list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#ProvenanceAccessor.list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.ProvenanceAccessor.list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of available provenance documents.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyasdf.utils.ReceivedMessage">
+<em class="property">class </em><code class="descclassname">pyasdf.utils.</code><code class="descname">ReceivedMessage</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#pyasdf.utils.ReceivedMessage" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="pyasdf.utils.ReceivedMessage.data">
+<code class="descname">data</code><a class="headerlink" href="#pyasdf.utils.ReceivedMessage.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyasdf.utils.SimpleBuffer">
+<em class="property">class </em><code class="descclassname">pyasdf.utils.</code><code class="descname">SimpleBuffer</code><span class="sig-paren">(</span><em>limit=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#SimpleBuffer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.SimpleBuffer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Object that can be used as a cache.</p>
+<p>Will never contain more then the specified number of items. If more then
+then that are used, it will remove the item with the oldest last access
+time.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyasdf.utils.StationAccessor">
+<em class="property">class </em><code class="descclassname">pyasdf.utils.</code><code class="descname">StationAccessor</code><span class="sig-paren">(</span><em>asdf_data_set</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#StationAccessor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.StationAccessor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper class to facilitate access to the waveforms and stations.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyasdf.utils.StreamBuffer">
+<em class="property">class </em><code class="descclassname">pyasdf.utils.</code><code class="descname">StreamBuffer</code><a class="reference internal" href="_modules/pyasdf/utils.html#StreamBuffer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.StreamBuffer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Very simple key value store for obspy stream object with the additional
+ability to approximate the size of all stored stream objects.</p>
+<dl class="method">
+<dt id="pyasdf.utils.StreamBuffer.get_size">
+<code class="descname">get_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#StreamBuffer.get_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.StreamBuffer.get_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Try to approximate the size of all stores Stream object.</p>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="class">
 <dt id="pyasdf.utils.WaveformAccessor">
 <em class="property">class </em><code class="descclassname">pyasdf.utils.</code><code class="descname">WaveformAccessor</code><span class="sig-paren">(</span><em>station_name</em>, <em>asdf_data_set</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#WaveformAccessor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.WaveformAccessor" title="Permalink to this definition">¶</a></dt>
@@ -162,34 +332,171 @@
 
 </dd></dl>
 
-</div>
-<div class="section" id="filteredwaveformaccessor">
-<h2>FilteredWaveformAccessor<a class="headerlink" href="#filteredwaveformaccessor" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="pyasdf.utils.FilteredWaveformAccessor">
-<em class="property">class </em><code class="descclassname">pyasdf.utils.</code><code class="descname">FilteredWaveformAccessor</code><span class="sig-paren">(</span><em>station_name</em>, <em>asdf_data_set</em>, <em>filtered_items</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#FilteredWaveformAccessor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.FilteredWaveformAccessor" title="Permalink to this definition">¶</a></dt>
-<dd><p>A version of the waveform accessor returning a limited number of waveforms.</p>
+<dt id="pyasdf.utils.Worker">
+<em class="property">class </em><code class="descclassname">pyasdf.utils.</code><code class="descname">Worker</code><span class="sig-paren">(</span><em>active_jobs</em>, <em>completed_jobs_count</em><span class="sig-paren">)</span><a class="headerlink" href="#pyasdf.utils.Worker" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="pyasdf.utils.Worker.active_jobs">
+<code class="descname">active_jobs</code><a class="headerlink" href="#pyasdf.utils.Worker.active_jobs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyasdf.utils.Worker.completed_jobs_count">
+<code class="descname">completed_jobs_count</code><a class="headerlink" href="#pyasdf.utils.Worker.completed_jobs_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pyasdf.utils.get_all_ids_for_prov_document">
+<code class="descclassname">pyasdf.utils.</code><code class="descname">get_all_ids_for_prov_document</code><span class="sig-paren">(</span><em>document</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#get_all_ids_for_prov_document"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.get_all_ids_for_prov_document" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a all ids from a prov document as qualified names in the lxml style.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyasdf.utils.get_multiprocessing">
+<code class="descclassname">pyasdf.utils.</code><code class="descname">get_multiprocessing</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#get_multiprocessing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.get_multiprocessing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function returning the multiprocessing module or the threading
+version of it.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyasdf.utils.is_mpi_env">
+<code class="descclassname">pyasdf.utils.</code><code class="descname">is_mpi_env</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#is_mpi_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.is_mpi_env" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the current environment is an MPI environment.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyasdf.utils.is_multiprocessing_problematic">
+<code class="descclassname">pyasdf.utils.</code><code class="descname">is_multiprocessing_problematic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#is_multiprocessing_problematic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.is_multiprocessing_problematic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if multiprocessing is known to have issues on the given
+platform.</p>
+<p>Mainly results from the fact that some BLAS/LAPACK implementations
+cannot deal with forked processing.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyasdf.utils.label2string">
+<code class="descclassname">pyasdf.utils.</code><code class="descname">label2string</code><span class="sig-paren">(</span><em>labels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#label2string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.label2string" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of labels to a comma-saperated string.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyasdf.utils.labelstring2list">
+<code class="descclassname">pyasdf.utils.</code><code class="descname">labelstring2list</code><span class="sig-paren">(</span><em>labels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#labelstring2list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.labelstring2list" title="Permalink to this definition">¶</a></dt>
+<dd><p>String to a list of labels.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyasdf.utils.sizeof_fmt">
+<code class="descclassname">pyasdf.utils.</code><code class="descname">sizeof_fmt</code><span class="sig-paren">(</span><em>num</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#sizeof_fmt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.sizeof_fmt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handy formatting for human readable filesize.</p>
+<p>From <a class="reference external" href="http://stackoverflow.com/a/1094933/1657047">http://stackoverflow.com/a/1094933/1657047</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyasdf.utils.split_qualified_name">
+<code class="descclassname">pyasdf.utils.</code><code class="descname">split_qualified_name</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#split_qualified_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.split_qualified_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a qualified name and returns a tuple of namespace, localpart.</p>
+<p>If namespace is not a valid URL, an error will be raised.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; The qualified name.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyasdf.utils.wf_name2seed_codes">
+<code class="descclassname">pyasdf.utils.</code><code class="descname">wf_name2seed_codes</code><span class="sig-paren">(</span><em>tag</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#wf_name2seed_codes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.wf_name2seed_codes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts an ASDF waveform name to the corresponding SEED identifiers.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">wf_name2seed_codes</span><span class="p">(</span><span class="s">&quot;BW.ALTM.00.EHE__2012-01-..__2012_01-...__synth&quot;</span><span class="p">)</span>
+<span class="go">(&quot;BW&quot;, &quot;ALTM&quot;, &quot;00&quot;, &quot;EHE&quot;)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyasdf.utils.wf_name2tag">
+<code class="descclassname">pyasdf.utils.</code><code class="descname">wf_name2tag</code><span class="sig-paren">(</span><em>tag</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#wf_name2tag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.wf_name2tag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract the path from an ASDF waveform name.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">wf_name2seed_codes</span><span class="p">(</span><span class="s">&quot;BW.ALTM.00.EHE__2012-01-..__2012_01-...__synth&quot;</span><span class="p">)</span>
+<span class="go">&quot;synth&quot;</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
-</div>
 
 
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="watermark.html" class="btn btn-neutral float-right" title="Watermark">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="query.html" class="btn btn-neutral" title="Query"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
     </div>
-      
-  </div>
-</div>
-<footer class="footer">
-  <div class="container">
-    <p class="pull-right">
-      <a href="#">Back to top</a>
-      
-    </p>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2015, Lion Krischer.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+        &copy; Copyright 2014-2015, Lion Krischer.
     </p>
   </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 </footer>
-  </body>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.x',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

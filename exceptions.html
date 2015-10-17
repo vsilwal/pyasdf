@@ -8,7 +8,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>API &mdash; pyasdf 0.1.x documentation</title>
+  <title>Exceptions &mdash; pyasdf 0.1.x documentation</title>
   
 
   
@@ -36,8 +36,9 @@
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   
     <link rel="top" title="pyasdf 0.1.x documentation" href="index.html"/>
-        <link rel="next" title="ASDF Data Set" href="asdf_data_set.html"/>
-        <link rel="prev" title="Running pyflex in Parallel" href="examples/parallel_pyflex.html"/> 
+        <link rel="up" title="API" href="api.html"/>
+        <link rel="next" title="Inventory Utilities" href="inventory_utils.html"/>
+        <link rel="prev" title="ASDF Data Set" href="asdf_data_set.html"/> 
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -86,9 +87,9 @@
 <li class="toctree-l2"><a class="reference internal" href="examples/parallel_pyflex.html">Running pyflex in Parallel</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">API</a><ul>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">API</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="asdf_data_set.html">ASDF Data Set</a></li>
-<li class="toctree-l2"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Exceptions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="inventory_utils.html">Inventory Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="query.html">Query</a></li>
 <li class="toctree-l2"><a class="reference internal" href="utils.html">Utils</a></li>
@@ -125,10 +126,12 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>API</li>
+          <li><a href="api.html">API</a> &raquo;</li>
+      
+    <li>Exceptions</li>
       <li class="wy-breadcrumbs-aside">
         
-          <a href="_sources/api.txt" rel="nofollow"> View page source</a>
+          <a href="_sources/exceptions.txt" rel="nofollow"> View page source</a>
         
       </li>
   </ul>
@@ -136,18 +139,54 @@
 </div>
           <div role="main" class="document">
             
-  <div class="section" id="api">
-<h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="asdf_data_set.html">ASDF Data Set</a></li>
-<li class="toctree-l1"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="inventory_utils.html">Inventory Utilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="query.html">Query</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html">Utils</a></li>
-<li class="toctree-l1"><a class="reference internal" href="watermark.html">Watermark</a></li>
-</ul>
-</div>
+  <div class="section" id="module-pyasdf.exceptions">
+<span id="exceptions"></span><h1>Exceptions<a class="headerlink" href="#module-pyasdf.exceptions" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">copyright:</th><td class="field-body">Lion Krischer (<a class="reference external" href="mailto:krischer&#37;&#52;&#48;geophysik&#46;uni-muenchen&#46;de">krischer<span>&#64;</span>geophysik<span>&#46;</span>uni-muenchen<span>&#46;</span>de</a>), 2015</td>
+</tr>
+<tr class="field-even field"><th class="field-name">license:</th><td class="field-body">BSD 3-Clause (&#8220;BSD New&#8221; or &#8220;BSD Simplified&#8221;)</td>
+</tr>
+</tbody>
+</table>
+<dl class="exception">
+<dt id="pyasdf.exceptions.ASDFAttributeError">
+<em class="property">exception </em><code class="descclassname">pyasdf.exceptions.</code><code class="descname">ASDFAttributeError</code><a class="reference internal" href="_modules/pyasdf/exceptions.html#ASDFAttributeError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.exceptions.ASDFAttributeError" title="Permalink to this definition">¶</a></dt>
+<dd><p>ASDF specific attribute error.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyasdf.exceptions.ASDFException">
+<em class="property">exception </em><code class="descclassname">pyasdf.exceptions.</code><code class="descname">ASDFException</code><a class="reference internal" href="_modules/pyasdf/exceptions.html#ASDFException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.exceptions.ASDFException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generic exception for the Python ASDF implementation.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyasdf.exceptions.ASDFValueError">
+<em class="property">exception </em><code class="descclassname">pyasdf.exceptions.</code><code class="descname">ASDFValueError</code><a class="reference internal" href="_modules/pyasdf/exceptions.html#ASDFValueError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.exceptions.ASDFValueError" title="Permalink to this definition">¶</a></dt>
+<dd><p>ASDF specific value error.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyasdf.exceptions.ASDFWarning">
+<em class="property">exception </em><code class="descclassname">pyasdf.exceptions.</code><code class="descname">ASDFWarning</code><a class="reference internal" href="_modules/pyasdf/exceptions.html#ASDFWarning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.exceptions.ASDFWarning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generic ASDF warning.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyasdf.exceptions.NoStationXMLForStation">
+<em class="property">exception </em><code class="descclassname">pyasdf.exceptions.</code><code class="descname">NoStationXMLForStation</code><a class="reference internal" href="_modules/pyasdf/exceptions.html#NoStationXMLForStation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.exceptions.NoStationXMLForStation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when a station has no associated StationXML file.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyasdf.exceptions.WaveformNotInFileException">
+<em class="property">exception </em><code class="descclassname">pyasdf.exceptions.</code><code class="descname">WaveformNotInFileException</code><a class="reference internal" href="_modules/pyasdf/exceptions.html#WaveformNotInFileException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.exceptions.WaveformNotInFileException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when a non-existent waveform is accessed.</p>
+</dd></dl>
+
 </div>
 
 
@@ -156,10 +195,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="asdf_data_set.html" class="btn btn-neutral float-right" title="ASDF Data Set">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="inventory_utils.html" class="btn btn-neutral float-right" title="Inventory Utilities">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="examples/parallel_pyflex.html" class="btn btn-neutral" title="Running pyflex in Parallel"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="asdf_data_set.html" class="btn btn-neutral" title="ASDF Data Set"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
