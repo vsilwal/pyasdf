@@ -879,7 +879,14 @@
 <span class="sd">        The dir method will list all this object&#39;s methods, the StationXML</span>
 <span class="sd">        if it has one, and all tags.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">directory</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="n">__dir__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="c"># Python 3.</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="s">&quot;__dir__&quot;</span><span class="p">):</span>
+            <span class="n">directory</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="n">__dir__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="c"># Python 2.</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">directory</span> <span class="o">=</span> <span class="p">[</span><span class="n">_i</span> <span class="k">for</span> <span class="n">_i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span>
+                         <span class="n">_i</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;_&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">)]</span>
+
         <span class="n">directory</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_waveform_tags</span><span class="p">())</span>
         <span class="k">if</span> <span class="s">&quot;StationXML&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="p">():</span>
             <span class="n">directory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;StationXML&quot;</span><span class="p">)</span>
