@@ -167,7 +167,7 @@
 </table>
 <dl class="class">
 <dt id="pyasdf.asdf_data_set.ASDFDataSet">
-<em class="property">class </em><code class="descclassname">pyasdf.asdf_data_set.</code><code class="descname">ASDFDataSet</code><span class="sig-paren">(</span><em>filename</em>, <em>compression='gzip-3'</em>, <em>debug=False</em>, <em>mpi=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pyasdf.asdf_data_set.</code><code class="descname">ASDFDataSet</code><span class="sig-paren">(</span><em>filename</em>, <em>compression='gzip-3'</em>, <em>debug=False</em>, <em>mpi=None</em>, <em>mode='a'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Object dealing with Adaptable Seismic Data Format (ASDF).</p>
 <p>Central object of this Python package.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -196,6 +196,12 @@ but fast) to 9 (best but slow)</li>
 <li><strong>debug</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; If True, print debug messages. Potentially very verbose.</li>
 <li><strong>mpi</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Force MPI on/off. Don&#8217;t touch this unless you have a
 reason.</li>
+<li><strong>mode</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The mode the file is opened in. Passed to the
+underlying <code class="xref py py-class docutils literal"><span class="pre">h5py.File</span></code> constructor. pyasdf expects to be
+able to write to files for many operations so it might result in
+strange errors if a read-only mode is used. Nonetheless this is
+quite useful for some use cases as long as one is aware of the
+potential repercussions.</li>
 </ul>
 </td>
 </tr>
@@ -227,11 +233,11 @@ given as a qualified name, e.g. <code class="docutils literal"><span class="pre"
 <p>The data type is the category of the data and the path the name of
 that particular piece of data within that category.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">add_auxiliary_data</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
-<span class="gp">... </span>                      <span class="n">data_type</span><span class="o">=</span><span class="s">&quot;RandomArray&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                      <span class="n">data_type</span><span class="o">=</span><span class="s">&quot;RandomArrays&quot;</span><span class="p">,</span>
 <span class="gp">... </span>                      <span class="n">path</span><span class="o">=</span><span class="s">&quot;test_data&quot;</span><span class="p">,</span>
 <span class="gp">... </span>                      <span class="n">parameters</span><span class="o">=</span><span class="p">{</span><span class="s">&quot;a&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&quot;b&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">auxiliary_data</span><span class="o">.</span><span class="n">RandomArray</span><span class="o">.</span><span class="n">test_data</span>
-<span class="go">Auxiliary Data of Type &#39;RandomArray&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">auxiliary_data</span><span class="o">.</span><span class="n">RandomArrays</span><span class="o">.</span><span class="n">test_data</span>
+<span class="go">Auxiliary Data of Type &#39;RandomArrays&#39;</span>
 <span class="go">Path: &#39;test_data&#39;</span>
 <span class="go">Data shape: &#39;(10, )&#39;, dtype: &#39;float64&#39;</span>
 <span class="go">Parameters:</span>
@@ -242,11 +248,11 @@ that particular piece of data within that category.</p>
 <p>The path can contain forward slashes to create a nested hierarchy of
 auxiliary data.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">add_auxiliary_data</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
-<span class="gp">... </span>                      <span class="n">data_type</span><span class="o">=</span><span class="s">&quot;RandomArray&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                      <span class="n">data_type</span><span class="o">=</span><span class="s">&quot;RandomArrays&quot;</span><span class="p">,</span>
 <span class="gp">... </span>                      <span class="n">path</span><span class="o">=</span><span class="s">&quot;some/nested/path/test_data&quot;</span><span class="p">,</span>
 <span class="gp">... </span>                      <span class="n">parameters</span><span class="o">=</span><span class="p">{</span><span class="s">&quot;a&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&quot;b&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">auxiliary_data</span><span class="o">.</span><span class="n">RandomArray</span><span class="o">.</span><span class="n">some</span><span class="o">.</span><span class="n">nested</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">test_data</span>
-<span class="go">Auxiliary Data of Type &#39;RandomArray&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">auxiliary_data</span><span class="o">.</span><span class="n">RandomArrays</span><span class="o">.</span><span class="n">some</span><span class="o">.</span><span class="n">nested</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">test_data</span>
+<span class="go">Auxiliary Data of Type &#39;RandomArrays&#39;</span>
 <span class="go">Path: &#39;some/nested/path/test_data&#39;</span>
 <span class="go">Data shape: &#39;(10, )&#39;, dtype: &#39;float64&#39;</span>
 <span class="go">Parameters:</span>
@@ -260,7 +266,7 @@ auxiliary data.</p>
 <dt id="pyasdf.asdf_data_set.ASDFDataSet.add_auxiliary_data_file">
 <code class="descname">add_auxiliary_data_file</code><span class="sig-paren">(</span><em>filename_or_object</em>, <em>path</em>, <em>parameters=None</em>, <em>provenance_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.add_auxiliary_data_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.add_auxiliary_data_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Special function adding a file or file like object as an auxiliary
-data object denoting a file. This is very useful to store arbirary
+data object denoting a file. This is very useful to store arbitrary
 files in ASDF.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />

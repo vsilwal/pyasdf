@@ -424,10 +424,10 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span> <span class="o">!=</span> <span class="s">&quot;File&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span> <span class="o">!=</span> <span class="s">&quot;Files&quot;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ASDFAttributeError</span><span class="p">(</span>
                 <span class="s">&quot;The &#39;file&#39; property is only available &quot;</span>
-                <span class="s">&quot;for auxiliary data with the data type &#39;File&#39;.&quot;</span><span class="p">)</span>
+                <span class="s">&quot;for auxiliary data with the data type &#39;Files&#39;.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file_cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file_cache</span>
 
@@ -879,7 +879,8 @@
 <span class="sd">        The dir method will list all this object&#39;s methods, the StationXML</span>
 <span class="sd">        if it has one, and all tags.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">directory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_waveform_tags</span><span class="p">()</span>
+        <span class="n">directory</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="n">__dir__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">directory</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_waveform_tags</span><span class="p">())</span>
         <span class="k">if</span> <span class="s">&quot;StationXML&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="p">():</span>
             <span class="n">directory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;StationXML&quot;</span><span class="p">)</span>
         <span class="n">directory</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s">&quot;_station_name&quot;</span><span class="p">,</span> <span class="s">&quot;coordinates&quot;</span><span class="p">,</span>
@@ -888,9 +889,7 @@
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">contents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dir__</span><span class="p">()</span>
-        <span class="n">waveform_contents</span> <span class="o">=</span> <span class="p">[</span><span class="n">_i</span> <span class="k">for</span> <span class="n">_i</span> <span class="ow">in</span> <span class="n">contents</span> <span class="k">if</span> <span class="n">_i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span>
-                             <span class="s">&quot;StationXML&quot;</span><span class="p">,</span> <span class="s">&quot;_station_name&quot;</span><span class="p">,</span> <span class="s">&quot;coordinates&quot;</span><span class="p">,</span>
-                             <span class="s">&quot;channel_coordinates&quot;</span><span class="p">]]</span>
+        <span class="n">waveform_contents</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_waveform_tags</span><span class="p">())</span>
 
         <span class="n">ret_str</span> <span class="o">=</span> <span class="p">(</span>
             <span class="s">&quot;Contents of the data set for station {station}:</span><span class="se">\n</span><span class="s">&quot;</span>
