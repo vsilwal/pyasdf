@@ -1517,7 +1517,8 @@
 
         <span class="k">return</span> <span class="n">results</span>
 </div>
-<div class="viewcode-block" id="ASDFDataSet.process"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">process_function</span><span class="p">,</span> <span class="n">output_filename</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ASDFDataSet.process"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">process_function</span><span class="p">,</span> <span class="n">output_filename</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">,</span>
+                <span class="n">traceback_limit</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Process the contents of an ``ASDF`` file in parallel.</span>
 
@@ -1536,6 +1537,9 @@
 <span class="sd">        :param output_filename: The output filename. Must not yet exist.</span>
 <span class="sd">        :type tag_map: dict</span>
 <span class="sd">        :param tag_map: A dictionary mapping the input tags to output tags.</span>
+<span class="sd">        :type traceback_limit: int</span>
+<span class="sd">        :param traceback_limit: The length of the traceback printed if an</span>
+<span class="sd">            error occurs in one of the workers.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_filename</span><span class="p">):</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot;Output file &#39;</span><span class="si">%s</span><span class="s">&#39; already exists.&quot;</span> <span class="o">%</span> <span class="n">output_filename</span>
@@ -1593,20 +1597,26 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
 
-        <span class="n">output_data_set</span> <span class="o">=</span> <span class="n">ASDFDataSet</span><span class="p">(</span><span class="n">output_filename</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="p">:</span>
+            <span class="n">compression</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__compression</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">compression</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="n">output_data_set</span> <span class="o">=</span> <span class="n">ASDFDataSet</span><span class="p">(</span><span class="n">output_filename</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="n">compression</span><span class="p">)</span>
 
         <span class="c"># Check for MPI, if yes, dispatch to MPI worker, if not dispatch to</span>
         <span class="c"># the multiprocessing handler.</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_dispatch_processing_mpi</span><span class="p">(</span><span class="n">process_function</span><span class="p">,</span> <span class="n">output_data_set</span><span class="p">,</span>
-                                          <span class="n">station_tags</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">)</span>
+                                          <span class="n">station_tags</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">,</span>
+                                          <span class="n">traceback_limit</span><span class="o">=</span><span class="n">traceback_limit</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_dispatch_processing_multiprocessing</span><span class="p">(</span>
                 <span class="n">process_function</span><span class="p">,</span> <span class="n">output_data_set</span><span class="p">,</span> <span class="n">station_tags</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">,</span>
-                <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="n">traceback_limit</span><span class="o">=</span><span class="n">traceback_limit</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
     <span class="k">def</span> <span class="nf">_dispatch_processing_mpi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">process_function</span><span class="p">,</span> <span class="n">output_data_set</span><span class="p">,</span>
-                                 <span class="n">station_tags</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">):</span>
+                                 <span class="n">station_tags</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">,</span> <span class="n">traceback_limit</span><span class="p">):</span>
         <span class="c"># Make sure all processes enter here.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
 
@@ -1614,8 +1624,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_dispatch_processing_mpi_master_node</span><span class="p">(</span><span class="n">output_data_set</span><span class="p">,</span>
                                                       <span class="n">station_tags</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_dispatch_processing_mpi_worker_node</span><span class="p">(</span><span class="n">process_function</span><span class="p">,</span>
-                                                      <span class="n">output_data_set</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_dispatch_processing_mpi_worker_node</span><span class="p">(</span>
+                <span class="n">process_function</span><span class="p">,</span> <span class="n">output_data_set</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">,</span>
+                <span class="n">traceback_limit</span><span class="o">=</span><span class="n">traceback_limit</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_dispatch_processing_mpi_master_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_dataset</span><span class="p">,</span>
                                              <span class="n">station_tags</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">):</span>
@@ -1711,7 +1722,8 @@
         <span class="k">print</span><span class="p">(</span><span class="n">jobs</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_dispatch_processing_mpi_worker_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">process_function</span><span class="p">,</span>
-                                             <span class="n">output_dataset</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">):</span>
+                                             <span class="n">output_dataset</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">,</span>
+                                             <span class="n">traceback_limit</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A worker node. It gets jobs, processes them and periodically waits</span>
 <span class="sd">        until a collective metadata update operation has happened.</span>
@@ -1775,12 +1787,36 @@
                 <span class="n">stream</span><span class="p">,</span> <span class="n">inv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_data_for_tag</span><span class="p">(</span><span class="o">*</span><span class="n">station_tag</span><span class="p">)</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">process_function</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">inv</span><span class="p">)</span>
-                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Error during processing function. Will be &quot;</span>
-                          <span class="s">&quot;skipped: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                    <span class="c"># If an exception is raised print a good error message</span>
+                    <span class="c"># and traceback to help diagnose the issue.</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Error during the processing of station &#39;</span><span class="si">%s</span><span class="s">&#39; &quot;</span>
+                           <span class="s">&quot;and tag &#39;</span><span class="si">%s</span><span class="s">&#39; on rank </span><span class="si">%i</span><span class="s">:&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                               <span class="n">station_tag</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">station_tag</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                               <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">rank</span><span class="p">))</span>
 
-                <span class="c"># Add stream to buffer.</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span><span class="p">[</span><span class="n">station_tag</span><span class="p">]</span> <span class="o">=</span> <span class="n">stream</span>
+                    <span class="c"># Extract traceback from the exception.</span>
+                    <span class="n">exc_info</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
+                    <span class="n">stack</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">extract_stack</span><span class="p">(</span>
+                        <span class="n">limit</span><span class="o">=</span><span class="n">traceback_limit</span><span class="p">)</span>
+                    <span class="n">tb</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">extract_tb</span><span class="p">(</span><span class="n">exc_info</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                    <span class="n">full_tb</span> <span class="o">=</span> <span class="n">stack</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">tb</span>
+                    <span class="n">exc_line</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exception_only</span><span class="p">(</span>
+                        <span class="o">*</span><span class="n">exc_info</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>
+                    <span class="n">tb</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;Traceback (At max </span><span class="si">%i</span><span class="s"> levels - most recent call &quot;</span>
+                          <span class="s">&quot;last):</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">traceback_limit</span><span class="p">)</span>
+                    <span class="n">tb</span> <span class="o">+=</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_list</span><span class="p">(</span><span class="n">full_tb</span><span class="p">))</span>
+                    <span class="n">tb</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span>
+                    <span class="n">tb</span> <span class="o">+=</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">exc_line</span><span class="p">)</span>
+
+                    <span class="k">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                    <span class="k">print</span><span class="p">(</span><span class="n">tb</span><span class="p">)</span>
+
+                    <span class="c"># Write empty stream to make sure synchronization works.</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span><span class="p">[</span><span class="n">station_tag</span><span class="p">]</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">Stream</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c"># Add stream to buffer only if no error occured.</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span><span class="p">[</span><span class="n">station_tag</span><span class="p">]</span> <span class="o">=</span> <span class="n">stream</span>
 
                 <span class="c"># If the buffer is too large, request from the master to stop</span>
                 <span class="c"># the current execution.</span>
@@ -1831,7 +1867,7 @@
 
     <span class="k">def</span> <span class="nf">_dispatch_processing_multiprocessing</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">process_function</span><span class="p">,</span> <span class="n">output_data_set</span><span class="p">,</span> <span class="n">station_tags</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">,</span>
-            <span class="n">cpu_count</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">traceback_limit</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+            <span class="n">traceback_limit</span><span class="p">,</span> <span class="n">cpu_count</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
         <span class="n">multiprocessing</span> <span class="o">=</span> <span class="n">get_multiprocessing</span><span class="p">()</span>
 
         <span class="n">input_filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span>
