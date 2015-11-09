@@ -543,6 +543,8 @@
         <span class="c"># Create the QuakeML data set if it does not exist.</span>
         <span class="k">if</span> <span class="s">&quot;QuakeML&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s">&quot;QuakeML&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s">&quot;byte&quot;</span><span class="p">),</span>
+                                       <span class="n">compression</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                       <span class="n">compression_opts</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
                                        <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,),</span> <span class="n">maxshape</span><span class="o">=</span><span class="p">(</span><span class="bp">None</span><span class="p">,),</span>
                                        <span class="n">fletcher32</span><span class="o">=</span><span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="p">))</span>
 
@@ -1137,6 +1139,8 @@
             <span class="c"># maxshape takes care to create an extendable data set.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_provenance_group</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span>
                 <span class="n">name</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+                <span class="n">compression</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">compression_opts</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
                 <span class="n">maxshape</span><span class="o">=</span><span class="p">(</span><span class="bp">None</span><span class="p">,),</span>
                 <span class="n">fletcher32</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </div>
@@ -1298,6 +1302,8 @@
             <span class="c"># maxshape takes care to create an extendable data set.</span>
             <span class="n">station_group</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span>
                 <span class="s">&quot;StationXML&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+                <span class="n">compression</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">compression_opts</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
                 <span class="n">maxshape</span><span class="o">=</span><span class="p">(</span><span class="bp">None</span><span class="p">,),</span>
                 <span class="n">fletcher32</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
