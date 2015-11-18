@@ -1750,10 +1750,11 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_msg</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&quot;MASTER_FORCES_WRITE&quot;</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_sync_metadata</span><span class="p">(</span><span class="n">output_dataset</span><span class="p">,</span> <span class="n">tag_map</span><span class="o">=</span><span class="n">tag_map</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                    <span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
-                        <span class="n">output_dataset</span><span class="o">.</span>\
-                            <span class="n">_add_trace_write_independent_information</span><span class="p">(</span>
-                                <span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">__info</span><span class="p">,</span> <span class="n">trace</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+                            <span class="n">output_dataset</span><span class="o">.</span>\
+                                <span class="n">_add_trace_write_independent_information</span><span class="p">(</span>
+                                    <span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">__info</span><span class="p">,</span> <span class="n">trace</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_send_mpi</span><span class="p">((</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)),</span> <span class="mi">0</span><span class="p">,</span>
                                    <span class="s">&quot;WORKER_DONE_WITH_ITEM&quot;</span><span class="p">,</span>
                                    <span class="n">blocking</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
@@ -1815,11 +1816,20 @@
                     <span class="n">tb</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span>
                     <span class="n">tb</span> <span class="o">+=</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">exc_line</span><span class="p">)</span>
 
+                    <span class="c"># These potentially keep references to the HDF5 file</span>
+                    <span class="c"># which in some obscure way and likely due to</span>
+                    <span class="c"># interference with internal HDF5 and Python references</span>
+                    <span class="c"># prevents it from getting garbage collected. We</span>
+                    <span class="c"># explicitly delete them here and MPI can finalize</span>
+                    <span class="c"># afterwards.</span>
+                    <span class="k">del</span> <span class="n">exc_info</span>
+                    <span class="k">del</span> <span class="n">stack</span>
+
                     <span class="k">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
                     <span class="k">print</span><span class="p">(</span><span class="n">tb</span><span class="p">)</span>
 
-                    <span class="c"># Write empty stream to make sure synchronization works.</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span><span class="p">[</span><span class="n">station_tag</span><span class="p">]</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">Stream</span><span class="p">()</span>
+                    <span class="c"># Make sure synchronization works.</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span><span class="p">[</span><span class="n">station_tag</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="c"># Add stream to buffer only if no error occured.</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span><span class="p">[</span><span class="n">station_tag</span><span class="p">]</span> <span class="o">=</span> <span class="n">stream</span>
@@ -1843,6 +1853,8 @@
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&quot;stream_buffer&quot;</span><span class="p">):</span>
             <span class="n">sendobj</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">stream</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">stream</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="k">continue</span>
                 <span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="n">stream</span><span class="p">:</span>
                     <span class="n">info</span> <span class="o">=</span> \
                         <span class="n">output_dataset</span><span class="o">.</span><span class="n">_add_trace_get_collective_information</span><span class="p">(</span>

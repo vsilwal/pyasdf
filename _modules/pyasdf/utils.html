@@ -971,7 +971,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__streams</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">obspy</span><span class="o">.</span><span class="n">Stream</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">obspy</span><span class="o">.</span><span class="n">Stream</span><span class="p">)</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__streams</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
@@ -993,6 +993,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">cum_size</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">stream</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__streams</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="c"># Skip None values.</span>
+            <span class="k">if</span> <span class="n">stream</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">continue</span>
             <span class="n">cum_size</span> <span class="o">+=</span> <span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="n">stream</span><span class="p">:</span>
                 <span class="n">cum_size</span> <span class="o">+=</span> <span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
