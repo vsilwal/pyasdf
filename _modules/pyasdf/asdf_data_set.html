@@ -1364,29 +1364,31 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">summary</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;no_station_information&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&quot;no_waveforms&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
                    <span class="s">&quot;good_stations&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
-        <span class="k">for</span> <span class="n">station_id</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">waveforms</span><span class="p">):</span>
-            <span class="n">station</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">waveforms</span><span class="p">,</span> <span class="n">station_id</span><span class="p">)</span>
-            <span class="n">contents</span> <span class="o">=</span> <span class="nb">dir</span><span class="p">(</span><span class="n">station</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">contents</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">waveforms</span><span class="p">:</span>
+            <span class="n">has_stationxml</span> <span class="o">=</span> <span class="s">&quot;StationXML&quot;</span> <span class="ow">in</span> <span class="n">station</span>
+            <span class="n">has_waveforms</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">station</span><span class="o">.</span><span class="n">get_waveform_tags</span><span class="p">())</span>
+
+            <span class="k">if</span> <span class="n">has_stationxml</span> <span class="ow">is</span> <span class="bp">False</span> <span class="ow">and</span> <span class="n">has_waveforms</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
                 <span class="k">continue</span>
-            <span class="k">if</span> <span class="s">&quot;StationXML&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">contents</span> <span class="ow">and</span> <span class="n">contents</span><span class="p">:</span>
+
+            <span class="k">elif</span> <span class="n">has_stationxml</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
                 <span class="k">print</span><span class="p">(</span><span class="s">&quot;No station information available for station &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span> <span class="o">%</span>
-                      <span class="n">station_id</span><span class="p">)</span>
+                      <span class="n">station</span><span class="o">.</span><span class="n">_station_name</span><span class="p">)</span>
                 <span class="n">summary</span><span class="p">[</span><span class="s">&quot;no_station_information&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="k">continue</span>
-            <span class="n">contents</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">&quot;StationXML&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">contents</span><span class="p">:</span>
-                <span class="k">print</span><span class="p">(</span><span class="s">&quot;Station with no waveforms: &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span> <span class="o">%</span> <span class="n">station_id</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">has_waveforms</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">&quot;Station with no waveforms: &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span> <span class="o">%</span>
+                      <span class="n">station</span><span class="o">.</span><span class="n">_station_name</span><span class="p">)</span>
                 <span class="n">summary</span><span class="p">[</span><span class="s">&quot;no_waveforms&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="k">continue</span>
             <span class="n">summary</span><span class="p">[</span><span class="s">&quot;good_stations&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
 
-        <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Checked </span><span class="si">%i</span><span class="s"> stations:&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">waveforms</span><span class="p">)))</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t</span><span class="si">%i</span><span class="s"> stations have no available station information&quot;</span> <span class="o">%</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Checked </span><span class="si">%i</span><span class="s"> station(s):&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">waveforms</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t</span><span class="si">%i</span><span class="s"> station(s) have no available station information&quot;</span> <span class="o">%</span>
               <span class="n">summary</span><span class="p">[</span><span class="s">&quot;no_station_information&quot;</span><span class="p">])</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t</span><span class="si">%i</span><span class="s"> stations with no waveforms&quot;</span> <span class="o">%</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t</span><span class="si">%i</span><span class="s"> station(s) with no waveforms&quot;</span> <span class="o">%</span>
               <span class="n">summary</span><span class="p">[</span><span class="s">&quot;no_waveforms&quot;</span><span class="p">])</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t</span><span class="si">%i</span><span class="s"> good stations&quot;</span> <span class="o">%</span> <span class="n">summary</span><span class="p">[</span><span class="s">&quot;good_stations&quot;</span><span class="p">])</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t</span><span class="si">%i</span><span class="s"> good station(s)&quot;</span> <span class="o">%</span> <span class="n">summary</span><span class="p">[</span><span class="s">&quot;good_stations&quot;</span><span class="p">])</span>
 </div>
 <div class="viewcode-block" id="ASDFDataSet.ifilter"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.ifilter">[docs]</a>    <span class="k">def</span> <span class="nf">ifilter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">query_objects</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
