@@ -1549,36 +1549,58 @@
 <span class="sd">        :param traceback_limit: The length of the traceback printed if an</span>
 <span class="sd">            error occurs in one of the workers.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_filename</span><span class="p">):</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot;Output file &#39;</span><span class="si">%s</span><span class="s">&#39; already exists.&quot;</span> <span class="o">%</span> <span class="n">output_filename</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="c"># Check if the file exists.</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot;Output file &#39;</span><span class="si">%s</span><span class="s">&#39; already exists.&quot;</span> <span class="o">%</span> <span class="n">output_filename</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_filename</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># Only check file on one core to improve performance.</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">file_exists</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_filename</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">file_exists</span> <span class="o">=</span> <span class="bp">False</span>
 
-        <span class="n">stations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">waveforms</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+            <span class="c"># Make sure the exception is still raised on every core.</span>
+            <span class="n">file_exists</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">bcast</span><span class="p">(</span><span class="n">file_exists</span><span class="p">,</span> <span class="n">root</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">file_exists</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
-        <span class="c"># Get all possible station and waveform path combinations and let</span>
-        <span class="c"># each process read the data it needs.</span>
         <span class="n">station_tags</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">stations</span><span class="p">:</span>
-            <span class="c"># Get the station and all possible tags.</span>
-            <span class="n">waveforms</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">[</span><span class="s">&quot;Waveforms&quot;</span><span class="p">][</span><span class="n">station</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 
-            <span class="c"># Only care about stations that have station information.</span>
-            <span class="k">if</span> <span class="s">&quot;StationXML&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">waveforms</span><span class="p">:</span>
-                <span class="k">continue</span>
+        <span class="c"># Only rank 0 zero requires all that information.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mpi</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">stations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">waveforms</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
 
-            <span class="n">tags</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="c"># Get all possible station and waveform path combinations and let</span>
+            <span class="c"># each process read the data it needs.</span>
+            <span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">stations</span><span class="p">:</span>
+                <span class="c"># Get the station and all possible tags.</span>
+                <span class="n">waveforms</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">[</span><span class="s">&quot;Waveforms&quot;</span><span class="p">][</span><span class="n">station</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 
-            <span class="k">for</span> <span class="n">waveform</span> <span class="ow">in</span> <span class="n">waveforms</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">waveform</span> <span class="o">==</span> <span class="s">&quot;StationXML&quot;</span><span class="p">:</span>
+                <span class="c"># Only care about stations that have station information.</span>
+                <span class="k">if</span> <span class="s">&quot;StationXML&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">waveforms</span><span class="p">:</span>
                     <span class="k">continue</span>
-                <span class="n">tags</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">waveform</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;__&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
-            <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">tags</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">tag</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tag_map</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                    <span class="k">continue</span>
-                <span class="n">station_tags</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">station</span><span class="p">,</span> <span class="n">tag</span><span class="p">))</span>
+                <span class="n">tags</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">station_tags</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">waveform</span> <span class="ow">in</span> <span class="n">waveforms</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">waveform</span> <span class="o">==</span> <span class="s">&quot;StationXML&quot;</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="n">tags</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">waveform</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;__&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+                <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">tags</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">tag</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tag_map</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                        <span class="k">continue</span>
+                    <span class="n">station_tags</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">station</span><span class="p">,</span> <span class="n">tag</span><span class="p">))</span>
+            <span class="n">has_station_tags</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">station_tags</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">has_station_tags</span> <span class="o">=</span> <span class="bp">False</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="p">:</span>
+            <span class="n">has_station_tags</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">bcast</span><span class="p">(</span><span class="n">has_station_tags</span><span class="p">,</span> <span class="n">root</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_station_tags</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;No data matching the path map found.&quot;</span><span class="p">)</span>
 
         <span class="c"># Copy the station and event data only on the master process.</span>
