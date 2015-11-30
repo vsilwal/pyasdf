@@ -219,8 +219,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">q</span> <span class="o">=</span> <span class="n">Query</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s">&quot;gzip-3&quot;</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-                 <span class="n">mpi</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&quot;a&quot;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s">&quot;gzip-3&quot;</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                 <span class="n">debug</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">mpi</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&quot;a&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type filename: str</span>
 <span class="sd">        :param filename: The filename of the HDF5 file (to be).</span>
@@ -242,6 +242,10 @@
 <span class="sd">            * ``&quot;szip-nn-8&quot;``: szip compression</span>
 <span class="sd">            * ``&quot;szip-nn-10&quot;``: szip compression</span>
 
+<span class="sd">        :type shuffle: bool</span>
+<span class="sd">        :param shuffle: Turn the shuffle filter on or off. Turning it on</span>
+<span class="sd">            oftentimes increases the compression ratio at the expense of</span>
+<span class="sd">            some speed.</span>
 <span class="sd">        :type debug: bool</span>
 <span class="sd">        :param debug: If True, print debug messages. Potentially very verbose.</span>
 <span class="sd">        :param mpi: Force MPI on/off. Don&#39;t touch this unless you have a</span>
@@ -264,7 +268,9 @@
                 <span class="o">%</span> <span class="p">(</span><span class="n">compression</span><span class="p">,</span> <span class="s">&quot;</span><span class="se">\n\t</span><span class="s">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span>
                     <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">COMPRESSIONS</span><span class="o">.</span><span class="n">keys</span><span class="p">()])))</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">__compression</span> <span class="o">=</span> <span class="n">COMPRESSIONS</span><span class="p">[</span><span class="n">compression</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__shuffle</span> <span class="o">=</span> <span class="n">shuffle</span>
         <span class="c"># Turn off compression for parallel I/O. Any already written</span>
         <span class="c"># compressed data will be fine. Don&#39;t need to raise it if file is</span>
         <span class="c"># opened in read-only mode.</span>
@@ -273,6 +279,10 @@
                   <span class="s">&quot;support compression&quot;</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">ASDFWarning</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__compression</span> <span class="o">=</span> <span class="n">COMPRESSIONS</span><span class="p">[</span><span class="bp">None</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__shuffle</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="c"># No need to shuffle if no compression is used.</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__shuffle</span> <span class="o">=</span> <span class="bp">False</span>
 
         <span class="c"># Open file or take an already open HDF5 file object.</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="p">:</span>
@@ -545,6 +555,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s">&quot;QuakeML&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s">&quot;byte&quot;</span><span class="p">),</span>
                                        <span class="n">compression</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                                        <span class="n">compression_opts</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                       <span class="n">shuffle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__shuffle</span><span class="p">,</span>
                                        <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,),</span> <span class="n">maxshape</span><span class="o">=</span><span class="p">(</span><span class="bp">None</span><span class="p">,),</span>
                                        <span class="n">fletcher32</span><span class="o">=</span><span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="p">))</span>
 
@@ -707,6 +718,7 @@
                 <span class="s">&quot;dtype&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
                 <span class="s">&quot;compression&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                 <span class="s">&quot;compression_opts&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="s">&quot;shuffle&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shuffle</span><span class="p">,</span>
                 <span class="s">&quot;fletcher32&quot;</span><span class="p">:</span> <span class="n">fletcher32</span><span class="p">,</span>
                 <span class="s">&quot;maxshape&quot;</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">([</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
             <span class="p">},</span>
@@ -859,7 +871,8 @@
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">h5py</span><span class="o">.</span><span class="n">Group</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">AuxiliaryDataAccessor</span><span class="p">(</span>
-                <span class="n">auxiliary_data_type</span><span class="o">=</span><span class="n">group</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s">&quot;/AuxiliaryData/&quot;</span><span class="p">),</span>
+                <span class="n">auxiliary_data_type</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">r&quot;^/AuxiliaryData/&quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+                                           <span class="n">group</span><span class="o">.</span><span class="n">name</span><span class="p">),</span>
                 <span class="n">asdf_data_set</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">AuxiliaryDataContainer</span><span class="p">(</span>
             <span class="n">data</span><span class="o">=</span><span class="n">group</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span>
@@ -1141,6 +1154,7 @@
                 <span class="n">name</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
                 <span class="n">compression</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                 <span class="n">compression_opts</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">shuffle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__shuffle</span><span class="p">,</span>
                 <span class="n">maxshape</span><span class="o">=</span><span class="p">(</span><span class="bp">None</span><span class="p">,),</span>
                 <span class="n">fletcher32</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </div>
@@ -1217,6 +1231,7 @@
                 <span class="s">&quot;dtype&quot;</span><span class="p">:</span> <span class="n">trace</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
                 <span class="s">&quot;compression&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                 <span class="s">&quot;compression_opts&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="s">&quot;shuffle&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shuffle</span><span class="p">,</span>
                 <span class="s">&quot;fletcher32&quot;</span><span class="p">:</span> <span class="n">fletcher32</span><span class="p">,</span>
                 <span class="s">&quot;maxshape&quot;</span><span class="p">:</span> <span class="p">(</span><span class="bp">None</span><span class="p">,)</span>
             <span class="p">},</span>
@@ -1304,6 +1319,7 @@
                 <span class="s">&quot;StationXML&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
                 <span class="n">compression</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                 <span class="n">compression_opts</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">shuffle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__shuffle</span><span class="p">,</span>
                 <span class="n">maxshape</span><span class="o">=</span><span class="p">(</span><span class="bp">None</span><span class="p">,),</span>
                 <span class="n">fletcher32</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
@@ -1456,8 +1472,8 @@
 
         <span class="k">raise</span> <span class="ne">StopIteration</span>
 </div>
-<div class="viewcode-block" id="ASDFDataSet.process_two_files_without_parallel_output"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.process_two_files_without_parallel_output">[docs]</a>    <span class="k">def</span> <span class="nf">process_two_files_without_parallel_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_ds</span><span class="p">,</span>
-                                                  <span class="n">process_function</span><span class="p">):</span>
+<div class="viewcode-block" id="ASDFDataSet.process_two_files_without_parallel_output"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.process_two_files_without_parallel_output">[docs]</a>    <span class="k">def</span> <span class="nf">process_two_files_without_parallel_output</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">other_ds</span><span class="p">,</span> <span class="n">process_function</span><span class="p">,</span> <span class="n">traceback_limit</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Process data in two data sets.</span>
 
@@ -1473,6 +1489,9 @@
 <span class="sd">        :param process_function: The processing function takes two</span>
 <span class="sd">            parameters: The station group from this data set and the matching</span>
 <span class="sd">            station group from the other data set.</span>
+<span class="sd">        :type traceback_limit: int</span>
+<span class="sd">        :param traceback_limit: The length of the traceback printed if an</span>
+<span class="sd">            error occurs in one of the workers.</span>
 <span class="sd">        :return: A dictionary for each station with gathered values. Will</span>
 <span class="sd">            only be available on rank 0.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1495,6 +1514,7 @@
 
             <span class="c"># Usable stations are those that are part of both.</span>
             <span class="n">usable_stations</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">this_stations</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">other_stations</span><span class="p">))</span>
+            <span class="n">total_job_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">usable_stations</span><span class="p">)</span>
             <span class="n">jobs</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">usable_stations</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">jobs</span> <span class="o">=</span> <span class="bp">None</span>
@@ -1505,15 +1525,49 @@
         <span class="c"># Dictionary collecting results.</span>
         <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
 
-        <span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">jobs</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">_i</span><span class="p">,</span> <span class="n">station</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">jobs</span><span class="p">):</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">&quot; -&gt; Processing approximately task </span><span class="si">%i</span><span class="s"> of </span><span class="si">%i</span><span class="s"> ...&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                      <span class="p">(</span><span class="n">_i</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">total_job_count</span><span class="p">))</span>
+
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">result</span> <span class="o">=</span> <span class="n">process_function</span><span class="p">(</span>
                     <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">waveforms</span><span class="p">,</span> <span class="n">station</span><span class="p">),</span>
                     <span class="nb">getattr</span><span class="p">(</span><span class="n">other_ds</span><span class="o">.</span><span class="n">waveforms</span><span class="p">,</span> <span class="n">station</span><span class="p">))</span>
-            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="k">print</span><span class="p">(</span><span class="s">&quot;Could not process station &#39;</span><span class="si">%s</span><span class="s">&#39; due to: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span>
-                    <span class="n">station</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
-            <span class="n">results</span><span class="p">[</span><span class="n">station</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="c"># If an exception is raised print a good error message</span>
+                <span class="c"># and traceback to help diagnose the issue.</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Error during the processing of station &#39;</span><span class="si">%s</span><span class="s">&#39; &quot;</span>
+                       <span class="s">&quot;on rank </span><span class="si">%i</span><span class="s">:&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">rank</span><span class="p">))</span>
+
+                <span class="c"># Extract traceback from the exception.</span>
+                <span class="n">exc_info</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
+                <span class="n">stack</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">extract_stack</span><span class="p">(</span>
+                    <span class="n">limit</span><span class="o">=</span><span class="n">traceback_limit</span><span class="p">)</span>
+                <span class="n">tb</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">extract_tb</span><span class="p">(</span><span class="n">exc_info</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                <span class="n">full_tb</span> <span class="o">=</span> <span class="n">stack</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">tb</span>
+                <span class="n">exc_line</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exception_only</span><span class="p">(</span>
+                    <span class="o">*</span><span class="n">exc_info</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>
+                <span class="n">tb</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;Traceback (At max </span><span class="si">%i</span><span class="s"> levels - most recent call &quot;</span>
+                      <span class="s">&quot;last):</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">traceback_limit</span><span class="p">)</span>
+                <span class="n">tb</span> <span class="o">+=</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_list</span><span class="p">(</span><span class="n">full_tb</span><span class="p">))</span>
+                <span class="n">tb</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span>
+                <span class="n">tb</span> <span class="o">+=</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">exc_line</span><span class="p">)</span>
+
+                <span class="c"># These potentially keep references to the HDF5 file</span>
+                <span class="c"># which in some obscure way and likely due to</span>
+                <span class="c"># interference with internal HDF5 and Python references</span>
+                <span class="c"># prevents it from getting garbage collected. We</span>
+                <span class="c"># explicitly delete them here and MPI can finalize</span>
+                <span class="c"># afterwards.</span>
+                <span class="k">del</span> <span class="n">exc_info</span>
+                <span class="k">del</span> <span class="n">stack</span>
+
+                <span class="k">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">tb</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">results</span><span class="p">[</span><span class="n">station</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span>
 
         <span class="c"># Gather and create a final dictionary of results.</span>
         <span class="n">gathered_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">root</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -1522,6 +1576,10 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">gathered_results</span><span class="p">:</span>
                 <span class="n">results</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+        <span class="c"># Likely not necessary as the gather two line above implies a</span>
+        <span class="c"># barrier but better be safe than sorry.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">results</span>
 </div>
@@ -1677,6 +1735,10 @@
         <span class="k">print</span><span class="p">(</span><span class="s">&quot;Launching processing using MPI on </span><span class="si">%i</span><span class="s"> processors.&quot;</span> <span class="o">%</span>
               <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
 
+        <span class="c"># Barrier to indicate we are ready for looping. Must be repeated in</span>
+        <span class="c"># each worker node!</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+
         <span class="c"># Reactive event loop.</span>
         <span class="k">while</span> <span class="ow">not</span> <span class="n">jobs</span><span class="o">.</span><span class="n">all_done</span><span class="p">:</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
@@ -1748,6 +1810,16 @@
         <span class="k">for</span> <span class="n">rank</span> <span class="ow">in</span> <span class="n">worker_nodes</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_send_mpi</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="s">&quot;ALL_DONE&quot;</span><span class="p">)</span>
 
+        <span class="c"># Collect any stray messages that a poison pill has been received.</span>
+        <span class="c"># Does not matter for the flow but for aestetic reasons this is nicer.</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">size</span> <span class="o">*</span> <span class="mi">3</span><span class="p">):</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">Iprobe</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">MPI</span><span class="o">.</span><span class="n">ANY_SOURCE</span><span class="p">,</span>
+                                        <span class="n">tag</span><span class="o">=</span><span class="n">MSG_TAGS</span><span class="p">[</span><span class="s">&quot;POISON_PILL_RECEIVED&quot;</span><span class="p">]):</span>
+                <span class="k">continue</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">MPI</span><span class="o">.</span><span class="n">ANY_SOURCE</span><span class="p">,</span>
+                               <span class="n">tag</span><span class="o">=</span><span class="n">MSG_TAGS</span><span class="p">[</span><span class="s">&quot;POISON_PILL_RECEIVED&quot;</span><span class="p">])</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
         <span class="k">print</span><span class="p">(</span><span class="n">jobs</span><span class="p">)</span>
 
@@ -1765,6 +1837,10 @@
             <span class="s">&quot;waiting_for_write&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
             <span class="s">&quot;waiting_for_item&quot;</span><span class="p">:</span> <span class="bp">False</span>
         <span class="p">}</span>
+
+        <span class="c"># Barrier to indicate we are ready for looping. Must be repeated in</span>
+        <span class="c"># the master node!</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
 
         <span class="c"># Loop until the &#39;ALL_DONE&#39; message has been sent.</span>
         <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_msg</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&quot;ALL_DONE&quot;</span><span class="p">):</span>
@@ -1785,10 +1861,10 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
                 <span class="n">worker_state</span><span class="p">[</span><span class="s">&quot;waiting_for_write&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
 
-            <span class="k">if</span> <span class="n">worker_state</span><span class="p">[</span><span class="s">&quot;waiting_for_write&quot;</span><span class="p">]:</span>
-                <span class="k">continue</span>
-
-            <span class="k">if</span> <span class="n">worker_state</span><span class="p">[</span><span class="s">&quot;poison_pill_received&quot;</span><span class="p">]:</span>
+            <span class="c"># Keep looping and wait for either the next write or that the</span>
+            <span class="c"># loop terminates.</span>
+            <span class="k">if</span> <span class="n">worker_state</span><span class="p">[</span><span class="s">&quot;waiting_for_write&quot;</span><span class="p">]</span> <span class="ow">or</span> \
+                    <span class="n">worker_state</span><span class="p">[</span><span class="s">&quot;poison_pill_received&quot;</span><span class="p">]:</span>
                 <span class="k">continue</span>
 
             <span class="k">if</span> <span class="ow">not</span> <span class="n">worker_state</span><span class="p">[</span><span class="s">&quot;waiting_for_item&quot;</span><span class="p">]:</span>
@@ -1798,75 +1874,89 @@
                 <span class="k">continue</span>
 
             <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_msg</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&quot;MASTER_SENDS_ITEM&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
-                <span class="n">station_tag</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">data</span>
-                <span class="n">worker_state</span><span class="p">[</span><span class="s">&quot;waiting_for_item&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
+                <span class="k">continue</span>
 
-                <span class="c"># If no more work to be done, store state and keep looping as</span>
-                <span class="c"># stuff still might require to be written.</span>
-                <span class="k">if</span> <span class="n">station_tag</span> <span class="o">==</span> <span class="n">POISON_PILL</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span><span class="p">:</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_send_mpi</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&quot;WORKER_REQUESTS_WRITE&quot;</span><span class="p">,</span>
-                                       <span class="n">blocking</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-                        <span class="n">worker_state</span><span class="p">[</span><span class="s">&quot;waiting_for_write&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
-                    <span class="n">worker_state</span><span class="p">[</span><span class="s">&quot;poison_pill_received&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_send_mpi</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&quot;POISON_PILL_RECEIVED&quot;</span><span class="p">,</span>
-                                   <span class="n">blocking</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-                    <span class="k">continue</span>
+            <span class="c"># Beyond this point it will always have received a new item.</span>
+            <span class="n">station_tag</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">worker_state</span><span class="p">[</span><span class="s">&quot;waiting_for_item&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
 
-                <span class="c"># Otherwise process the data.</span>
-                <span class="n">stream</span><span class="p">,</span> <span class="n">inv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_data_for_tag</span><span class="p">(</span><span class="o">*</span><span class="n">station_tag</span><span class="p">)</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">process_function</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">inv</span><span class="p">)</span>
-                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-                    <span class="c"># If an exception is raised print a good error message</span>
-                    <span class="c"># and traceback to help diagnose the issue.</span>
-                    <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Error during the processing of station &#39;</span><span class="si">%s</span><span class="s">&#39; &quot;</span>
-                           <span class="s">&quot;and tag &#39;</span><span class="si">%s</span><span class="s">&#39; on rank </span><span class="si">%i</span><span class="s">:&quot;</span> <span class="o">%</span> <span class="p">(</span>
-                               <span class="n">station_tag</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">station_tag</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                               <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">rank</span><span class="p">))</span>
-
-                    <span class="c"># Extract traceback from the exception.</span>
-                    <span class="n">exc_info</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
-                    <span class="n">stack</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">extract_stack</span><span class="p">(</span>
-                        <span class="n">limit</span><span class="o">=</span><span class="n">traceback_limit</span><span class="p">)</span>
-                    <span class="n">tb</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">extract_tb</span><span class="p">(</span><span class="n">exc_info</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-                    <span class="n">full_tb</span> <span class="o">=</span> <span class="n">stack</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">tb</span>
-                    <span class="n">exc_line</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exception_only</span><span class="p">(</span>
-                        <span class="o">*</span><span class="n">exc_info</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>
-                    <span class="n">tb</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;Traceback (At max </span><span class="si">%i</span><span class="s"> levels - most recent call &quot;</span>
-                          <span class="s">&quot;last):</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">traceback_limit</span><span class="p">)</span>
-                    <span class="n">tb</span> <span class="o">+=</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_list</span><span class="p">(</span><span class="n">full_tb</span><span class="p">))</span>
-                    <span class="n">tb</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span>
-                    <span class="n">tb</span> <span class="o">+=</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">exc_line</span><span class="p">)</span>
-
-                    <span class="c"># These potentially keep references to the HDF5 file</span>
-                    <span class="c"># which in some obscure way and likely due to</span>
-                    <span class="c"># interference with internal HDF5 and Python references</span>
-                    <span class="c"># prevents it from getting garbage collected. We</span>
-                    <span class="c"># explicitly delete them here and MPI can finalize</span>
-                    <span class="c"># afterwards.</span>
-                    <span class="k">del</span> <span class="n">exc_info</span>
-                    <span class="k">del</span> <span class="n">stack</span>
-
-                    <span class="k">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-                    <span class="k">print</span><span class="p">(</span><span class="n">tb</span><span class="p">)</span>
-
-                    <span class="c"># Make sure synchronization works.</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span><span class="p">[</span><span class="n">station_tag</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="c"># Add stream to buffer only if no error occured.</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span><span class="p">[</span><span class="n">station_tag</span><span class="p">]</span> <span class="o">=</span> <span class="n">stream</span>
-
-                <span class="c"># If the buffer is too large, request from the master to stop</span>
-                <span class="c"># the current execution.</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span><span class="o">.</span><span class="n">get_size</span><span class="p">()</span> <span class="o">&gt;=</span> \
-                        <span class="n">MAX_MEMORY_PER_WORKER_IN_MB</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">**</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="c"># If no more work to be done, store state and keep looping as</span>
+            <span class="c"># stuff still might require to be written.</span>
+            <span class="k">if</span> <span class="n">station_tag</span> <span class="o">==</span> <span class="n">POISON_PILL</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_send_mpi</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&quot;WORKER_REQUESTS_WRITE&quot;</span><span class="p">,</span>
                                    <span class="n">blocking</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
                     <span class="n">worker_state</span><span class="p">[</span><span class="s">&quot;waiting_for_write&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="n">worker_state</span><span class="p">[</span><span class="s">&quot;poison_pill_received&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_send_mpi</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&quot;POISON_PILL_RECEIVED&quot;</span><span class="p">,</span>
+                               <span class="n">blocking</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="c"># Otherwise process the data.</span>
+            <span class="n">stream</span><span class="p">,</span> <span class="n">inv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_data_for_tag</span><span class="p">(</span><span class="o">*</span><span class="n">station_tag</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">stream</span> <span class="o">=</span> <span class="n">process_function</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">inv</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="c"># If an exception is raised print a good error message</span>
+                <span class="c"># and traceback to help diagnose the issue.</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Error during the processing of station &#39;</span><span class="si">%s</span><span class="s">&#39; &quot;</span>
+                       <span class="s">&quot;and tag &#39;</span><span class="si">%s</span><span class="s">&#39; on rank </span><span class="si">%i</span><span class="s">:&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                           <span class="n">station_tag</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">station_tag</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">rank</span><span class="p">))</span>
+
+                <span class="c"># Extract traceback from the exception.</span>
+                <span class="n">exc_info</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
+                <span class="n">stack</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">extract_stack</span><span class="p">(</span>
+                    <span class="n">limit</span><span class="o">=</span><span class="n">traceback_limit</span><span class="p">)</span>
+                <span class="n">tb</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">extract_tb</span><span class="p">(</span><span class="n">exc_info</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                <span class="n">full_tb</span> <span class="o">=</span> <span class="n">stack</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">tb</span>
+                <span class="n">exc_line</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exception_only</span><span class="p">(</span>
+                    <span class="o">*</span><span class="n">exc_info</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>
+                <span class="n">tb</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;Traceback (At max </span><span class="si">%i</span><span class="s"> levels - most recent call &quot;</span>
+                      <span class="s">&quot;last):</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">traceback_limit</span><span class="p">)</span>
+                <span class="n">tb</span> <span class="o">+=</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_list</span><span class="p">(</span><span class="n">full_tb</span><span class="p">))</span>
+                <span class="n">tb</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span>
+                <span class="n">tb</span> <span class="o">+=</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">exc_line</span><span class="p">)</span>
+
+                <span class="c"># These potentially keep references to the HDF5 file</span>
+                <span class="c"># which in some obscure way and likely due to</span>
+                <span class="c"># interference with internal HDF5 and Python references</span>
+                <span class="c"># prevents it from getting garbage collected. We</span>
+                <span class="c"># explicitly delete them here and MPI can finalize</span>
+                <span class="c"># afterwards.</span>
+                <span class="k">del</span> <span class="n">exc_info</span>
+                <span class="k">del</span> <span class="n">stack</span>
+
+                <span class="k">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">tb</span><span class="p">)</span>
+
+                <span class="c"># Make sure synchronization works.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span><span class="p">[</span><span class="n">station_tag</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c"># Add stream to buffer only if no error occured.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span><span class="p">[</span><span class="n">station_tag</span><span class="p">]</span> <span class="o">=</span> <span class="n">stream</span>
+
+            <span class="c"># If the buffer is too large, request from the master to stop</span>
+            <span class="c"># the current execution.</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span><span class="o">.</span><span class="n">get_size</span><span class="p">()</span> <span class="o">&gt;=</span> \
+                    <span class="n">MAX_MEMORY_PER_WORKER_IN_MB</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">**</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_send_mpi</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&quot;WORKER_REQUESTS_WRITE&quot;</span><span class="p">,</span>
+                               <span class="n">blocking</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                <span class="n">worker_state</span><span class="p">[</span><span class="s">&quot;waiting_for_write&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
 
         <span class="k">print</span><span class="p">(</span><span class="s">&quot;Worker </span><span class="si">%i</span><span class="s"> shutting down...&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">rank</span><span class="p">)</span>
+
+        <span class="c"># Collect any left-over messages. This can happen if the node</span>
+        <span class="c"># requests a new item (which would be a poison pill in any case) but</span>
+        <span class="c"># the master in the meanwhile forces a write which might cause</span>
+        <span class="c"># everything to be finished so the message is never collected. This</span>
+        <span class="c"># is troublesome if more than one ASDF file is processed in sequence</span>
+        <span class="c"># as the message would then spill over to the next file.</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_get_msg</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&quot;MASTER_SENDS_ITEM&quot;</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_sync_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_dataset</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">):</span>

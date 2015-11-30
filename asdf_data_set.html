@@ -167,7 +167,7 @@
 </table>
 <dl class="class">
 <dt id="pyasdf.asdf_data_set.ASDFDataSet">
-<em class="property">class </em><code class="descclassname">pyasdf.asdf_data_set.</code><code class="descname">ASDFDataSet</code><span class="sig-paren">(</span><em>filename</em>, <em>compression='gzip-3'</em>, <em>debug=False</em>, <em>mpi=None</em>, <em>mode='a'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pyasdf.asdf_data_set.</code><code class="descname">ASDFDataSet</code><span class="sig-paren">(</span><em>filename</em>, <em>compression='gzip-3'</em>, <em>shuffle=True</em>, <em>debug=False</em>, <em>mpi=None</em>, <em>mode='a'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Object dealing with Adaptable Seismic Data Format (ASDF).</p>
 <p>Central object of this Python package.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -193,6 +193,9 @@ but fast) to 9 (best but slow)</li>
 <li><code class="docutils literal"><span class="pre">&quot;szip-nn-10&quot;</span></code>: szip compression</li>
 </ul>
 </li>
+<li><strong>shuffle</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Turn the shuffle filter on or off. Turning it on
+oftentimes increases the compression ratio at the expense of
+some speed.</li>
 <li><strong>debug</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; If True, print debug messages. Potentially very verbose.</li>
 <li><strong>mpi</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Force MPI on/off. Don&#8217;t touch this unless you have a
 reason.</li>
@@ -594,7 +597,7 @@ error occurs in one of the workers.</li>
 
 <dl class="method">
 <dt id="pyasdf.asdf_data_set.ASDFDataSet.process_two_files_without_parallel_output">
-<code class="descname">process_two_files_without_parallel_output</code><span class="sig-paren">(</span><em>other_ds</em>, <em>process_function</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.process_two_files_without_parallel_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.process_two_files_without_parallel_output" title="Permalink to this definition">¶</a></dt>
+<code class="descname">process_two_files_without_parallel_output</code><span class="sig-paren">(</span><em>other_ds</em>, <em>process_function</em>, <em>traceback_limit=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.process_two_files_without_parallel_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.process_two_files_without_parallel_output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Process data in two data sets.</p>
 <p>This is mostly useful for comparing data in two data sets in any
 number of scenarios. It again takes a function and will apply it on
@@ -610,6 +613,8 @@ each station that is common in both data sets. Please see the
 <li><strong>process_function</strong> &#8211; The processing function takes two
 parameters: The station group from this data set and the matching
 station group from the other data set.</li>
+<li><strong>traceback_limit</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The length of the traceback printed if an
+error occurs in one of the workers.</li>
 </ul>
 </td>
 </tr>
