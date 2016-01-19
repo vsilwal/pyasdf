@@ -1,0 +1,309 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Deleting Pieces of a Data Set &mdash; pyasdf 0.1.x documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="stylesheet" href="_static/my-styles.css" type="text/css" />
+  
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  
+    <link rel="top" title="pyasdf 0.1.x documentation" href="index.html"/>
+        <link rel="up" title="Detailed Explanations" href="detailed_explanations.html"/>
+        <link rel="next" title="Of Tags and Labels" href="of_tags_and_labels.html"/>
+        <link rel="prev" title="Usage as a Context Manager" href="usage_as_context_manager.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pyasdf
+          
+
+          
+            
+            <img src="_static/pyasdf_logo.svg" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.x
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="detailed_explanations.html">Detailed Explanations</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="parallel_processing.html">Parallel Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage_as_context_manager.html">Usage as a Context Manager</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Deleting Pieces of a Data Set</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#deleting-things">Deleting Things</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#freeing-space">Freeing Space</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="of_tags_and_labels.html">Of Tags and Labels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="querying_data.html">Querying a Data Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="station_data.html">Working With Station Data</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">pyasdf</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="detailed_explanations.html">Detailed Explanations</a> &raquo;</li>
+      
+    <li>Deleting Pieces of a Data Set</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/deleting_pieces.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="deleting-pieces-of-a-data-set">
+<h1>Deleting Pieces of a Data Set<a class="headerlink" href="#deleting-pieces-of-a-data-set" title="Permalink to this headline">¶</a></h1>
+<p><em>HDF5</em> files are per-se mutable. <code class="docutils literal"><span class="pre">pyadsf</span></code> currently allows the deletion of
+any piece of information in an <code class="docutils literal"><span class="pre">ASDF</span></code> file. Thus overwriting arrays
+currently only works as a combination of deleting and writing again. Please
+contact the developers if you require additional functionalities.</p>
+<div class="section" id="deleting-things">
+<h2>Deleting Things<a class="headerlink" href="#deleting-things" title="Permalink to this headline">¶</a></h2>
+<p>Almost anything can be deleted by using the <code class="docutils literal"><span class="pre">del</span></code> operator. The following
+code snippets illustrates the different possibilities to delete data. Please
+be careful - <strong>this directly modifies the file and is not revertible</strong>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyasdf</span>
+
+<span class="k">with</span> <span class="n">pyasdf</span><span class="o">.</span><span class="n">ASDFDataSet</span><span class="p">(</span><span class="s">&quot;example.h5&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="c"># Delete all events.</span>
+    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">events</span>
+    <span class="c"># Delete all information from a particular station.</span>
+    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="o">.</span><span class="n">BW_RJOB</span>
+    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="p">[</span><span class="s">&quot;BW.RJOB&quot;</span><span class="p">]</span>
+    <span class="c"># Delete all waveforms with a certain tag from a particular station.</span>
+    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="o">.</span><span class="n">BW_RJOB</span><span class="o">.</span><span class="n">example</span>
+    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="p">[</span><span class="s">&quot;BW.RJOB&quot;</span><span class="p">][</span><span class="s">&quot;example&quot;</span><span class="p">]</span>
+    <span class="c"># Delete the StationXML file for a certain station.</span>
+    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="o">.</span><span class="n">BW_RJOB</span><span class="o">.</span><span class="n">StationXML</span>
+    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="p">[</span><span class="s">&quot;BW.RJOB&quot;</span><span class="p">][</span><span class="s">&quot;StationXML&quot;</span><span class="p">]</span>
+    <span class="c"># Directly delete a certain piece of waveform information.</span>
+    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="p">[</span><span class="s">&quot;BW.RJOB&quot;</span><span class="p">][</span>
+        <span class="s">&quot;BW.RJOB..EHE__2009-08-24T00:20:03__2009-08-24T00:20:32__example&quot;</span><span class="p">]</span>
+    <span class="c"># Delete a provenance document.</span>
+    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">provenance</span><span class="o">.</span><span class="n">example_document</span>
+    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">provenance</span><span class="p">[</span><span class="s">&quot;example_document&quot;</span><span class="p">]</span>
+    <span class="c"># Delete an auxiliary data group.</span>
+    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">auxiliary_data</span><span class="o">.</span><span class="n">RandomArrays</span>
+    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">auxiliary_data</span><span class="p">[</span><span class="s">&quot;RandomArrays&quot;</span><span class="p">]</span>
+    <span class="c"># Delete a certain piece of auxiliary data.</span>
+    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">auxiliary_data</span><span class="o">.</span><span class="n">RandomArrays</span><span class="o">.</span><span class="n">array_a</span>
+    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">auxiliary_data</span><span class="p">[</span><span class="s">&quot;RandomArrays&quot;</span><span class="p">][</span><span class="s">&quot;array_a&quot;</span><span class="p">]</span>
+    <span class="c"># Also works with nested paths.</span>
+    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">auxiliary_data</span><span class="o">.</span><span class="n">RandomArrays</span><span class="o">.</span><span class="n">nested</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">array_a</span>
+    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">auxiliary_data</span><span class="p">[</span><span class="s">&quot;RandomArrays&quot;</span><span class="p">][</span><span class="s">&quot;nested&quot;</span><span class="p">][</span><span class="s">&quot;path&quot;</span><span class="p">][</span><span class="s">&quot;array_a&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="freeing-space">
+<h2>Freeing Space<a class="headerlink" href="#freeing-space" title="Permalink to this headline">¶</a></h2>
+<p>Deleting data sets or groups within an <em>HDF5</em> file does in general not
+physically delete the data from the file. It just removes the item from the
+index. To actually regain the now not needed space use the <code class="docutils literal"><span class="pre">h5repack</span></code>
+program that ships with <em>HDF5</em>.</p>
+<p>Assuming a file has been created with the following code snippet:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyasdf</span>
+
+<span class="k">with</span> <span class="n">pyasdf</span><span class="o">.</span><span class="n">ASDFDataSet</span><span class="p">(</span><span class="s">&quot;example.h5&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">add_waveforms</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s">&quot;example&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Current file size:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>ls -l example.h5
+-rw-r--r--  <span class="m">1</span> lion  staff  <span class="m">144424</span> Jan <span class="m">19</span> 15:47 example.h5
+</pre></div>
+</div>
+<p>Delete some waveform data.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyasdf</span>
+
+<span class="k">with</span> <span class="n">pyasdf</span><span class="o">.</span><span class="n">ASDFDataSet</span><span class="p">(</span><span class="s">&quot;example.h5&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="o">.</span><span class="n">BW_RJOB</span>
+</pre></div>
+</div>
+<p>The physical space is only regained after <code class="docutils literal"><span class="pre">h5repack</span></code> is used.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>ls -l example.h5
+-rw-r--r--  <span class="m">1</span> lion  staff  <span class="m">144424</span> Jan <span class="m">19</span> 15:47 example.h5
+
+<span class="nv">$ </span>h5repack example.h5 example_repacked.h5
+
+<span class="nv">$ </span>ls -l example*
+-rw-r--r--  <span class="m">1</span> lion  staff  <span class="m">144424</span> Jan <span class="m">19</span> 15:47 example.h5
+-rw-r--r--  <span class="m">1</span> lion  staff   <span class="m">20092</span> Jan <span class="m">19</span> 15:48 example_repacked.h5
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="of_tags_and_labels.html" class="btn btn-neutral float-right" title="Of Tags and Labels" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="usage_as_context_manager.html" class="btn btn-neutral" title="Usage as a Context Manager" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2015, Lion Krischer.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.x',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

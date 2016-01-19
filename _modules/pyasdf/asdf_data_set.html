@@ -395,6 +395,17 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__del__</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">False</span>
 
+    <span class="k">def</span> <span class="nf">__delattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="c"># Only the events can be deleted.</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&quot;events&quot;</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">[</span><span class="s">&quot;QuakeML&quot;</span><span class="p">]</span>
+        <span class="c"># Otherwise try to get the item and if that succeed, raise an error</span>
+        <span class="c"># that it cannot be deleted.</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># Triggers an AttributeError if the attribute does not exist.</span>
+            <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s">&quot;Attribute &#39;</span><span class="si">%s</span><span class="s">&#39; cannot be deleted.&quot;</span> <span class="o">%</span> <span class="n">key</span><span class="p">)</span>
+
 <div class="viewcode-block" id="ASDFDataSet.flush"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.flush">[docs]</a>    <span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Flush the underlying HDF5 file.</span>
