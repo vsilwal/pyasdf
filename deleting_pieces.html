@@ -169,33 +169,33 @@ code snippets illustrates the different possibilities to delete data. Please
 be careful - <strong>this directly modifies the file and is not revertible</strong>.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyasdf</span>
 
-<span class="k">with</span> <span class="n">pyasdf</span><span class="o">.</span><span class="n">ASDFDataSet</span><span class="p">(</span><span class="s">&quot;example.h5&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
-    <span class="c"># Delete all events.</span>
+<span class="k">with</span> <span class="n">pyasdf</span><span class="o">.</span><span class="n">ASDFDataSet</span><span class="p">(</span><span class="s2">&quot;example.h5&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="c1"># Delete all events.</span>
     <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">events</span>
-    <span class="c"># Delete all information from a particular station.</span>
+    <span class="c1"># Delete all information from a particular station.</span>
     <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="o">.</span><span class="n">BW_RJOB</span>
-    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="p">[</span><span class="s">&quot;BW.RJOB&quot;</span><span class="p">]</span>
-    <span class="c"># Delete all waveforms with a certain tag from a particular station.</span>
+    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="p">[</span><span class="s2">&quot;BW.RJOB&quot;</span><span class="p">]</span>
+    <span class="c1"># Delete all waveforms with a certain tag from a particular station.</span>
     <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="o">.</span><span class="n">BW_RJOB</span><span class="o">.</span><span class="n">example</span>
-    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="p">[</span><span class="s">&quot;BW.RJOB&quot;</span><span class="p">][</span><span class="s">&quot;example&quot;</span><span class="p">]</span>
-    <span class="c"># Delete the StationXML file for a certain station.</span>
+    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="p">[</span><span class="s2">&quot;BW.RJOB&quot;</span><span class="p">][</span><span class="s2">&quot;example&quot;</span><span class="p">]</span>
+    <span class="c1"># Delete the StationXML file for a certain station.</span>
     <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="o">.</span><span class="n">BW_RJOB</span><span class="o">.</span><span class="n">StationXML</span>
-    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="p">[</span><span class="s">&quot;BW.RJOB&quot;</span><span class="p">][</span><span class="s">&quot;StationXML&quot;</span><span class="p">]</span>
-    <span class="c"># Directly delete a certain piece of waveform information.</span>
-    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="p">[</span><span class="s">&quot;BW.RJOB&quot;</span><span class="p">][</span>
-        <span class="s">&quot;BW.RJOB..EHE__2009-08-24T00:20:03__2009-08-24T00:20:32__example&quot;</span><span class="p">]</span>
-    <span class="c"># Delete a provenance document.</span>
+    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="p">[</span><span class="s2">&quot;BW.RJOB&quot;</span><span class="p">][</span><span class="s2">&quot;StationXML&quot;</span><span class="p">]</span>
+    <span class="c1"># Directly delete a certain piece of waveform information.</span>
+    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="p">[</span><span class="s2">&quot;BW.RJOB&quot;</span><span class="p">][</span>
+        <span class="s2">&quot;BW.RJOB..EHE__2009-08-24T00:20:03__2009-08-24T00:20:32__example&quot;</span><span class="p">]</span>
+    <span class="c1"># Delete a provenance document.</span>
     <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">provenance</span><span class="o">.</span><span class="n">example_document</span>
-    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">provenance</span><span class="p">[</span><span class="s">&quot;example_document&quot;</span><span class="p">]</span>
-    <span class="c"># Delete an auxiliary data group.</span>
+    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">provenance</span><span class="p">[</span><span class="s2">&quot;example_document&quot;</span><span class="p">]</span>
+    <span class="c1"># Delete an auxiliary data group.</span>
     <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">auxiliary_data</span><span class="o">.</span><span class="n">RandomArrays</span>
-    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">auxiliary_data</span><span class="p">[</span><span class="s">&quot;RandomArrays&quot;</span><span class="p">]</span>
-    <span class="c"># Delete a certain piece of auxiliary data.</span>
+    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">auxiliary_data</span><span class="p">[</span><span class="s2">&quot;RandomArrays&quot;</span><span class="p">]</span>
+    <span class="c1"># Delete a certain piece of auxiliary data.</span>
     <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">auxiliary_data</span><span class="o">.</span><span class="n">RandomArrays</span><span class="o">.</span><span class="n">array_a</span>
-    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">auxiliary_data</span><span class="p">[</span><span class="s">&quot;RandomArrays&quot;</span><span class="p">][</span><span class="s">&quot;array_a&quot;</span><span class="p">]</span>
-    <span class="c"># Also works with nested paths.</span>
+    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">auxiliary_data</span><span class="p">[</span><span class="s2">&quot;RandomArrays&quot;</span><span class="p">][</span><span class="s2">&quot;array_a&quot;</span><span class="p">]</span>
+    <span class="c1"># Also works with nested paths.</span>
     <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">auxiliary_data</span><span class="o">.</span><span class="n">RandomArrays</span><span class="o">.</span><span class="n">nested</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">array_a</span>
-    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">auxiliary_data</span><span class="p">[</span><span class="s">&quot;RandomArrays&quot;</span><span class="p">][</span><span class="s">&quot;nested&quot;</span><span class="p">][</span><span class="s">&quot;path&quot;</span><span class="p">][</span><span class="s">&quot;array_a&quot;</span><span class="p">]</span>
+    <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">auxiliary_data</span><span class="p">[</span><span class="s2">&quot;RandomArrays&quot;</span><span class="p">][</span><span class="s2">&quot;nested&quot;</span><span class="p">][</span><span class="s2">&quot;path&quot;</span><span class="p">][</span><span class="s2">&quot;array_a&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -208,29 +208,29 @@ program that ships with <em>HDF5</em>.</p>
 <p>Assuming a file has been created with the following code snippet:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyasdf</span>
 
-<span class="k">with</span> <span class="n">pyasdf</span><span class="o">.</span><span class="n">ASDFDataSet</span><span class="p">(</span><span class="s">&quot;example.h5&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
-    <span class="n">ds</span><span class="o">.</span><span class="n">add_waveforms</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s">&quot;example&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">pyasdf</span><span class="o">.</span><span class="n">ASDFDataSet</span><span class="p">(</span><span class="s2">&quot;example.h5&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">add_waveforms</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;example&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Current file size:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>ls -l example.h5
+<div class="highlight-bash"><div class="highlight"><pre>$ ls -l example.h5
 -rw-r--r--  <span class="m">1</span> lion  staff  <span class="m">144424</span> Jan <span class="m">19</span> 15:47 example.h5
 </pre></div>
 </div>
 <p>Delete some waveform data.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyasdf</span>
 
-<span class="k">with</span> <span class="n">pyasdf</span><span class="o">.</span><span class="n">ASDFDataSet</span><span class="p">(</span><span class="s">&quot;example.h5&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+<span class="k">with</span> <span class="n">pyasdf</span><span class="o">.</span><span class="n">ASDFDataSet</span><span class="p">(</span><span class="s2">&quot;example.h5&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
     <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="o">.</span><span class="n">BW_RJOB</span>
 </pre></div>
 </div>
 <p>The physical space is only regained after <code class="docutils literal"><span class="pre">h5repack</span></code> is used.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>ls -l example.h5
+<div class="highlight-bash"><div class="highlight"><pre>$ ls -l example.h5
 -rw-r--r--  <span class="m">1</span> lion  staff  <span class="m">144424</span> Jan <span class="m">19</span> 15:47 example.h5
 
-<span class="nv">$ </span>h5repack example.h5 example_repacked.h5
+$ h5repack example.h5 example_repacked.h5
 
-<span class="nv">$ </span>ls -l example*
+$ ls -l example*
 -rw-r--r--  <span class="m">1</span> lion  staff  <span class="m">144424</span> Jan <span class="m">19</span> 15:47 example.h5
 -rw-r--r--  <span class="m">1</span> lion  staff   <span class="m">20092</span> Jan <span class="m">19</span> 15:48 example_repacked.h5
 </pre></div>

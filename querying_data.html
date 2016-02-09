@@ -176,26 +176,26 @@ limited dataset. Have a look at the syntax and it should be pretty
 self-explanatory.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyasdf</span>
 
-<span class="n">ds</span> <span class="o">=</span> <span class="n">pyasdf</span><span class="o">.</span><span class="n">ASDFDataSet</span><span class="p">(</span><span class="s">&quot;example.h5&quot;</span><span class="p">)</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">pyasdf</span><span class="o">.</span><span class="n">ASDFDataSet</span><span class="p">(</span><span class="s2">&quot;example.h5&quot;</span><span class="p">)</span>
 
-<span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">ifilter</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">network</span> <span class="o">==</span> <span class="s">&quot;T*&quot;</span><span class="p">,</span>
-                          <span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&quot;raw_recording&quot;</span><span class="p">,</span>
+<span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">ifilter</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">network</span> <span class="o">==</span> <span class="s2">&quot;T*&quot;</span><span class="p">,</span>
+                          <span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;raw_recording&quot;</span><span class="p">,</span>
                           <span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">sampling_rate</span> <span class="o">&gt;</span> <span class="mf">10.0</span><span class="p">):</span>
-    <span class="c"># Extract the StationXML information in the same way as always. Might</span>
-    <span class="c"># be `None` if it does not exists.</span>
+    <span class="c1"># Extract the StationXML information in the same way as always. Might</span>
+    <span class="c1"># be `None` if it does not exists.</span>
     <span class="n">inv</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">StationXML</span>
     <span class="k">if</span> <span class="n">inv</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="k">continue</span>
 
-    <span class="c"># You can also get the coordinates.</span>
+    <span class="c1"># You can also get the coordinates.</span>
     <span class="n">coords</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">coordinates</span>
 
-    <span class="c"># Waveform access also works the normal way by tag.</span>
+    <span class="c1"># Waveform access also works the normal way by tag.</span>
     <span class="n">st</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">raw_recording</span>
 
-    <span class="c"># Process it and do whatever you want.</span>
-    <span class="n">st</span><span class="o">.</span><span class="n">detrend</span><span class="p">(</span><span class="s">&quot;linear&quot;</span><span class="p">)</span>
-    <span class="n">st</span><span class="o">.</span><span class="n">taper</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s">&quot;hann&quot;</span><span class="p">,</span> <span class="n">max_percentage</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+    <span class="c1"># Process it and do whatever you want.</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">detrend</span><span class="p">(</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">taper</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;hann&quot;</span><span class="p">,</span> <span class="n">max_percentage</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
     <span class="n">st</span><span class="o">.</span><span class="n">attach_response</span><span class="p">(</span><span class="n">inv</span><span class="p">)</span>
     <span class="n">st</span><span class="o">.</span><span class="n">remove_response</span><span class="p">()</span>
     <span class="o">...</span>
@@ -215,8 +215,8 @@ the rich comparison operators from Python: <code class="docutils literal"><span 
 interpreted as a logical</strong> <code class="docutils literal"><span class="pre">AND</span></code> <strong>.</strong> The following query will iterate over
 all waveforms with a network starting with <code class="docutils literal"><span class="pre">T</span></code>, but not the <code class="docutils literal"><span class="pre">TA</span></code>
 (USArray) network. Wildcards are resolved by the <a class="reference external" href="http://docs.python.org/library/fnmatch.html#module-fnmatch" title="(in Python v2.7)"><code class="xref py py-mod docutils literal"><span class="pre">fnmatch</span></code></a> module.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">ifilter</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">network</span> <span class="o">==</span> <span class="s">&quot;T*&quot;</span><span class="p">,</span>
-                          <span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">network</span> <span class="o">!=</span> <span class="s">&quot;TA&quot;</span><span class="p">):</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">ifilter</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">network</span> <span class="o">==</span> <span class="s2">&quot;T*&quot;</span><span class="p">,</span>
+                          <span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">network</span> <span class="o">!=</span> <span class="s2">&quot;TA&quot;</span><span class="p">):</span>
     <span class="o">...</span>
 </pre></div>
 </div>
@@ -225,7 +225,7 @@ queried by passing a list of potentially wildcarded strings. <strong>Each elemen
 such a list is joined by a logical</strong> <code class="docutils literal"><span class="pre">OR</span></code>, e.g. the next query will select
 all stations starting with <code class="docutils literal"><span class="pre">B</span></code>, or the <code class="docutils literal"><span class="pre">CA</span></code> station, or any two letter
 station starting with <code class="docutils literal"><span class="pre">T</span></code>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">ifilter</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">station</span> <span class="o">==</span> <span class="p">[</span><span class="s">&quot;B*&quot;</span><span class="p">,</span> <span class="s">&quot;ALTM&quot;</span><span class="p">,</span> <span class="s">&quot;T?&quot;</span><span class="p">]):</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">ifilter</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">station</span> <span class="o">==</span> <span class="p">[</span><span class="s2">&quot;B*&quot;</span><span class="p">,</span> <span class="s2">&quot;ALTM&quot;</span><span class="p">,</span> <span class="s2">&quot;T?&quot;</span><span class="p">]):</span>
     <span class="o">...</span>
 </pre></div>
 </div>
@@ -242,10 +242,10 @@ form of StationXML.</p>
 <p>Get all vertical component channels from USArray with a sampling rate of at
 least 5 <em>Hz</em> that are not processed (<code class="docutils literal"><span class="pre">raw_recording</span></code> tag by convention) in
 January 2015:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">ifilter</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">network</span> <span class="o">==</span> <span class="s">&quot;TA&quot;</span><span class="p">,</span>
-                          <span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">channel</span> <span class="o">==</span> <span class="s">&quot;*Z&quot;</span><span class="p">,</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">ifilter</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">network</span> <span class="o">==</span> <span class="s2">&quot;TA&quot;</span><span class="p">,</span>
+                          <span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">channel</span> <span class="o">==</span> <span class="s2">&quot;*Z&quot;</span><span class="p">,</span>
                           <span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">sampling_rate</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">,</span>
-                          <span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&quot;raw_recording&quot;</span><span class="p">,</span>
+                          <span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;raw_recording&quot;</span><span class="p">,</span>
                           <span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">starttime</span> <span class="o">&gt;=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">UTCDateTime</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
                           <span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">endtime</span> <span class="o">&lt;=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">UTCDateTime</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
     <span class="o">...</span>
@@ -264,7 +264,7 @@ January 2015:</p>
 </pre></div>
 </div>
 <p>Get all waveforms if any label is either &#8220;Fun&#8221; or matches the pattern &#8220;A*C&#8221;:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">ifilter</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">labels</span> <span class="o">==</span> <span class="p">[</span><span class="s">&quot;Fun&quot;</span><span class="p">,</span> <span class="s">&quot;A*C&quot;</span><span class="p">]):</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">ifilter</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">labels</span> <span class="o">==</span> <span class="p">[</span><span class="s2">&quot;Fun&quot;</span><span class="p">,</span> <span class="s2">&quot;A*C&quot;</span><span class="p">]):</span>
     <span class="o">...</span>
 </pre></div>
 </div>

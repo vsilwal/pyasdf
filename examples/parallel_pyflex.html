@@ -156,7 +156,7 @@ sets. In most cases it will be some kind of misfit or comparision function.
 This example runs <a class="reference external" href="http://krischer.github.io/pyflex/">pyflex</a> to pick
 windows given a data set of observed and another data set of synthetic data.</p>
 <p>It can only be run with MPI:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>mpirun -n <span class="m">16</span> python parallel_pyflex.py
+<div class="highlight-bash"><div class="highlight"><pre>$ mpirun -n <span class="m">16</span> python parallel_pyflex.py
 </pre></div>
 </div>
 <div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
@@ -232,8 +232,8 @@ windows given a data set of observed and another data set of synthetic data.</p>
 71</pre></div></td><td class="code"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyflex</span>
 <span class="kn">from</span> <span class="nn">pyasdf</span> <span class="kn">import</span> <span class="n">ASDFDataSet</span>
 
-<span class="n">ds</span> <span class="o">=</span> <span class="n">ASDFDataSet</span><span class="p">(</span><span class="s">&quot;./preprocessed_27s_to_60s.h5&quot;</span><span class="p">)</span>
-<span class="n">other_ds</span> <span class="o">=</span> <span class="n">ASDFDataSet</span><span class="p">(</span><span class="s">&quot;./preprocessed_synthetic_27s_to_60s.h5&quot;</span><span class="p">)</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">ASDFDataSet</span><span class="p">(</span><span class="s2">&quot;./preprocessed_27s_to_60s.h5&quot;</span><span class="p">)</span>
+<span class="n">other_ds</span> <span class="o">=</span> <span class="n">ASDFDataSet</span><span class="p">(</span><span class="s2">&quot;./preprocessed_synthetic_27s_to_60s.h5&quot;</span><span class="p">)</span>
 
 <span class="n">event</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">events</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
@@ -252,16 +252,16 @@ windows given a data set of observed and another data set of synthetic data.</p>
     <span class="n">s2n_limit</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
     <span class="n">max_time_before_first_arrival</span><span class="o">=-</span><span class="mf">50.0</span><span class="p">,</span>
     <span class="n">min_surface_wave_velocity</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span>
-    <span class="n">window_signal_to_noise_type</span><span class="o">=</span><span class="s">&quot;energy&quot;</span><span class="p">,</span>
+    <span class="n">window_signal_to_noise_type</span><span class="o">=</span><span class="s2">&quot;energy&quot;</span><span class="p">,</span>
     <span class="n">window_weight_fct</span><span class="o">=</span><span class="n">weight_function</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="n">this_station_group</span><span class="p">,</span> <span class="n">other_station_group</span><span class="p">):</span>
-    <span class="c"># Make sure everything thats required is there.</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">this_station_group</span><span class="p">,</span> <span class="s">&quot;StationXML&quot;</span><span class="p">)</span> <span class="ow">or</span> \
-            <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">this_station_group</span><span class="p">,</span> <span class="s">&quot;preprocessed_27s_to_60s&quot;</span><span class="p">)</span> <span class="ow">or</span> \
+    <span class="c1"># Make sure everything thats required is there.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">this_station_group</span><span class="p">,</span> <span class="s2">&quot;StationXML&quot;</span><span class="p">)</span> <span class="ow">or</span> \
+            <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">this_station_group</span><span class="p">,</span> <span class="s2">&quot;preprocessed_27s_to_60s&quot;</span><span class="p">)</span> <span class="ow">or</span> \
             <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other_station_group</span><span class="p">,</span>
-                        <span class="s">&quot;preprocessed_synthetic_27s_to_60s&quot;</span><span class="p">):</span>
+                        <span class="s2">&quot;preprocessed_synthetic_27s_to_60s&quot;</span><span class="p">):</span>
         <span class="k">return</span>
 
     <span class="n">stationxml</span> <span class="o">=</span> <span class="n">this_station_group</span><span class="o">.</span><span class="n">StationXML</span>
@@ -270,7 +270,7 @@ windows given a data set of observed and another data set of synthetic data.</p>
 
     <span class="n">all_windows</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&quot;Z&quot;</span><span class="p">,</span> <span class="s">&quot;R&quot;</span><span class="p">,</span> <span class="s">&quot;T&quot;</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Z&quot;</span><span class="p">,</span> <span class="s2">&quot;R&quot;</span><span class="p">,</span> <span class="s2">&quot;T&quot;</span><span class="p">]:</span>
         <span class="n">obs</span> <span class="o">=</span> <span class="n">observed</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="n">component</span><span class="p">)</span>
         <span class="n">syn</span> <span class="o">=</span> <span class="n">synthetic</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="n">component</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">obs</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">syn</span><span class="p">:</span>
@@ -278,7 +278,7 @@ windows given a data set of observed and another data set of synthetic data.</p>
 
         <span class="n">windows</span> <span class="o">=</span> <span class="n">pyflex</span><span class="o">.</span><span class="n">select_windows</span><span class="p">(</span>
             <span class="n">obs</span><span class="p">,</span> <span class="n">syn</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">event</span><span class="o">=</span><span class="n">event</span><span class="p">,</span> <span class="n">station</span><span class="o">=</span><span class="n">stationxml</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Station </span><span class="si">%s</span><span class="s">.</span><span class="si">%s</span><span class="s"> component </span><span class="si">%s</span><span class="s"> picked </span><span class="si">%i</span><span class="s"> windows&quot;</span> <span class="o">%</span> <span class="p">(</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Station </span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2"> component </span><span class="si">%s</span><span class="s2"> picked </span><span class="si">%i</span><span class="s2"> windows&quot;</span> <span class="o">%</span> <span class="p">(</span>
             <span class="n">stationxml</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">code</span><span class="p">,</span> <span class="n">stationxml</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">code</span><span class="p">,</span> <span class="n">component</span><span class="p">,</span>
             <span class="nb">len</span><span class="p">(</span><span class="n">windows</span><span class="p">)))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">windows</span><span class="p">:</span>
@@ -295,9 +295,9 @@ windows given a data set of observed and another data set of synthetic data.</p>
     <span class="k">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
     <span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
 
-<span class="k">print</span> <span class="s">&quot;Time taken:&quot;</span><span class="p">,</span> <span class="n">b</span> <span class="o">-</span> <span class="n">a</span>
+<span class="k">print</span> <span class="s2">&quot;Time taken:&quot;</span><span class="p">,</span> <span class="n">b</span> <span class="o">-</span> <span class="n">a</span>
 
-<span class="c"># Important when running with MPI as it might otherwise not be able to finish.</span>
+<span class="c1"># Important when running with MPI as it might otherwise not be able to finish.</span>
 <span class="k">del</span> <span class="n">ds</span>
 <span class="k">del</span> <span class="n">other_ds</span>
 </pre></div>

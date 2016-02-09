@@ -191,29 +191,29 @@ is very likely not worth the effort.</p>
 
 <span class="kn">from</span> <span class="nn">pyasdf</span> <span class="kn">import</span> <span class="n">ASDFDataSet</span>
 
-<span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;observed.h5&quot;</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;observed.h5&quot;</span>
 
 <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;File &#39;</span><span class="si">%s</span><span class="s">&#39; exists.&quot;</span> <span class="o">%</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;File &#39;</span><span class="si">%s</span><span class="s2">&#39; exists.&quot;</span> <span class="o">%</span> <span class="n">filename</span><span class="p">)</span>
 
 <span class="n">ds</span> <span class="o">=</span> <span class="n">ASDFDataSet</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
-<span class="c"># Add event</span>
-<span class="n">ds</span><span class="o">.</span><span class="n">add_quakeml</span><span class="p">(</span><span class="s">&quot;./GCMT_event_SOUTH_SANDWICH_ISLANDS_REGION_Mag_5.6_2010-3-11-6.xml&quot;</span><span class="p">)</span>
+<span class="c1"># Add event</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">add_quakeml</span><span class="p">(</span><span class="s2">&quot;./GCMT_event_SOUTH_SANDWICH_ISLANDS_REGION_Mag_5.6_2010-3-11-6.xml&quot;</span><span class="p">)</span>
 <span class="n">event</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">events</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-<span class="c"># Add waveforms.</span>
-<span class="n">filenames</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s">&quot;./SAC/*.SAC&quot;</span><span class="p">)</span>
+<span class="c1"># Add waveforms.</span>
+<span class="n">filenames</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;./SAC/*.SAC&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">_i</span><span class="p">,</span> <span class="n">filename</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">filenames</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Adding SAC file </span><span class="si">%i</span><span class="s"> of </span><span class="si">%i</span><span class="s">...&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">_i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">filenames</span><span class="p">)))</span>
-    <span class="c"># We associate the waveform with the previous event. This is optional</span>
-    <span class="c"># but recommended if the association is meaningful.</span>
-    <span class="n">ds</span><span class="o">.</span><span class="n">add_waveforms</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s">&quot;raw_recording&quot;</span><span class="p">,</span> <span class="n">event_id</span><span class="o">=</span><span class="n">event</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Adding SAC file </span><span class="si">%i</span><span class="s2"> of </span><span class="si">%i</span><span class="s2">...&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">_i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">filenames</span><span class="p">)))</span>
+    <span class="c1"># We associate the waveform with the previous event. This is optional</span>
+    <span class="c1"># but recommended if the association is meaningful.</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">add_waveforms</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;raw_recording&quot;</span><span class="p">,</span> <span class="n">event_id</span><span class="o">=</span><span class="n">event</span><span class="p">)</span>
 
-<span class="c"># Add StationXML files.</span>
-<span class="n">filenames</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s">&quot;./StationXML/*.xml&quot;</span><span class="p">)</span>
+<span class="c1"># Add StationXML files.</span>
+<span class="n">filenames</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;./StationXML/*.xml&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">_i</span><span class="p">,</span> <span class="n">filename</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">filenames</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Adding StationXML file </span><span class="si">%i</span><span class="s"> of </span><span class="si">%i</span><span class="s">...&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">_i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">filenames</span><span class="p">)))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Adding StationXML file </span><span class="si">%i</span><span class="s2"> of </span><span class="si">%i</span><span class="s2">...&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">_i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">filenames</span><span class="p">)))</span>
     <span class="n">ds</span><span class="o">.</span><span class="n">add_stationxml</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>

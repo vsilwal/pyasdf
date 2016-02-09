@@ -141,8 +141,8 @@
            <div itemprop="articleBody">
             
   <h1>Source code for pyasdf.inventory_utils</h1><div class="highlight"><pre>
-<span class="c">#!/usr/bin/env python</span>
-<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Utilities for dealing with inventory objects.</span>
 
@@ -180,9 +180,9 @@
     <span class="n">inv</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">inv_a</span><span class="p">)</span>
     <span class="n">inv</span><span class="o">.</span><span class="n">networks</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">inv_b</span><span class="o">.</span><span class="n">networks</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">isolate_and_merge_station</span><span class="p">(</span><span class="n">inv</span><span class="p">,</span> <span class="n">network_id</span><span class="o">=</span><span class="n">network_id</span><span class="p">,</span>
-                                     <span class="n">station_id</span><span class="o">=</span><span class="n">station_id</span><span class="p">)</span>
+                                     <span class="n">station_id</span><span class="o">=</span><span class="n">station_id</span><span class="p">)</span></div>
 
-</div>
+
 <div class="viewcode-block" id="isolate_and_merge_station"><a class="viewcode-back" href="../../inventory_utils.html#pyasdf.inventory_utils.isolate_and_merge_station">[docs]</a><span class="k">def</span> <span class="nf">isolate_and_merge_station</span><span class="p">(</span><span class="n">inv</span><span class="p">,</span> <span class="n">network_id</span><span class="p">,</span> <span class="n">station_id</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Takes an inventory object, isolates the given station and merged them.</span>
@@ -203,35 +203,35 @@
     <span class="n">inv</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">inv</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">network</span><span class="o">=</span><span class="n">network_id</span><span class="p">,</span> <span class="n">station</span><span class="o">=</span><span class="n">station_id</span><span class="p">,</span>
                                    <span class="n">keep_empty</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
 
-    <span class="c"># Merge networks if necessary.</span>
+    <span class="c1"># Merge networks if necessary.</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inv</span><span class="o">.</span><span class="n">networks</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">network</span> <span class="o">=</span> <span class="n">inv</span><span class="o">.</span><span class="n">networks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">other_network</span> <span class="ow">in</span> <span class="n">inv</span><span class="o">.</span><span class="n">networks</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
-            <span class="c"># Merge the stations.</span>
+            <span class="c1"># Merge the stations.</span>
             <span class="n">network</span><span class="o">.</span><span class="n">stations</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">other_network</span><span class="o">.</span><span class="n">stations</span><span class="p">)</span>
-            <span class="c"># Update the times if necessary.</span>
+            <span class="c1"># Update the times if necessary.</span>
             <span class="k">if</span> <span class="n">other_network</span><span class="o">.</span><span class="n">start_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">network</span><span class="o">.</span><span class="n">start_date</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> \
                         <span class="n">network</span><span class="o">.</span><span class="n">start_date</span> <span class="o">&gt;</span> <span class="n">other_network</span><span class="o">.</span><span class="n">start_date</span><span class="p">:</span>
                     <span class="n">network</span><span class="o">.</span><span class="n">start_date</span> <span class="o">=</span> <span class="n">other_network</span><span class="o">.</span><span class="n">start_date</span>
-            <span class="c"># None is the &quot;biggest&quot; end_date.</span>
+            <span class="c1"># None is the &quot;biggest&quot; end_date.</span>
             <span class="k">if</span> <span class="n">network</span><span class="o">.</span><span class="n">end_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">other_network</span><span class="o">.</span><span class="n">end_date</span> <span class="ow">is</span> \
                     <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">other_network</span><span class="o">.</span><span class="n">end_date</span> <span class="o">&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">end_date</span><span class="p">:</span>
                     <span class="n">network</span><span class="o">.</span><span class="n">end_date</span> <span class="o">=</span> <span class="n">other_network</span><span class="o">.</span><span class="n">end_date</span>
             <span class="k">elif</span> <span class="n">other_network</span><span class="o">.</span><span class="n">end_date</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="n">network</span><span class="o">.</span><span class="n">end_date</span> <span class="o">=</span> <span class="bp">None</span>
-            <span class="c"># Update comments.</span>
+            <span class="c1"># Update comments.</span>
             <span class="n">network</span><span class="o">.</span><span class="n">comments</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
                 <span class="nb">set</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">comments</span><span class="p">)</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">other_network</span><span class="o">.</span><span class="n">comments</span><span class="p">)))</span>
-            <span class="c"># Update the number of stations.</span>
+            <span class="c1"># Update the number of stations.</span>
             <span class="k">if</span> <span class="n">other_network</span><span class="o">.</span><span class="n">total_number_of_stations</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">network</span><span class="o">.</span><span class="n">total_number_of_stations</span> <span class="ow">or</span> \
                         <span class="n">network</span><span class="o">.</span><span class="n">total_number_of_stations</span> <span class="o">&lt;</span> \
                         <span class="n">other_network</span><span class="o">.</span><span class="n">total_number_of_stations</span><span class="p">:</span>
                     <span class="n">network</span><span class="o">.</span><span class="n">total_number_of_stations</span> <span class="o">=</span> \
                         <span class="n">other_network</span><span class="o">.</span><span class="n">total_number_of_stations</span>
-            <span class="c"># Update the other elements</span>
+            <span class="c1"># Update the other elements</span>
             <span class="n">network</span><span class="o">.</span><span class="n">alternate_code</span> <span class="o">=</span> <span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">alternate_code</span> <span class="ow">or</span>
                                       <span class="n">other_network</span><span class="o">.</span><span class="n">alternate_code</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">None</span>
             <span class="n">network</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">description</span> <span class="ow">or</span>
@@ -242,35 +242,35 @@
                 <span class="n">other_network</span><span class="o">.</span><span class="n">restricted_status</span>
         <span class="n">inv</span><span class="o">.</span><span class="n">networks</span> <span class="o">=</span> <span class="p">[</span><span class="n">network</span><span class="p">]</span>
 
-    <span class="c"># Merge stations if necessary.</span>
+    <span class="c1"># Merge stations if necessary.</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inv</span><span class="o">.</span><span class="n">networks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">stations</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">station</span> <span class="o">=</span> <span class="n">inv</span><span class="o">.</span><span class="n">networks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">stations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">other_station</span> <span class="ow">in</span> <span class="n">inv</span><span class="o">.</span><span class="n">networks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">stations</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
-            <span class="c"># Merge the channels.</span>
+            <span class="c1"># Merge the channels.</span>
             <span class="n">station</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">other_station</span><span class="o">.</span><span class="n">channels</span><span class="p">)</span>
-            <span class="c"># Update the times if necessary.</span>
+            <span class="c1"># Update the times if necessary.</span>
             <span class="k">if</span> <span class="n">other_station</span><span class="o">.</span><span class="n">start_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">station</span><span class="o">.</span><span class="n">start_date</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> \
                         <span class="n">station</span><span class="o">.</span><span class="n">start_date</span> <span class="o">&gt;</span> <span class="n">other_station</span><span class="o">.</span><span class="n">start_date</span><span class="p">:</span>
                     <span class="n">station</span><span class="o">.</span><span class="n">start_date</span> <span class="o">=</span> <span class="n">other_station</span><span class="o">.</span><span class="n">start_date</span>
-            <span class="c"># None is the &quot;biggest&quot; end_date.</span>
+            <span class="c1"># None is the &quot;biggest&quot; end_date.</span>
             <span class="k">if</span> <span class="n">station</span><span class="o">.</span><span class="n">end_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">other_station</span><span class="o">.</span><span class="n">end_date</span> <span class="ow">is</span> \
                     <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">other_station</span><span class="o">.</span><span class="n">end_date</span> <span class="o">&gt;</span> <span class="n">station</span><span class="o">.</span><span class="n">end_date</span><span class="p">:</span>
                     <span class="n">station</span><span class="o">.</span><span class="n">end_date</span> <span class="o">=</span> <span class="n">other_station</span><span class="o">.</span><span class="n">end_date</span>
             <span class="k">elif</span> <span class="n">other_station</span><span class="o">.</span><span class="n">end_date</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="n">station</span><span class="o">.</span><span class="n">end_date</span> <span class="o">=</span> <span class="bp">None</span>
-            <span class="c"># Update comments.</span>
+            <span class="c1"># Update comments.</span>
             <span class="n">station</span><span class="o">.</span><span class="n">comments</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
                 <span class="nb">set</span><span class="p">(</span><span class="n">station</span><span class="o">.</span><span class="n">comments</span><span class="p">)</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">other_station</span><span class="o">.</span><span class="n">comments</span><span class="p">)))</span>
-            <span class="c"># Update the number of channels.</span>
+            <span class="c1"># Update the number of channels.</span>
             <span class="k">if</span> <span class="n">other_station</span><span class="o">.</span><span class="n">total_number_of_channels</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">station</span><span class="o">.</span><span class="n">total_number_of_channels</span> <span class="ow">or</span> \
                         <span class="n">station</span><span class="o">.</span><span class="n">total_number_of_channels</span> <span class="o">&lt;</span> \
                         <span class="n">other_station</span><span class="o">.</span><span class="n">total_number_of_channels</span><span class="p">:</span>
                     <span class="n">station</span><span class="o">.</span><span class="n">total_number_of_channels</span> <span class="o">=</span> \
                         <span class="n">other_station</span><span class="o">.</span><span class="n">total_number_of_channels</span>
-            <span class="c"># Update the other elements</span>
+            <span class="c1"># Update the other elements</span>
             <span class="n">station</span><span class="o">.</span><span class="n">alternate_code</span> <span class="o">=</span> <span class="p">(</span><span class="n">station</span><span class="o">.</span><span class="n">alternate_code</span> <span class="ow">or</span>
                                       <span class="n">other_station</span><span class="o">.</span><span class="n">alternate_code</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">None</span>
             <span class="n">station</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="p">(</span><span class="n">station</span><span class="o">.</span><span class="n">description</span> <span class="ow">or</span>
@@ -281,8 +281,8 @@
                 <span class="n">other_station</span><span class="o">.</span><span class="n">restricted_status</span>
         <span class="n">inv</span><span class="o">.</span><span class="n">networks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">stations</span> <span class="o">=</span> <span class="p">[</span><span class="n">station</span><span class="p">]</span>
 
-    <span class="c"># Last but not least, remove duplicate channels. This is done on the</span>
-    <span class="c"># location and channel id, and the times, nothing else.</span>
+    <span class="c1"># Last but not least, remove duplicate channels. This is done on the</span>
+    <span class="c1"># location and channel id, and the times, nothing else.</span>
     <span class="n">unique_channels</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">available_channel_hashes</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">channel</span> <span class="ow">in</span> <span class="n">inv</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span>
@@ -295,98 +295,98 @@
             <span class="n">available_channel_hashes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c_hash</span><span class="p">)</span>
     <span class="n">inv</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">channels</span> <span class="o">=</span> <span class="n">unique_channels</span>
 
-    <span class="c"># Update the selected number of stations and channels.</span>
+    <span class="c1"># Update the selected number of stations and channels.</span>
     <span class="n">inv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">selected_number_of_stations</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">inv</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">selected_number_of_channels</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">inv</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">channels</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">inv</span>
+    <span class="k">return</span> <span class="n">inv</span></div>
 
-</div>
-<div class="viewcode-block" id="get_coordinates"><a class="viewcode-back" href="../../inventory_utils.html#pyasdf.inventory_utils.get_coordinates">[docs]</a><span class="k">def</span> <span class="nf">get_coordinates</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="s">&quot;station&quot;</span><span class="p">):</span>
+
+<div class="viewcode-block" id="get_coordinates"><a class="viewcode-back" href="../../inventory_utils.html#pyasdf.inventory_utils.get_coordinates">[docs]</a><span class="k">def</span> <span class="nf">get_coordinates</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="s2">&quot;station&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Very quick way to get coordinates from a StationXML file.</span>
 
 <span class="sd">    Can extract coordinates at the station and at the channel level.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">ns</span> <span class="o">=</span> <span class="s">&quot;http://www.fdsn.org/xml/station/1&quot;</span>
-    <span class="n">network_tag</span> <span class="o">=</span> <span class="s">&quot;{</span><span class="si">%s</span><span class="s">}Network&quot;</span> <span class="o">%</span> <span class="n">ns</span>
-    <span class="n">station_tag</span> <span class="o">=</span> <span class="s">&quot;{</span><span class="si">%s</span><span class="s">}Station&quot;</span> <span class="o">%</span> <span class="n">ns</span>
-    <span class="n">channel_tag</span> <span class="o">=</span> <span class="s">&quot;{</span><span class="si">%s</span><span class="s">}Channel&quot;</span> <span class="o">%</span> <span class="n">ns</span>
-    <span class="n">latitude_tag</span> <span class="o">=</span> <span class="s">&quot;{</span><span class="si">%s</span><span class="s">}Latitude&quot;</span> <span class="o">%</span> <span class="n">ns</span>
-    <span class="n">longitude_tag</span> <span class="o">=</span> <span class="s">&quot;{</span><span class="si">%s</span><span class="s">}Longitude&quot;</span> <span class="o">%</span> <span class="n">ns</span>
-    <span class="n">elevation_tag</span> <span class="o">=</span> <span class="s">&quot;{</span><span class="si">%s</span><span class="s">}Elevation&quot;</span> <span class="o">%</span> <span class="n">ns</span>
-    <span class="n">depth_tag</span> <span class="o">=</span> <span class="s">&quot;{</span><span class="si">%s</span><span class="s">}Depth&quot;</span> <span class="o">%</span> <span class="n">ns</span>
+    <span class="n">ns</span> <span class="o">=</span> <span class="s2">&quot;http://www.fdsn.org/xml/station/1&quot;</span>
+    <span class="n">network_tag</span> <span class="o">=</span> <span class="s2">&quot;{</span><span class="si">%s</span><span class="s2">}Network&quot;</span> <span class="o">%</span> <span class="n">ns</span>
+    <span class="n">station_tag</span> <span class="o">=</span> <span class="s2">&quot;{</span><span class="si">%s</span><span class="s2">}Station&quot;</span> <span class="o">%</span> <span class="n">ns</span>
+    <span class="n">channel_tag</span> <span class="o">=</span> <span class="s2">&quot;{</span><span class="si">%s</span><span class="s2">}Channel&quot;</span> <span class="o">%</span> <span class="n">ns</span>
+    <span class="n">latitude_tag</span> <span class="o">=</span> <span class="s2">&quot;{</span><span class="si">%s</span><span class="s2">}Latitude&quot;</span> <span class="o">%</span> <span class="n">ns</span>
+    <span class="n">longitude_tag</span> <span class="o">=</span> <span class="s2">&quot;{</span><span class="si">%s</span><span class="s2">}Longitude&quot;</span> <span class="o">%</span> <span class="n">ns</span>
+    <span class="n">elevation_tag</span> <span class="o">=</span> <span class="s2">&quot;{</span><span class="si">%s</span><span class="s2">}Elevation&quot;</span> <span class="o">%</span> <span class="n">ns</span>
+    <span class="n">depth_tag</span> <span class="o">=</span> <span class="s2">&quot;{</span><span class="si">%s</span><span class="s2">}Depth&quot;</span> <span class="o">%</span> <span class="n">ns</span>
 
-    <span class="c"># Return station coordinates.</span>
-    <span class="k">if</span> <span class="n">level</span> <span class="o">==</span> <span class="s">&quot;station&quot;</span><span class="p">:</span>
+    <span class="c1"># Return station coordinates.</span>
+    <span class="k">if</span> <span class="n">level</span> <span class="o">==</span> <span class="s2">&quot;station&quot;</span><span class="p">:</span>
         <span class="n">coordinates</span> <span class="o">=</span> <span class="p">{}</span>
 
-        <span class="c"># Small state machine.</span>
+        <span class="c1"># Small state machine.</span>
         <span class="n">net_state</span> <span class="o">=</span> <span class="bp">None</span>
 
         <span class="n">tags</span> <span class="o">=</span> <span class="p">(</span><span class="n">network_tag</span><span class="p">,</span> <span class="n">station_tag</span><span class="p">)</span>
-        <span class="n">context</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">iterparse</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">events</span><span class="o">=</span><span class="p">(</span><span class="s">&quot;start&quot;</span><span class="p">,</span> <span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tags</span><span class="p">)</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">iterparse</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">events</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tags</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">context</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">elem</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">station_tag</span><span class="p">:</span>
                 <span class="n">station_coordinates</span> <span class="o">=</span> <span class="p">{}</span>
                 <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">elem</span><span class="o">.</span><span class="n">getchildren</span><span class="p">():</span>
                     <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">latitude_tag</span><span class="p">:</span>
-                        <span class="n">station_coordinates</span><span class="p">[</span><span class="s">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+                        <span class="n">station_coordinates</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
                     <span class="k">elif</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">longitude_tag</span><span class="p">:</span>
-                        <span class="n">station_coordinates</span><span class="p">[</span><span class="s">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+                        <span class="n">station_coordinates</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
                     <span class="k">elif</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">elevation_tag</span><span class="p">:</span>
-                        <span class="n">station_coordinates</span><span class="p">[</span><span class="s">&quot;elevation_in_m&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
+                        <span class="n">station_coordinates</span><span class="p">[</span><span class="s2">&quot;elevation_in_m&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
                             <span class="n">child</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-                <span class="n">coordinates</span><span class="p">[</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">.</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">net_state</span><span class="p">,</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;code&quot;</span><span class="p">))]</span> <span class="o">=</span> \
+                <span class="n">coordinates</span><span class="p">[</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">net_state</span><span class="p">,</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;code&quot;</span><span class="p">))]</span> <span class="o">=</span> \
                     <span class="n">station_coordinates</span>
             <span class="k">elif</span> <span class="n">elem</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">network_tag</span><span class="p">:</span>
-                <span class="n">net_state</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;code&#39;</span><span class="p">)</span>
+                <span class="n">net_state</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;code&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">coordinates</span>
 
-    <span class="c"># Return channel coordinates.</span>
-    <span class="k">elif</span> <span class="n">level</span> <span class="o">==</span> <span class="s">&quot;channel&quot;</span><span class="p">:</span>
+    <span class="c1"># Return channel coordinates.</span>
+    <span class="k">elif</span> <span class="n">level</span> <span class="o">==</span> <span class="s2">&quot;channel&quot;</span><span class="p">:</span>
         <span class="n">coordinates</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
 
-        <span class="c"># Small state machine.</span>
+        <span class="c1"># Small state machine.</span>
         <span class="n">net_state</span><span class="p">,</span> <span class="n">sta_state</span> <span class="o">=</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
 
         <span class="n">tags</span> <span class="o">=</span> <span class="p">(</span><span class="n">network_tag</span><span class="p">,</span> <span class="n">station_tag</span><span class="p">,</span> <span class="n">channel_tag</span><span class="p">)</span>
-        <span class="n">context</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">iterparse</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">events</span><span class="o">=</span><span class="p">(</span><span class="s">&quot;start&quot;</span><span class="p">,</span> <span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tags</span><span class="p">)</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">iterparse</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">events</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tags</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">context</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">elem</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">channel_tag</span><span class="p">:</span>
-                <span class="c"># Get basics.</span>
-                <span class="n">channel</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;code&#39;</span><span class="p">)</span>
-                <span class="n">location</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;locationCode&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-                <span class="n">starttime</span> <span class="o">=</span> <span class="n">UTCDateTime</span><span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;startDate&#39;</span><span class="p">))</span>
-                <span class="n">endtime</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;endDate&#39;</span><span class="p">)</span>
+                <span class="c1"># Get basics.</span>
+                <span class="n">channel</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;code&#39;</span><span class="p">)</span>
+                <span class="n">location</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;locationCode&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="n">starttime</span> <span class="o">=</span> <span class="n">UTCDateTime</span><span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;startDate&#39;</span><span class="p">))</span>
+                <span class="n">endtime</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;endDate&#39;</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">endtime</span><span class="p">:</span>
                     <span class="n">endtime</span> <span class="o">=</span> <span class="n">UTCDateTime</span><span class="p">(</span><span class="n">endtime</span><span class="p">)</span>
 
-                <span class="n">tag</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">.</span><span class="si">%s</span><span class="s">.</span><span class="si">%s</span><span class="s">.</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">net_state</span><span class="p">,</span> <span class="n">sta_state</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span>
-                <span class="n">channel_coordinates</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;starttime&quot;</span><span class="p">:</span> <span class="n">starttime</span><span class="p">,</span>
-                                       <span class="s">&quot;endtime&quot;</span><span class="p">:</span> <span class="n">endtime</span><span class="p">}</span>
+                <span class="n">tag</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">net_state</span><span class="p">,</span> <span class="n">sta_state</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span>
+                <span class="n">channel_coordinates</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;starttime&quot;</span><span class="p">:</span> <span class="n">starttime</span><span class="p">,</span>
+                                       <span class="s2">&quot;endtime&quot;</span><span class="p">:</span> <span class="n">endtime</span><span class="p">}</span>
                 <span class="n">coordinates</span><span class="p">[</span><span class="n">tag</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">channel_coordinates</span><span class="p">)</span>
 
                 <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">elem</span><span class="o">.</span><span class="n">getchildren</span><span class="p">():</span>
                     <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">latitude_tag</span><span class="p">:</span>
-                        <span class="n">channel_coordinates</span><span class="p">[</span><span class="s">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+                        <span class="n">channel_coordinates</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
                     <span class="k">elif</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">longitude_tag</span><span class="p">:</span>
-                        <span class="n">channel_coordinates</span><span class="p">[</span><span class="s">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+                        <span class="n">channel_coordinates</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
                     <span class="k">elif</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">elevation_tag</span><span class="p">:</span>
-                        <span class="n">channel_coordinates</span><span class="p">[</span><span class="s">&quot;elevation_in_m&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
+                        <span class="n">channel_coordinates</span><span class="p">[</span><span class="s2">&quot;elevation_in_m&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
                             <span class="n">child</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
                     <span class="k">elif</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">depth_tag</span><span class="p">:</span>
-                        <span class="n">channel_coordinates</span><span class="p">[</span><span class="s">&quot;local_depth_in_m&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
+                        <span class="n">channel_coordinates</span><span class="p">[</span><span class="s2">&quot;local_depth_in_m&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
                             <span class="n">child</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">elem</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">station_tag</span><span class="p">:</span>
-                <span class="n">sta_state</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;code&#39;</span><span class="p">)</span>
+                <span class="n">sta_state</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;code&#39;</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">elem</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">network_tag</span><span class="p">:</span>
-                <span class="n">net_state</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;code&#39;</span><span class="p">)</span>
+                <span class="n">net_state</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;code&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">coordinates</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Level must be either &#39;station&#39; or &#39;channel&#39;.&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Level must be either &#39;station&#39; or &#39;channel&#39;.&quot;</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

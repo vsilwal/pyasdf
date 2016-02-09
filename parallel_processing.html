@@ -177,45 +177,45 @@ and only one process will write at any point in time.</p>
 <p>A simple example best illustrates how to use it.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyasdf</span>
 
-<span class="c"># The first step is to define a function. You can do whatever you want in</span>
-<span class="c"># that function to process the data.</span>
+<span class="c1"># The first step is to define a function. You can do whatever you want in</span>
+<span class="c1"># that function to process the data.</span>
 <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="n">st</span><span class="p">,</span> <span class="n">inv</span><span class="p">):</span>
-    <span class="c"># st is an ObsPy stream object with a certain tag and inv is an ObsPy</span>
-    <span class="c"># inventory object which might be None.</span>
+    <span class="c1"># st is an ObsPy stream object with a certain tag and inv is an ObsPy</span>
+    <span class="c1"># inventory object which might be None.</span>
 
-    <span class="c"># This example will not write anything for data which has no</span>
-    <span class="c"># corresponding inventory information.</span>
+    <span class="c1"># This example will not write anything for data which has no</span>
+    <span class="c1"># corresponding inventory information.</span>
     <span class="k">if</span> <span class="n">inv</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="k">return</span>
 
-    <span class="c"># This very simple example will deconvolve the instrument response.</span>
+    <span class="c1"># This very simple example will deconvolve the instrument response.</span>
     <span class="n">st</span><span class="o">.</span><span class="n">attach_response</span><span class="p">(</span><span class="n">inv</span><span class="p">)</span>
-    <span class="n">st</span><span class="o">.</span><span class="n">remove_response</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="s">&quot;VEL&quot;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">remove_response</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="s2">&quot;VEL&quot;</span><span class="p">)</span>
 
-    <span class="c"># The new file will contain whatever is returned here. If nothing is</span>
-    <span class="c"># returned, nothing will be written. In case something is returned, the</span>
-    <span class="c"># inventory data will also be copied from the input to the output file.</span>
+    <span class="c1"># The new file will contain whatever is returned here. If nothing is</span>
+    <span class="c1"># returned, nothing will be written. In case something is returned, the</span>
+    <span class="c1"># inventory data will also be copied from the input to the output file.</span>
     <span class="k">return</span> <span class="n">st</span>
 
 
-<span class="c"># Open an existing data set. Setting the mode is not strictly necessary but</span>
-<span class="c"># might improve the speed a bit.</span>
+<span class="c1"># Open an existing data set. Setting the mode is not strictly necessary but</span>
+<span class="c1"># might improve the speed a bit.</span>
 
-<span class="c"># Make sure to either use a with statement or delete the reference to the</span>
-<span class="c"># data set object at the end. Otherwise it might not be able to properly</span>
-<span class="c"># close the file which will stall MPI.</span>
-<span class="k">with</span> <span class="n">pyasdf</span><span class="o">.</span><span class="n">ASDFDataSet</span><span class="p">(</span><span class="s">&quot;example.h5&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+<span class="c1"># Make sure to either use a with statement or delete the reference to the</span>
+<span class="c1"># data set object at the end. Otherwise it might not be able to properly</span>
+<span class="c1"># close the file which will stall MPI.</span>
+<span class="k">with</span> <span class="n">pyasdf</span><span class="o">.</span><span class="n">ASDFDataSet</span><span class="p">(</span><span class="s2">&quot;example.h5&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
     <span class="n">ds</span><span class="o">.</span><span class="n">process</span><span class="p">(</span>
-        <span class="c"># Pass the processing function here.</span>
+        <span class="c1"># Pass the processing function here.</span>
         <span class="n">process_function</span><span class="o">=</span><span class="n">process</span><span class="p">,</span>
-        <span class="c"># The output filename. Must not yet exist.</span>
-        <span class="n">output_filename</span><span class="o">=</span><span class="s">&quot;processed_example.h5&quot;</span><span class="p">,</span>
-        <span class="c"># Maps the tags. The keys are the tags in the input file and traces</span>
-        <span class="c"># with that tag will end up in the output file with the corresponding</span>
-        <span class="c"># value.</span>
-        <span class="c"># Also note that only data with tags present in this map will be</span>
-        <span class="c"># processed. Others will be ignored.</span>
-        <span class="n">tag_map</span><span class="o">=</span><span class="p">{</span><span class="s">&quot;raw_recording&quot;</span><span class="p">:</span> <span class="s">&quot;processed&quot;</span><span class="p">})</span>
+        <span class="c1"># The output filename. Must not yet exist.</span>
+        <span class="n">output_filename</span><span class="o">=</span><span class="s2">&quot;processed_example.h5&quot;</span><span class="p">,</span>
+        <span class="c1"># Maps the tags. The keys are the tags in the input file and traces</span>
+        <span class="c1"># with that tag will end up in the output file with the corresponding</span>
+        <span class="c1"># value.</span>
+        <span class="c1"># Also note that only data with tags present in this map will be</span>
+        <span class="c1"># processed. Others will be ignored.</span>
+        <span class="n">tag_map</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;raw_recording&quot;</span><span class="p">:</span> <span class="s2">&quot;processed&quot;</span><span class="p">})</span>
 </pre></div>
 </div>
 <div class="section" id="run-it-with-mpi">
@@ -223,7 +223,7 @@ and only one process will write at any point in time.</p>
 <p>Save the above example to file and run it with MPI. Make sure <code class="docutils literal"><span class="pre">h5py</span></code> has been
 compiled with parallel I/O support. Consult the <a class="reference internal" href="installation.html"><em>Installation</em></a> document on
 how do that and making sure it works.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>mpirun -n <span class="m">64</span> python script.py
+<div class="highlight-bash"><div class="highlight"><pre>$ mpirun -n <span class="m">64</span> python script.py
 </pre></div>
 </div>
 <p>As soon as it is run with more then 1 core and an MPI communicator is available
@@ -237,7 +237,7 @@ parallel using Python&#8217;s native <code class="docutils literal"><span class=
 one core will be able to write at any given point in time: the cores will take
 turns. Nonetheless this speeds up things quite a bit if your processing is
 reasonably heavy.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>python script.py
+<div class="highlight-bash"><div class="highlight"><pre>$ python script.py
 </pre></div>
 </div>
 <p>It will attempt to use all available cores by default. Additional parameters
@@ -245,11 +245,11 @@ available for processing with multiprocessing:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="o">...</span>
 
 <span class="n">ds</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="o">...</span><span class="p">,</span>
-           <span class="c"># The length of the traceback shown if an error is raised during</span>
-           <span class="c"># the processing of a trace. Defaults to 3.</span>
+           <span class="c1"># The length of the traceback shown if an error is raised during</span>
+           <span class="c1"># the processing of a trace. Defaults to 3.</span>
            <span class="n">traceback_limit</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-           <span class="c"># The number of cores to run it on. Defaults to -1 which is</span>
-           <span class="c"># equal to the number of cores on your system.</span>
+           <span class="c1"># The number of cores to run it on. Defaults to -1 which is</span>
+           <span class="c1"># equal to the number of cores on your system.</span>
            <span class="n">cpu_count</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -269,59 +269,59 @@ traces at each station in both data sets.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">mpi4py</span> <span class="kn">import</span> <span class="n">MPI</span>
 <span class="kn">import</span> <span class="nn">pyasdf</span>
 
-<span class="c"># Open two data sets. Setting the mode is optional but might speed up things a</span>
-<span class="c"># bit.</span>
-<span class="n">ds_1</span> <span class="o">=</span> <span class="n">pyasdf</span><span class="o">.</span><span class="n">ASDFDataSet</span><span class="p">(</span><span class="s">&quot;/Users/lion/asdf_example.h5&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&quot;r&quot;</span><span class="p">)</span>
-<span class="n">ds_2</span> <span class="o">=</span> <span class="n">pyasdf</span><span class="o">.</span><span class="n">ASDFDataSet</span><span class="p">(</span><span class="s">&quot;/Users/lion/asdf_example.h5&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&quot;r&quot;</span><span class="p">)</span>
+<span class="c1"># Open two data sets. Setting the mode is optional but might speed up things a</span>
+<span class="c1"># bit.</span>
+<span class="n">ds_1</span> <span class="o">=</span> <span class="n">pyasdf</span><span class="o">.</span><span class="n">ASDFDataSet</span><span class="p">(</span><span class="s2">&quot;/Users/lion/asdf_example.h5&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<span class="n">ds_2</span> <span class="o">=</span> <span class="n">pyasdf</span><span class="o">.</span><span class="n">ASDFDataSet</span><span class="p">(</span><span class="s2">&quot;/Users/lion/asdf_example.h5&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
 
 
-<span class="c"># The function takes two station groups which contain waveform and inventory</span>
-<span class="c"># information for the same station in both data sets. The function will only be</span>
-<span class="c"># called for stations that are available in both data sets. Keep in mind that</span>
-<span class="c"># each station can contain data from an arbitrary number of tags and can also</span>
-<span class="c"># contain inventory information.</span>
+<span class="c1"># The function takes two station groups which contain waveform and inventory</span>
+<span class="c1"># information for the same station in both data sets. The function will only be</span>
+<span class="c1"># called for stations that are available in both data sets. Keep in mind that</span>
+<span class="c1"># each station can contain data from an arbitrary number of tags and can also</span>
+<span class="c1"># contain inventory information.</span>
 <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="n">s_group_1</span><span class="p">,</span> <span class="n">s_group_2</span><span class="p">):</span>
     <span class="n">energy_ds_1</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">energy_ds_2</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="c"># Get energy for data in data set one. Don&#39;t deal with the sampling rate</span>
-    <span class="c"># for now...</span>
+    <span class="c1"># Get energy for data in data set one. Don&#39;t deal with the sampling rate</span>
+    <span class="c1"># for now...</span>
     <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">s_group_1</span><span class="o">.</span><span class="n">get_waveform_tags</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">s_group_1</span><span class="p">[</span><span class="n">tag</span><span class="p">]:</span>
             <span class="n">energy_ds_1</span> <span class="o">+=</span> <span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">data</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
-    <span class="c"># Do the same for the other group.</span>
+    <span class="c1"># Do the same for the other group.</span>
     <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">s_group_2</span><span class="o">.</span><span class="n">get_waveform_tags</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">s_group_2</span><span class="p">[</span><span class="n">tag</span><span class="p">]:</span>
             <span class="n">energy_ds_2</span> <span class="o">+=</span> <span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">data</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
-    <span class="c"># Just return what you want to collect. Make sure this is not too big as it</span>
-    <span class="c"># will be stored in memory and send over MPI to the process with rank 0.</span>
+    <span class="c1"># Just return what you want to collect. Make sure this is not too big as it</span>
+    <span class="c1"># will be stored in memory and send over MPI to the process with rank 0.</span>
     <span class="k">return</span> <span class="p">{</span>
-        <span class="s">&quot;energy_ds_1&quot;</span><span class="p">:</span> <span class="n">energy_ds_1</span><span class="p">,</span>
-        <span class="s">&quot;energy_ds_2&quot;</span><span class="p">:</span> <span class="n">energy_ds_2</span><span class="p">}</span>
+        <span class="s2">&quot;energy_ds_1&quot;</span><span class="p">:</span> <span class="n">energy_ds_1</span><span class="p">,</span>
+        <span class="s2">&quot;energy_ds_2&quot;</span><span class="p">:</span> <span class="n">energy_ds_2</span><span class="p">}</span>
 
-<span class="c"># Launch it.</span>
+<span class="c1"># Launch it.</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">ds_1</span><span class="o">.</span><span class="n">process_two_files_without_parallel_output</span><span class="p">(</span><span class="n">ds_2</span><span class="p">,</span> <span class="n">process</span><span class="p">)</span>
 
-<span class="c"># Results are available on rank 0.</span>
+<span class="c1"># Results are available on rank 0.</span>
 <span class="k">if</span> <span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
     <span class="k">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Save to a file an run with</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>mpirun -n <span class="m">64</span> python script.py
+<div class="highlight-bash"><div class="highlight"><pre>$ mpirun -n <span class="m">64</span> python script.py
 </pre></div>
 </div>
 <p>The result is something akin to</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s">&#39;AF.CVNA&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;energy_ds_1&#39;</span><span class="p">:</span> <span class="mf">9.228861452825754e-09</span><span class="p">,</span>
-             <span class="s">&#39;energy_ds_2&#39;</span><span class="p">:</span> <span class="mf">9.228861452825754e-09</span><span class="p">},</span>
- <span class="s">&#39;AF.DODT&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;energy_ds_1&#39;</span><span class="p">:</span> <span class="mf">4.879421311443366e-09</span><span class="p">,</span>
-             <span class="s">&#39;energy_ds_2&#39;</span><span class="p">:</span> <span class="mf">4.879421311443366e-09</span><span class="p">},</span>
- <span class="s">&#39;AF.EKNA&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;energy_ds_1&#39;</span><span class="p">:</span> <span class="mf">3.5441928281088053e-09</span><span class="p">,</span>
-             <span class="s">&#39;energy_ds_2&#39;</span><span class="p">:</span> <span class="mf">3.5441928281088053e-09</span><span class="p">},</span>
- <span class="s">&#39;AF.GRM&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;energy_ds_1&#39;</span><span class="p">:</span> <span class="mf">2.5369817358011915e-08</span><span class="p">,</span>
-            <span class="s">&#39;energy_ds_2&#39;</span><span class="p">:</span> <span class="mf">2.5369817358011915e-08</span><span class="p">},</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s1">&#39;AF.CVNA&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;energy_ds_1&#39;</span><span class="p">:</span> <span class="mf">9.228861452825754e-09</span><span class="p">,</span>
+             <span class="s1">&#39;energy_ds_2&#39;</span><span class="p">:</span> <span class="mf">9.228861452825754e-09</span><span class="p">},</span>
+ <span class="s1">&#39;AF.DODT&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;energy_ds_1&#39;</span><span class="p">:</span> <span class="mf">4.879421311443366e-09</span><span class="p">,</span>
+             <span class="s1">&#39;energy_ds_2&#39;</span><span class="p">:</span> <span class="mf">4.879421311443366e-09</span><span class="p">},</span>
+ <span class="s1">&#39;AF.EKNA&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;energy_ds_1&#39;</span><span class="p">:</span> <span class="mf">3.5441928281088053e-09</span><span class="p">,</span>
+             <span class="s1">&#39;energy_ds_2&#39;</span><span class="p">:</span> <span class="mf">3.5441928281088053e-09</span><span class="p">},</span>
+ <span class="s1">&#39;AF.GRM&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;energy_ds_1&#39;</span><span class="p">:</span> <span class="mf">2.5369817358011915e-08</span><span class="p">,</span>
+            <span class="s1">&#39;energy_ds_2&#39;</span><span class="p">:</span> <span class="mf">2.5369817358011915e-08</span><span class="p">},</span>
  <span class="o">...</span><span class="p">}</span>
 </pre></div>
 </div>
