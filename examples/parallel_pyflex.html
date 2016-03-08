@@ -156,7 +156,7 @@ sets. In most cases it will be some kind of misfit or comparision function.
 This example runs <a class="reference external" href="http://krischer.github.io/pyflex/">pyflex</a> to pick
 windows given a data set of observed and another data set of synthetic data.</p>
 <p>It can only be run with MPI:</p>
-<div class="highlight-bash"><div class="highlight"><pre>$ mpirun -n <span class="m">16</span> python parallel_pyflex.py
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ mpirun -n <span class="m">16</span> python parallel_pyflex.py
 </pre></div>
 </div>
 <div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
@@ -229,7 +229,7 @@ windows given a data set of observed and another data set of synthetic data.</p>
 68
 69
 70
-71</pre></div></td><td class="code"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyflex</span>
+71</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyflex</span>
 <span class="kn">from</span> <span class="nn">pyasdf</span> <span class="kn">import</span> <span class="n">ASDFDataSet</span>
 
 <span class="n">ds</span> <span class="o">=</span> <span class="n">ASDFDataSet</span><span class="p">(</span><span class="s2">&quot;./preprocessed_27s_to_60s.h5&quot;</span><span class="p">)</span>

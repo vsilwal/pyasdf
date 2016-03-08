@@ -157,7 +157,7 @@
 <p>The <a class="reference internal" href="asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet" title="pyasdf.asdf_data_set.ASDFDataSet"><code class="xref py py-class docutils literal"><span class="pre">ASDFDataSet</span></code></a> class can also be used as a
 context manager which guarantees that the file is always closed after it is
 used.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyasdf</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyasdf</span>
 
 <span class="k">with</span> <span class="n">pyasdf</span><span class="o">.</span><span class="n">ASDFDataSet</span><span class="p">(</span><span class="s2">&quot;example.h5&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
     <span class="n">ds</span><span class="o">.</span><span class="n">add_waveforms</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>

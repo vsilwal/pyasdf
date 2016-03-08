@@ -167,7 +167,7 @@ contact the developers if you require additional functionalities.</p>
 <p>Almost anything can be deleted by using the <code class="docutils literal"><span class="pre">del</span></code> operator. The following
 code snippets illustrates the different possibilities to delete data. Please
 be careful - <strong>this directly modifies the file and is not revertible</strong>.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyasdf</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyasdf</span>
 
 <span class="k">with</span> <span class="n">pyasdf</span><span class="o">.</span><span class="n">ASDFDataSet</span><span class="p">(</span><span class="s2">&quot;example.h5&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
     <span class="c1"># Delete all events.</span>
@@ -206,26 +206,26 @@ physically delete the data from the file. It just removes the item from the
 index. To actually regain the now not needed space use the <code class="docutils literal"><span class="pre">h5repack</span></code>
 program that ships with <em>HDF5</em>.</p>
 <p>Assuming a file has been created with the following code snippet:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyasdf</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyasdf</span>
 
 <span class="k">with</span> <span class="n">pyasdf</span><span class="o">.</span><span class="n">ASDFDataSet</span><span class="p">(</span><span class="s2">&quot;example.h5&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
     <span class="n">ds</span><span class="o">.</span><span class="n">add_waveforms</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;example&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Current file size:</p>
-<div class="highlight-bash"><div class="highlight"><pre>$ ls -l example.h5
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ ls -l example.h5
 -rw-r--r--  <span class="m">1</span> lion  staff  <span class="m">144424</span> Jan <span class="m">19</span> 15:47 example.h5
 </pre></div>
 </div>
 <p>Delete some waveform data.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyasdf</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyasdf</span>
 
 <span class="k">with</span> <span class="n">pyasdf</span><span class="o">.</span><span class="n">ASDFDataSet</span><span class="p">(</span><span class="s2">&quot;example.h5&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
     <span class="k">del</span> <span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="o">.</span><span class="n">BW_RJOB</span>
 </pre></div>
 </div>
 <p>The physical space is only regained after <code class="docutils literal"><span class="pre">h5repack</span></code> is used.</p>
-<div class="highlight-bash"><div class="highlight"><pre>$ ls -l example.h5
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ ls -l example.h5
 -rw-r--r--  <span class="m">1</span> lion  staff  <span class="m">144424</span> Jan <span class="m">19</span> 15:47 example.h5
 
 $ h5repack example.h5 example_repacked.h5

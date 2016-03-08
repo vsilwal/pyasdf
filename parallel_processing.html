@@ -175,7 +175,7 @@ parallel I/O will be used if available. Alternatively it can be run in parallel
 without MPI on shared memory architectures but in that case I/O is not parallel
 and only one process will write at any point in time.</p>
 <p>A simple example best illustrates how to use it.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyasdf</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyasdf</span>
 
 <span class="c1"># The first step is to define a function. You can do whatever you want in</span>
 <span class="c1"># that function to process the data.</span>
@@ -223,7 +223,7 @@ and only one process will write at any point in time.</p>
 <p>Save the above example to file and run it with MPI. Make sure <code class="docutils literal"><span class="pre">h5py</span></code> has been
 compiled with parallel I/O support. Consult the <a class="reference internal" href="installation.html"><em>Installation</em></a> document on
 how do that and making sure it works.</p>
-<div class="highlight-bash"><div class="highlight"><pre>$ mpirun -n <span class="m">64</span> python script.py
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ mpirun -n <span class="m">64</span> python script.py
 </pre></div>
 </div>
 <p>As soon as it is run with more then 1 core and an MPI communicator is available
@@ -237,12 +237,12 @@ parallel using Python&#8217;s native <code class="docutils literal"><span class=
 one core will be able to write at any given point in time: the cores will take
 turns. Nonetheless this speeds up things quite a bit if your processing is
 reasonably heavy.</p>
-<div class="highlight-bash"><div class="highlight"><pre>$ python script.py
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python script.py
 </pre></div>
 </div>
 <p>It will attempt to use all available cores by default. Additional parameters
 available for processing with multiprocessing:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="o">...</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">...</span>
 
 <span class="n">ds</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="o">...</span><span class="p">,</span>
            <span class="c1"># The length of the traceback shown if an error is raised during</span>
@@ -266,7 +266,7 @@ are collected in memory and gathered on rank 0.</p>
 <p>The function can currently only be run with MPI and is best explained by a
 short example. The following script will calculate the squared sum for all
 traces at each station in both data sets.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">mpi4py</span> <span class="kn">import</span> <span class="n">MPI</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mpi4py</span> <span class="kn">import</span> <span class="n">MPI</span>
 <span class="kn">import</span> <span class="nn">pyasdf</span>
 
 <span class="c1"># Open two data sets. Setting the mode is optional but might speed up things a</span>
@@ -310,11 +310,11 @@ traces at each station in both data sets.</p>
 </pre></div>
 </div>
 <p>Save to a file an run with</p>
-<div class="highlight-bash"><div class="highlight"><pre>$ mpirun -n <span class="m">64</span> python script.py
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ mpirun -n <span class="m">64</span> python script.py
 </pre></div>
 </div>
 <p>The result is something akin to</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s1">&#39;AF.CVNA&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;energy_ds_1&#39;</span><span class="p">:</span> <span class="mf">9.228861452825754e-09</span><span class="p">,</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;AF.CVNA&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;energy_ds_1&#39;</span><span class="p">:</span> <span class="mf">9.228861452825754e-09</span><span class="p">,</span>
              <span class="s1">&#39;energy_ds_2&#39;</span><span class="p">:</span> <span class="mf">9.228861452825754e-09</span><span class="p">},</span>
  <span class="s1">&#39;AF.DODT&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;energy_ds_1&#39;</span><span class="p">:</span> <span class="mf">4.879421311443366e-09</span><span class="p">,</span>
              <span class="s1">&#39;energy_ds_2&#39;</span><span class="p">:</span> <span class="mf">4.879421311443366e-09</span><span class="p">},</span>

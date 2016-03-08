@@ -169,7 +169,7 @@ dependencies.</p>
 <h3>Dependencies for the non-parallel I/O version<a class="headerlink" href="#dependencies-for-the-non-parallel-i-o-version" title="Permalink to this headline">¶</a></h3>
 <p>Almost all dependencies for <code class="docutils literal"><span class="pre">pyasdf</span></code> with no parallel I/O support can be
 installed with <code class="docutils literal"><span class="pre">conda</span></code>, the remaining one is installed with <code class="docutils literal"><span class="pre">pip</span></code>:</p>
-<div class="highlight-bash"><div class="highlight"><pre>$ conda update conda
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda update conda
 $ conda install -c obspy obspy colorama pytest pip flake8 h5py
 $ pip install prov
 </pre></div>
@@ -184,7 +184,7 @@ you want to utilize parallel I/O best stick to Python 2.7 for now.</p>
 </div>
 <p>The version with parallel I/O support is a bit more difficult as the <code class="docutils literal"><span class="pre">h5py</span></code>
 installable via <code class="docutils literal"><span class="pre">conda</span></code> has no parallel I/O support.</p>
-<div class="highlight-bash"><div class="highlight"><pre>$ conda update conda
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda update conda
 $ conda install -c obspy obspy colorama pytest pip flake8
 $ pip install prov
 </pre></div>
@@ -194,7 +194,7 @@ supercomputer/cluster is loaded. The <code class="docutils literal"><span class=
 Anaconda might not work on your cluster so uninstall it and reinstall with
 <code class="docutils literal"><span class="pre">pip</span></code> at which point it should link against your cluster&#8217;s MPI
 implementation.</p>
-<div class="highlight-bash"><div class="highlight"><pre>$ conda uninstall mpi4py
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda uninstall mpi4py
 $ pip install mpi4py
 </pre></div>
 </div>
@@ -211,7 +211,7 @@ parallel <code class="docutils literal"><span class="pre">h5py</span></code> ver
 <div class="section" id="installing-pyasdf">
 <h3>Installing pyasdf<a class="headerlink" href="#installing-pyasdf" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal"><span class="pre">pyasdf</span></code> is currently not on pypi but eventually be. For now, best install via git.</p>
-<div class="highlight-bash"><div class="highlight"><pre>$ git clone https://github.com/SeismicData/pyasdf.git
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ git clone https://github.com/SeismicData/pyasdf.git
 $ <span class="nb">cd</span> pyasdf
 $ pip install -v -e .
 </pre></div>
@@ -220,11 +220,11 @@ $ pip install -v -e .
 <span class="pre">pull</span></code> is enough to update <code class="docutils literal"><span class="pre">pyasdf</span></code>.</p>
 <p>After everything is installed, run the following command to print
 information about the current system.</p>
-<div class="highlight-bash"><div class="highlight"><pre>$ python -c <span class="s2">&quot;import pyasdf; pyasdf.print_sys_info()&quot;</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python -c <span class="s2">&quot;import pyasdf; pyasdf.print_sys_info()&quot;</span>
 </pre></div>
 </div>
 <p>which will print something along the following lines:</p>
-<div class="highlight-python"><div class="highlight"><pre>pyasdf version 0.1.x
+<div class="highlight-python"><div class="highlight"><pre><span></span>pyasdf version 0.1.x
 ===============================================================================
 CPython 2.7.9, compiler: GCC 4.2.1 (Apple Inc. build 5577)
 Darwin 14.3.0 64bit
@@ -254,7 +254,7 @@ for information about why and how to fix it.</p>
 <div class="section" id="testing">
 <h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
 <p>To assert that your installation is working properly, execute</p>
-<div class="highlight-bash"><div class="highlight"><pre>$ python -m pyasdf.tests
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python -m pyasdf.tests
 </pre></div>
 </div>
 <p>and make sure all tests pass. Otherwise please contact the developers.</p>
@@ -263,11 +263,11 @@ for information about why and how to fix it.</p>
 <h2>Building the Documentation<a class="headerlink" href="#building-the-documentation" title="Permalink to this headline">¶</a></h2>
 <p>The documentation requires <code class="docutils literal"><span class="pre">sphinx</span></code> and the Bootstrap theme. Install both
 with</p>
-<div class="highlight-bash"><div class="highlight"><pre>$ pip install sphinx sphinx-bootstrap-theme
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ pip install sphinx sphinx-bootstrap-theme
 </pre></div>
 </div>
 <p>Build the doc with</p>
-<div class="highlight-bash"><div class="highlight"><pre>$ <span class="nb">cd</span> doc
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ <span class="nb">cd</span> doc
 $ make html
 </pre></div>
 </div>
