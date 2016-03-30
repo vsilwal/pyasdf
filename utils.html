@@ -327,11 +327,6 @@ ability to approximate the size of all stored stream objects.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="pyasdf.utils.WaveformAccessor.filter_waveforms">
-<code class="descname">filter_waveforms</code><span class="sig-paren">(</span><em>queries</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#WaveformAccessor.filter_waveforms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.WaveformAccessor.filter_waveforms" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
 <dt id="pyasdf.utils.WaveformAccessor.get_waveform_tags">
 <code class="descname">get_waveform_tags</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#WaveformAccessor.get_waveform_tags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.WaveformAccessor.get_waveform_tags" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get all available waveform tags for this station.</p>
@@ -373,6 +368,20 @@ ability to approximate the size of all stored stream objects.</p>
 <code class="descclassname">pyasdf.utils.</code><code class="descname">get_multiprocessing</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#get_multiprocessing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.get_multiprocessing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Helper function returning the multiprocessing module or the threading
 version of it.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyasdf.utils.is_list">
+<code class="descclassname">pyasdf.utils.</code><code class="descname">is_list</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/utils.html#is_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.utils.is_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the returned object is an iterable but not a string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>obj</strong> &#8211; The object to test.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -465,7 +474,7 @@ cannot deal with forked processing.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2015, Lion Krischer.
+        &copy; Copyright 2014-2016, Lion Krischer.
 
     </p>
   </div>

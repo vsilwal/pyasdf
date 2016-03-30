@@ -155,7 +155,7 @@
 <h1>Working With Station Data<a class="headerlink" href="#working-with-station-data" title="Permalink to this headline">¶</a></h1>
 <p>The ASDF format stores station information in the StationXML format. Simply
 accessing the <code class="docutils literal"><span class="pre">StationXML</span></code> attribute will parse the data to an
-<code class="xref py py-class docutils literal"><span class="pre">obspy.station.station.Inventory</span></code> object if the station has one. Please
+<a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.inventory.inventory.Inventory.html#obspy.core.inventory.inventory.Inventory" title="(in ObsPy Documentation (1.0.1) v1.0)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.inventory.inventory.Inventory</span></code></a> object if the station has one. Please
 see its documentation for more details of how to work with it.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyasdf</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span> <span class="o">=</span> <span class="n">pyasdf</span><span class="o">.</span><span class="n">ASDFDataSet</span><span class="p">(</span><span class="s2">&quot;example_file.h5&quot;</span><span class="p">)</span>
@@ -172,7 +172,7 @@ see its documentation for more details of how to work with it.</p>
 <span class="go">        Channels (3):</span>
 <span class="go">            IU.FURI.00.BHE, IU.FURI.00.BHN, IU.FURI.00.BHZ</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="o">.</span><span class="n">IU_FURI</span><span class="o">.</span><span class="n">StationXML</span><span class="p">)</span>
-<span class="go">obspy.station.inventory.Inventory</span>
+<span class="go">&lt;class &#39;obspy.core.inventory.inventory.Inventory&#39;&gt;</span>
 </pre></div>
 </div>
 <p>In some cases one only needs access to the coordinates and not the full
@@ -244,7 +244,7 @@ faster then parsing all the information:</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2015, Lion Krischer.
+        &copy; Copyright 2014-2016, Lion Krischer.
 
     </p>
   </div>

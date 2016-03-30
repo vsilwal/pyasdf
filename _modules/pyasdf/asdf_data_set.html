@@ -201,14 +201,14 @@
     <span class="n">NoStationXMLForStation</span>
 <span class="kn">from</span> <span class="nn">.header</span> <span class="kn">import</span> <span class="n">COMPRESSIONS</span><span class="p">,</span> <span class="n">FORMAT_NAME</span><span class="p">,</span> \
     <span class="n">FORMAT_VERSION</span><span class="p">,</span> <span class="n">MSG_TAGS</span><span class="p">,</span> <span class="n">MAX_MEMORY_PER_WORKER_IN_MB</span><span class="p">,</span> <span class="n">POISON_PILL</span><span class="p">,</span> \
-    <span class="n">PROV_FILENAME_REGEX</span>
+    <span class="n">PROV_FILENAME_REGEX</span><span class="p">,</span> <span class="n">TAG_REGEX</span>
 <span class="kn">from</span> <span class="nn">.query</span> <span class="kn">import</span> <span class="n">Query</span><span class="p">,</span> <span class="n">merge_query_functions</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">is_mpi_env</span><span class="p">,</span> <span class="n">StationAccessor</span><span class="p">,</span> <span class="n">sizeof_fmt</span><span class="p">,</span> <span class="n">ReceivedMessage</span><span class="p">,</span>\
     <span class="n">pretty_receiver_log</span><span class="p">,</span> <span class="n">pretty_sender_log</span><span class="p">,</span> <span class="n">JobQueueHelper</span><span class="p">,</span> <span class="n">StreamBuffer</span><span class="p">,</span> \
     <span class="n">AuxiliaryDataGroupAccessor</span><span class="p">,</span> <span class="n">AuxiliaryDataContainer</span><span class="p">,</span> <span class="n">get_multiprocessing</span><span class="p">,</span> \
     <span class="n">ProvenanceAccessor</span><span class="p">,</span> <span class="n">split_qualified_name</span><span class="p">,</span> <span class="n">_read_string_array</span><span class="p">,</span> \
     <span class="n">FilteredWaveformAccessor</span><span class="p">,</span> <span class="n">label2string</span><span class="p">,</span> <span class="n">labelstring2list</span><span class="p">,</span> \
-    <span class="n">AuxiliaryDataAccessor</span><span class="p">,</span> <span class="n">wf_name2tag</span>
+    <span class="n">AuxiliaryDataAccessor</span><span class="p">,</span> <span class="n">wf_name2tag</span><span class="p">,</span> <span class="n">to_list_of_resource_identifiers</span>
 <span class="kn">from</span> <span class="nn">.inventory_utils</span> <span class="kn">import</span> <span class="n">isolate_and_merge_station</span><span class="p">,</span> <span class="n">merge_inventories</span>
 
 
@@ -341,8 +341,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Cleanup. Force flushing and close the file.</span>
 
-<span class="sd">        If called with MPI this will also enable MPI to cleanly shutdown in</span>
-<span class="sd">        all cases.</span>
+<span class="sd">        If called with MPI this will also enable MPI to cleanly shutdown.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
@@ -522,7 +521,7 @@
 
         <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">_read_string_array</span><span class="p">(</span><span class="n">data</span><span class="p">))</span> <span class="k">as</span> <span class="n">buf</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">cat</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">readEvents</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">&quot;quakeml&quot;</span><span class="p">)</span>
+                <span class="n">cat</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">read_events</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">&quot;quakeml&quot;</span><span class="p">)</span>
             <span class="k">except</span><span class="p">:</span>
                 <span class="c1"># ObsPy is not able to read empty QuakeML files but they are</span>
                 <span class="c1"># still valid QuakeML files.</span>
@@ -741,19 +740,12 @@
     <span class="k">def</span> <span class="nf">_add_auxiliary_data_write_independent_information</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Writes the independent part of auxiliary data to the file.</span>
-
-<span class="sd">        :param info:</span>
-<span class="sd">        :param trace:</span>
-<span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_auxiliary_data_group</span><span class="p">[</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;data_name&quot;</span><span class="p">]][:]</span> <span class="o">=</span> <span class="n">data</span>
 
     <span class="k">def</span> <span class="nf">_add_auxiliary_data_write_collective_information</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Writes the collective part of auxiliary data to the file.</span>
-
-<span class="sd">        :param info:</span>
-<span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data_type</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;data_type&quot;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">data_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_auxiliary_data_group</span><span class="p">:</span>
@@ -792,7 +784,7 @@
 
 <span class="sd">        ... or by passing an existing event or catalog object.</span>
 
-<span class="sd">        &gt;&gt;&gt; cat = obspy.readEvents(&quot;/path/to/quakem.xml&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; cat = obspy.read_events(&quot;/path/to/quakem.xml&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; ds.add_quakeml(cat)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Event</span><span class="p">):</span>
@@ -800,7 +792,7 @@
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Catalog</span><span class="p">):</span>
             <span class="n">cat</span> <span class="o">=</span> <span class="n">event</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">cat</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">readEvents</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">&quot;quakeml&quot;</span><span class="p">)</span>
+            <span class="n">cat</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">read_events</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">&quot;quakeml&quot;</span><span class="p">)</span>
 
         <span class="n">old_cat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">events</span>
         <span class="n">existing_resource_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">_i</span><span class="o">.</span><span class="n">resource_id</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">_i</span> <span class="ow">in</span> <span class="n">old_cat</span><span class="p">])</span>
@@ -826,7 +818,7 @@
 <span class="sd">        :type tag: str</span>
 <span class="sd">        :return: tuple of the waveform and the inventory.</span>
 <span class="sd">        :rtype: (:class:`~obspy.core.stream.Stream`,</span>
-<span class="sd">                 :class:`~obspy.station.inventory.Inventory`)</span>
+<span class="sd">                 :class:`~obspy.core.inventory.inventory.Inventory`)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">station_name</span> <span class="o">=</span> <span class="n">station_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
         <span class="n">station</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">waveforms</span><span class="p">,</span> <span class="n">station_name</span><span class="p">)</span>
@@ -862,9 +854,9 @@
         <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;event_id&quot;</span><span class="p">,</span> <span class="s2">&quot;origin_id&quot;</span><span class="p">,</span> <span class="s2">&quot;magnitude_id&quot;</span><span class="p">,</span> <span class="s2">&quot;focal_mechanism_id&quot;</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="n">details</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span>
-                        <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">ResourceIdentifier</span><span class="p">(</span>
-                            <span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">tostring</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()))</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="n">details</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span>
+                        <span class="p">[</span><span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">ResourceIdentifier</span><span class="p">(</span><span class="n">_i</span><span class="p">)</span> <span class="k">for</span> <span class="n">_i</span> <span class="ow">in</span>
+                         <span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">tostring</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)])</span>
 
         <span class="k">if</span> <span class="s2">&quot;provenance_id&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
             <span class="n">details</span><span class="o">.</span><span class="n">provenance_id</span> <span class="o">=</span> \
@@ -944,24 +936,25 @@
 <span class="sd">        :type tag: str</span>
 <span class="sd">        :param event_id: The event or id which the waveform is associated</span>
 <span class="sd">            with. This is useful for recorded data if a clear association is</span>
-<span class="sd">            given, but also for synthetic data.</span>
+<span class="sd">            given, but also for synthetic data. Can also be a list of items.</span>
 <span class="sd">        :type event_id: :class:`obspy.core.event.Event`,</span>
-<span class="sd">            :class:`obspy.core.event.ResourceIdentifier`, or str</span>
+<span class="sd">            :class:`obspy.core.event.ResourceIdentifier`, str, or list</span>
 <span class="sd">        :param origin_id: The particular origin this waveform is associated</span>
 <span class="sd">            with. This is mainly useful for synthetic data where the origin</span>
-<span class="sd">            is precisely known.</span>
+<span class="sd">            is precisely known. Can also be a list of items.</span>
 <span class="sd">        :type origin_id: :class:`obspy.core.event.Origin`,</span>
-<span class="sd">            :class:`obspy.core.event.ResourceIdentifier`, or str</span>
+<span class="sd">            :class:`obspy.core.event.ResourceIdentifier`, str, or list</span>
 <span class="sd">        :param magnitude_id: The particular magnitude this waveform is</span>
 <span class="sd">            associated with. This is mainly useful for synthetic data where</span>
-<span class="sd">            the magnitude is precisely known.</span>
+<span class="sd">            the magnitude is precisely known. Can also be a list of items.</span>
 <span class="sd">        :type magnitude_id: :class:`obspy.core.event.Magnitude`,</span>
-<span class="sd">            :class:`obspy.core.event.ResourceIdentifier`, or str</span>
+<span class="sd">            :class:`obspy.core.event.ResourceIdentifier`, str, or list</span>
 <span class="sd">        :param focal_mechanism_id: The particular focal mechanism this</span>
 <span class="sd">            waveform is associated with. This is mainly useful for synthetic</span>
-<span class="sd">            data where the mechanism is precisely known.</span>
+<span class="sd">            data where the mechanism is precisely known. Can also be a list of</span>
+<span class="sd">            items.</span>
 <span class="sd">        :type focal_mechanism_id: :class:`obspy.core.event.FocalMechanism`,</span>
-<span class="sd">            :class:`obspy.core.event.ResourceIdentifier`, or str</span>
+<span class="sd">            :class:`obspy.core.event.ResourceIdentifier`, str, or list</span>
 <span class="sd">        :param provenance_id: The id of the provenance of this data. The</span>
 <span class="sd">            provenance information itself must be added separately. Must be</span>
 <span class="sd">            given as a qualified name, e.g. ``&#39;{namespace_uri}id&#39;``.</span>
@@ -983,7 +976,8 @@
 <span class="sd">        ``recording.mseed``. We will now add it to the file, give it the</span>
 <span class="sd">        ``&quot;raw_recording&quot;`` path (which is reserved for raw, recorded,</span>
 <span class="sd">        and unproceseed data) and associate it with the event. Keep in mind</span>
-<span class="sd">        that this association is optional.</span>
+<span class="sd">        that this association is optional. It can also be associated with</span>
+<span class="sd">        multiple events - in that case just pass a list of objects.</span>
 
 <span class="sd">        &gt;&gt;&gt; ds.add_waveforms(&quot;recording.mseed&quot;, path=&quot;raw_recording&quot;,</span>
 <span class="sd">        ...                  event_id=event)</span>
@@ -1015,7 +1009,8 @@
 <span class="sd">        simulation) so it is a good idea to add that association to the</span>
 <span class="sd">        waveform. Please again keep in mind that they are all optional and</span>
 <span class="sd">        depending on your use case they might or might not be</span>
-<span class="sd">        useful/meaningful.</span>
+<span class="sd">        useful/meaningful. You can again pass lists of all of these objects</span>
+<span class="sd">        in which case multiple associations will be stored in the file.</span>
 
 <span class="sd">        &gt;&gt;&gt; origin = event.preferred_origin()</span>
 <span class="sd">        &gt;&gt;&gt; magnitude = event.preferred_magnitude()</span>
@@ -1031,60 +1026,6 @@
 
         <span class="c1"># Parse labels to a single comma separated string.</span>
         <span class="n">labels</span> <span class="o">=</span> <span class="n">label2string</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
-
-        <span class="c1"># Extract the event_id from the different possibilities.</span>
-        <span class="k">if</span> <span class="n">event_id</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event_id</span><span class="p">,</span> <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Event</span><span class="p">):</span>
-                <span class="n">event_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">event_id</span><span class="o">.</span><span class="n">resource_id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event_id</span><span class="p">,</span> <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">ResourceIdentifier</span><span class="p">):</span>
-                <span class="n">event_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">event_id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">event_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span>
-                        <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">ResourceIdentifier</span><span class="p">(</span><span class="n">event_id</span><span class="p">))</span>
-                <span class="k">except</span><span class="p">:</span>
-                    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Invalid type for event_id.&quot;</span>
-                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-
-        <span class="c1"># Do the same for the origin, magnitude, and focal mechanism.</span>
-        <span class="k">if</span> <span class="n">origin_id</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">origin_id</span><span class="p">,</span> <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Origin</span><span class="p">):</span>
-                <span class="n">origin_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">origin_id</span><span class="o">.</span><span class="n">resource_id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">origin_id</span><span class="p">,</span> <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">ResourceIdentifier</span><span class="p">):</span>
-                <span class="n">origin_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">origin_id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">origin_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span>
-                        <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">ResourceIdentifier</span><span class="p">(</span><span class="n">origin_id</span><span class="p">))</span>
-                <span class="k">except</span><span class="p">:</span>
-                    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Invalid type for origin_id.&quot;</span>
-                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">magnitude_id</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">magnitude_id</span><span class="p">,</span> <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Magnitude</span><span class="p">):</span>
-                <span class="n">magnitude_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">magnitude_id</span><span class="o">.</span><span class="n">resource_id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">magnitude_id</span><span class="p">,</span> <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">ResourceIdentifier</span><span class="p">):</span>
-                <span class="n">magnitude_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">magnitude_id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">magnitude_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span>
-                        <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">ResourceIdentifier</span><span class="p">(</span><span class="n">magnitude_id</span><span class="p">))</span>
-                <span class="k">except</span><span class="p">:</span>
-                    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Invalid type for magnitude_id.&quot;</span>
-                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">focal_mechanism_id</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">focal_mechanism_id</span><span class="p">,</span> <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">FocalMechanism</span><span class="p">):</span>
-                <span class="n">focal_mechanism_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">focal_mechanism_id</span><span class="o">.</span><span class="n">resource_id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">focal_mechanism_id</span><span class="p">,</span>
-                            <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">ResourceIdentifier</span><span class="p">):</span>
-                <span class="n">focal_mechanism_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">focal_mechanism_id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">focal_mechanism_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span>
-                        <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">ResourceIdentifier</span><span class="p">(</span>
-                            <span class="n">focal_mechanism_id</span><span class="p">))</span>
-                <span class="k">except</span><span class="p">:</span>
-                    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Invalid type for focal_mechanism_id.&quot;</span>
-                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
         <span class="n">tag</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">tag</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;stationxml&quot;</span><span class="p">:</span>
@@ -1113,7 +1054,12 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_add_trace_write_collective_information</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_add_trace_write_independent_information</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">trace</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">get_provenance_document</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document_name</span><span class="p">):</span>
+<div class="viewcode-block" id="ASDFDataSet.get_provenance_document"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.get_provenance_document">[docs]</a>    <span class="k">def</span> <span class="nf">get_provenance_document</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve a provenance document with a certain name.</span>
+
+<span class="sd">        :param document_name: The name of the provenance document to retrieve.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">document_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_provenance_group</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ASDFValueError</span><span class="p">(</span>
                 <span class="s2">&quot;Provenance document &#39;</span><span class="si">%s</span><span class="s2">&#39; not found in file.&quot;</span> <span class="o">%</span> <span class="n">document_name</span><span class="p">)</span>
@@ -1122,11 +1068,11 @@
 
         <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">_read_string_array</span><span class="p">(</span><span class="n">data</span><span class="p">))</span> <span class="k">as</span> <span class="n">buf</span><span class="p">:</span>
             <span class="n">doc</span> <span class="o">=</span> <span class="n">prov</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">&quot;xml&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">doc</span>
+        <span class="k">return</span> <span class="n">doc</span></div>
 
 <div class="viewcode-block" id="ASDFDataSet.add_provenance_document"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.add_provenance_document">[docs]</a>    <span class="k">def</span> <span class="nf">add_provenance_document</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Add a provenance document to the open ASDF file.</span>
+<span class="sd">        Add a provenance document to the current ASDF file.</span>
 
 <span class="sd">        :type document: Filename, file-like objects or prov document.</span>
 <span class="sd">        :param document: The document to add.</span>
@@ -1209,6 +1155,11 @@
 <span class="sd">        :param trace: The trace to add.</span>
 <span class="sd">        :param tag: The path of the trace.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Assert the tag.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">TAG_REGEX</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid tag: &#39;</span><span class="si">%s</span><span class="s2">&#39; - Must satisfy the regex &quot;</span>
+                             <span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">TAG_REGEX</span><span class="o">.</span><span class="n">pattern</span><span class="p">))</span>
+
         <span class="n">station_name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">network</span><span class="p">,</span> <span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">station</span><span class="p">)</span>
         <span class="c1"># Generate the name of the data within its station folder.</span>
         <span class="n">data_name</span> <span class="o">=</span> <span class="s2">&quot;{net}.{sta}.{loc}.{cha}__{start}__{end}__{tag}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -1227,8 +1178,7 @@
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">ASDFWarning</span><span class="p">)</span>
             <span class="k">return</span>
 
-        <span class="c1"># XXX: Figure out why this is necessary. It should work according to</span>
-        <span class="c1"># the specs.</span>
+        <span class="c1"># Checksumming cannot be used when writing with MPI I/O.</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="p">:</span>
             <span class="n">fletcher32</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1265,32 +1215,55 @@
             <span class="n">labels</span> <span class="o">=</span> <span class="n">label2string</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">asdf</span><span class="o">.</span><span class="n">labels</span><span class="p">)</span>
             <span class="n">info</span><span class="p">[</span><span class="s2">&quot;dataset_attrs&quot;</span><span class="p">][</span><span class="s2">&quot;labels&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">labels</span>
 
+        <span class="c1"># The various ids can either be given as the objects themselves,</span>
+        <span class="c1"># e.g. an event, an origin, a magnitude, or a focal mechansism.</span>
+        <span class="c1"># Alternatively they can be passed as ResourceIdentifier objects or</span>
+        <span class="c1"># anything that can be converted to a resource identifier. Always</span>
+        <span class="c1"># either 0, 1, or more of them, in that case as part of an iterator.</span>
+        <span class="c1"># After the next step they are all lists of ResourceIdentifiers.</span>
+        <span class="n">event_id</span> <span class="o">=</span> <span class="n">to_list_of_resource_identifiers</span><span class="p">(</span>
+            <span class="n">event_id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;event_id&quot;</span><span class="p">,</span> <span class="n">obj_type</span><span class="o">=</span><span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Event</span><span class="p">)</span>
+        <span class="n">origin_id</span> <span class="o">=</span> <span class="n">to_list_of_resource_identifiers</span><span class="p">(</span>
+            <span class="n">origin_id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;origin_id&quot;</span><span class="p">,</span> <span class="n">obj_type</span><span class="o">=</span><span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Origin</span><span class="p">)</span>
+        <span class="n">magnitude_id</span> <span class="o">=</span> <span class="n">to_list_of_resource_identifiers</span><span class="p">(</span>
+            <span class="n">magnitude_id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;magnitude_id&quot;</span><span class="p">,</span>
+            <span class="n">obj_type</span><span class="o">=</span><span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Magnitude</span><span class="p">)</span>
+        <span class="n">focal_mechanism_id</span> <span class="o">=</span> <span class="n">to_list_of_resource_identifiers</span><span class="p">(</span>
+            <span class="n">focal_mechanism_id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;focal_mechanism_id&quot;</span><span class="p">,</span>
+            <span class="n">obj_type</span><span class="o">=</span><span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">FocalMechanism</span><span class="p">)</span>
+
         <span class="c1"># Add all the event ids.</span>
         <span class="n">ids</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;event_id&quot;</span><span class="p">:</span> <span class="n">event_id</span><span class="p">,</span>
             <span class="s2">&quot;origin_id&quot;</span><span class="p">:</span> <span class="n">origin_id</span><span class="p">,</span>
             <span class="s2">&quot;magnitude_id&quot;</span><span class="p">:</span> <span class="n">magnitude_id</span><span class="p">,</span>
-            <span class="s2">&quot;focal_mechanism_id&quot;</span><span class="p">:</span> <span class="n">focal_mechanism_id</span><span class="p">,</span>
-            <span class="s2">&quot;provenance_id&quot;</span><span class="p">:</span> <span class="n">provenance_id</span><span class="p">}</span>
+            <span class="s2">&quot;focal_mechanism_id&quot;</span><span class="p">:</span> <span class="n">focal_mechanism_id</span><span class="p">}</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">ids</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> \
                     <span class="nb">hasattr</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="p">,</span> <span class="s2">&quot;asdf&quot;</span><span class="p">)</span> <span class="ow">and</span> \
-                    <span class="nb">hasattr</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">asdf</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;provenance_id&quot;</span><span class="p">:</span>
-                    <span class="n">obj</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">asdf</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">obj</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">asdf</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                    <span class="nb">hasattr</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">asdf</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span><span class="p">):</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">asdf</span><span class="p">[</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">obj</span><span class="p">:</span>
                 <span class="n">info</span><span class="p">[</span><span class="s2">&quot;dataset_attrs&quot;</span><span class="p">][</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> \
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_zeropad_ascii_string</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_zeropad_ascii_string</span><span class="p">(</span>
+                        <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">_i</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="k">for</span> <span class="n">_i</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">))</span>
+
+        <span class="c1"># Set the provenance id. Either get the one from the arguments or</span>
+        <span class="c1"># use the one already set in the trace.stats attribute.</span>
+        <span class="k">if</span> <span class="n">provenance_id</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> \
+                <span class="nb">hasattr</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="p">,</span> <span class="s2">&quot;asdf&quot;</span><span class="p">)</span> <span class="ow">and</span> \
+                <span class="nb">hasattr</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">asdf</span><span class="p">,</span> <span class="s2">&quot;provenance_id&quot;</span><span class="p">):</span>
+            <span class="n">provenance_id</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">asdf</span><span class="p">[</span><span class="s2">&quot;provenance_id&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">provenance_id</span><span class="p">:</span>
+            <span class="n">info</span><span class="p">[</span><span class="s2">&quot;dataset_attrs&quot;</span><span class="p">][</span><span class="s2">&quot;provenance_id&quot;</span><span class="p">]</span> <span class="o">=</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">_zeropad_ascii_string</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">provenance_id</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="n">info</span>
 
     <span class="k">def</span> <span class="nf">_get_station</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">station_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves the specified StationXML as an obspy.station.Inventory</span>
-<span class="sd">        object. For internal use only, use the dot accessors for external</span>
-<span class="sd">        access.</span>
+<span class="sd">        Retrieves the specified StationXML as an ObsPy Inventory object. For</span>
+<span class="sd">        internal use only, use the dot accessors for external access.</span>
 
 <span class="sd">        :param station_name: A string with network id and station id,</span>
 <span class="sd">            e.g. ``&quot;IU.ANMO&quot;``</span>
@@ -1354,11 +1327,13 @@
 
 <span class="sd">        :param stationxml: Filename of StationXML file or an ObsPy inventory</span>
 <span class="sd">            object containing the same.</span>
-<span class="sd">        :type stationxml: str or :class:`~obspy.station.inventory.Inventory`</span>
+<span class="sd">        :type stationxml: str or</span>
+<span class="sd">            :class:`~obspy.core.inventory.inventory.Inventory`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># If not already an inventory object, delegate to ObsPy and see if</span>
         <span class="c1"># it can read it.</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stationxml</span><span class="p">,</span> <span class="n">obspy</span><span class="o">.</span><span class="n">station</span><span class="o">.</span><span class="n">Inventory</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stationxml</span><span class="p">,</span>
+                          <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">inventory</span><span class="o">.</span><span class="n">inventory</span><span class="o">.</span><span class="n">Inventory</span><span class="p">):</span>
             <span class="n">stationxml</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">read_inventory</span><span class="p">(</span><span class="n">stationxml</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">&quot;stationxml&quot;</span><span class="p">)</span>
 
         <span class="c1"># Now we essentially walk the whole inventory, see what parts are</span>
@@ -1615,7 +1590,7 @@
 <span class="sd">        :type process_function: function</span>
 <span class="sd">        :param process_function: A function with two argument:</span>
 <span class="sd">            An :class:`obspy.core.stream.Stream` object and an</span>
-<span class="sd">            :class:`obspy.station.inventory.Inventory` object. It should</span>
+<span class="sd">            :class:`obspy.core.inventory.inventory.Inventory` object. It should</span>
 <span class="sd">            return a :class:`obspy.core.stream.Stream` object which will</span>
 <span class="sd">            then be written to the new file.</span>
 <span class="sd">        :type output_filename: str</span>
@@ -1692,7 +1667,7 @@
                         <span class="n">group</span> <span class="o">=</span> <span class="n">output_data_set</span><span class="o">.</span><span class="n">_waveform_group</span><span class="o">.</span><span class="n">create_group</span><span class="p">(</span>
                             <span class="n">station_name</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="n">group</span> <span class="o">=</span> <span class="n">output_data_set</span><span class="p">[</span><span class="n">station_name</span><span class="p">]</span>
+                        <span class="n">group</span> <span class="o">=</span> <span class="n">output_data_set</span><span class="o">.</span><span class="n">_waveform_group</span><span class="p">[</span><span class="n">station_name</span><span class="p">]</span>
                     <span class="n">station_group</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">group</span><span class="p">,</span>
                                        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;StationXML&quot;</span><span class="p">)</span>
 
@@ -2238,7 +2213,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2015, Lion Krischer.
+        &copy; Copyright 2014-2016, Lion Krischer.
 
     </p>
   </div>

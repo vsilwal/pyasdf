@@ -201,8 +201,8 @@ following resources are useful if you are starting out with Python and ObsPy:</p
 <li><a class="reference external" href="http://learnpythonthehardway.org/book/">Good, general Python tutorial</a></li>
 <li><a class="reference external" href="http://www.nature.com/news/interactive-notebooks-sharing-the-code-1.16261">IPython Notebook in Nature</a></li>
 <li><a class="reference external" href="https://scipy-lectures.github.io/">Introduction to the scientific Python ecosystem</a></li>
-<li><a class="reference external" href="http://docs.obspy.org/master">The ObsPy Documentation</a></li>
-<li><a class="reference external" href="http://docs.obspy.org/master/tutorial/index.html">The ObsPy Tutorial</a></li>
+<li><a class="reference external" href="http://docs.obspy.org">The ObsPy Documentation</a></li>
+<li><a class="reference external" href="http://docs.obspy.org/tutorial/index.html">The ObsPy Tutorial</a></li>
 </ul>
 </div>
 <div class="section" id="using-pyasdf">
@@ -224,7 +224,8 @@ calling it with <code class="docutils literal"><span class="pre">mpirun/mpiexec<
 recognized as being called with MPI.</p>
 <p class="last">Due to a limitation of Python you should always delete all references to
 the <a class="reference internal" href="asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet" title="pyasdf.asdf_data_set.ASDFDataSet"><code class="xref py py-class docutils literal"><span class="pre">ASDFDataSet</span></code></a> objects at the end.
-Otherwise the program will potentially not finish when called with MPI.</p>
+Otherwise the program will potentially not finish when called with MPI.
+An even better alternative is described in <a class="reference internal" href="usage_as_context_manager.html"><em>Usage as a Context Manager</em></a>.</p>
 </div>
 <div class="section" id="creating-an-asdf-data-set">
 <h3><a class="toc-backref" href="#id3">Creating an ASDF data set</a><a class="headerlink" href="#creating-an-asdf-data-set" title="Permalink to this headline">¶</a></h3>
@@ -244,7 +245,7 @@ parallel I/O as these two features are not compatible. See the documentation
 of the  <a class="reference internal" href="asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet" title="pyasdf.asdf_data_set.ASDFDataSet"><code class="xref py py-class docutils literal"><span class="pre">ASDFDataSet</span></code></a> object for more details.</p>
 <p>At any point you can get an overview of the contents by printing the object</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
-<span class="go">ASDF file [format version: 0.0.1b]: &#39;new_file.h5&#39; (7.7 KB)</span>
+<span class="go">ASDF file [format version: 1.0.0]: &#39;new_file.h5&#39; (7.7 KB)</span>
 <span class="go">Contains 0 event(s)</span>
 <span class="go">Contains waveform data from 0 station(s).</span>
 </pre></div>
@@ -260,7 +261,7 @@ all operations will directly write to the file without an explicit
 sets.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">add_quakeml</span><span class="p">(</span><span class="s2">&quot;/path/to/quake.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
-<span class="go">ASDF file [format version: 0.0.1b]: &#39;new_file.h5&#39; (14.7 KB)</span>
+<span class="go">ASDF file [format version: 1.0.0]: &#39;new_file.h5&#39; (14.7 KB)</span>
 <span class="go">Contains 1 event(s)</span>
 <span class="go">Contains waveform data from 0 station(s).</span>
 </pre></div>
@@ -289,7 +290,7 @@ unprocessed data.</li>
 means data is in single precision floating point, MiniSEED will typically
 be in single precision integer if coming from a data center. If you desire
 a different data type to be stored for whatever reason you have to
-manually convert it and pass the ObsPy <a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy Documentation (1.0.0) v1.0)"><code class="xref py py-class docutils literal"><span class="pre">Stream</span></code></a>
+manually convert it and pass the ObsPy <a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy Documentation (1.0.1) v1.0)"><code class="xref py py-class docutils literal"><span class="pre">Stream</span></code></a>
 object.</li>
 </ul>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">glob</span>
@@ -300,7 +301,7 @@ object.</li>
 <span class="go">Adding file 1 of 588 ...</span>
 <span class="gp">...</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
-<span class="go">ASDF file [format version: 0.0.1b]: &#39;new_file.h5&#39; (169.7 MB)</span>
+<span class="go">ASDF file [format version: 1.0.0]: &#39;new_file.h5&#39; (169.7 MB)</span>
 <span class="go">Contains 1 event(s)</span>
 <span class="go">Contains waveform data from 196 station(s).</span>
 </pre></div>
@@ -326,7 +327,7 @@ merge them with any possibly already existing StationXML files.</p>
 <span class="go">Adding file 1 of 196 ...</span>
 <span class="gp">...</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
-<span class="go">ASDF file [format version: 0.0.1b]: &#39;new_file.h5&#39; (188.3 MB)</span>
+<span class="go">ASDF file [format version: 1.0.0]: &#39;new_file.h5&#39; (188.3 MB)</span>
 <span class="go">Contains 1 event(s)</span>
 <span class="go">Contains waveform data from 196 station(s).</span>
 </pre></div>
@@ -352,7 +353,7 @@ up with conventions of how to use this.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">add_auxiliary_data</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
 <span class="gp">... </span>                      <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
-<span class="go">ASDF file [format version: b&#39;0.0.1b&#39;]: &#39;new_file.h5&#39; (188.3 MB)</span>
+<span class="go">ASDF file [format version: &#39;1.0.0&#39;]: &#39;new_file.h5&#39; (188.3 MB)</span>
 <span class="go">Contains 1 event(s)</span>
 <span class="go">Contains waveform data from 196 station(s).</span>
 <span class="go">Contains 1 type(s) of auxiliary data: RandomArrays</span>
@@ -375,7 +376,7 @@ read any data.</p>
 <div class="section" id="reading-events">
 <h4><a class="toc-backref" href="#id10">Reading Events</a><a class="headerlink" href="#reading-events" title="Permalink to this headline">¶</a></h4>
 <p>To read event data, simply access the <code class="docutils literal"><span class="pre">event</span></code> attribute. At access time the
-events will be parsed to an <a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.Catalog.html#obspy.core.event.Catalog" title="(in ObsPy Documentation (1.0.0) v1.0)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.event.Catalog</span></code></a> object which can
+events will be parsed to an <a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.event.Catalog.html#obspy.core.event.Catalog" title="(in ObsPy Documentation (1.0.1) v1.0)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.event.Catalog</span></code></a> object which can
 used for further analysis.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">events</span><span class="p">)</span>
 <span class="go">obspy.core.event.Catalog</span>
@@ -491,7 +492,7 @@ waveforms at the individual trace level.</p>
 <p>The advantage of the ASDF format is that it is also able to store relations
 so it can for example tell what event a certain waveform is associated with:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cat</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">events</span>  <span class="c1"># The events have to be in memory for the reference to work.</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">sta</span><span class="o">.</span><span class="n">synthetic</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">asdf</span><span class="o">.</span><span class="n">event_id</span><span class="o">.</span><span class="n">getReferredObject</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">sta</span><span class="o">.</span><span class="n">synthetic</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">asdf</span><span class="o">.</span><span class="n">event_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_referred_object</span><span class="p">())</span>
 <span class="go">Event:      1998-09-01T10:29:54.500000Z | -58.500,  -26.100 | 5.5 Mwc</span>
 
 <span class="go">        resource_id: ResourceIdentifier(id=&quot;smi:service.iris.edu/fdsnws/event/1/query?eventid=656970&quot;)</span>
@@ -1154,7 +1155,7 @@ waveform trace:</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2015, Lion Krischer.
+        &copy; Copyright 2014-2016, Lion Krischer.
 
     </p>
   </div>
