@@ -97,7 +97,7 @@
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="api.html">API</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="">ASDF Data Set</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">ASDF Data Set</a></li>
 <li class="toctree-l2"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="inventory_utils.html">Inventory Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="query.html">Query</a></li>
@@ -128,7 +128,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -235,7 +235,7 @@ given as a qualified name, e.g. <code class="docutils literal"><span class="pre"
 </table>
 <p>The data type is the category of the data and the path the name of
 that particular piece of data within that category.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">add_auxiliary_data</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">add_auxiliary_data</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
 <span class="gp">... </span>                      <span class="n">data_type</span><span class="o">=</span><span class="s2">&quot;RandomArrays&quot;</span><span class="p">,</span>
 <span class="gp">... </span>                      <span class="n">path</span><span class="o">=</span><span class="s2">&quot;test_data&quot;</span><span class="p">,</span>
 <span class="gp">... </span>                      <span class="n">parameters</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
@@ -250,7 +250,7 @@ that particular piece of data within that category.</p>
 </div>
 <p>The path can contain forward slashes to create a nested hierarchy of
 auxiliary data.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">add_auxiliary_data</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">add_auxiliary_data</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
 <span class="gp">... </span>                      <span class="n">data_type</span><span class="o">=</span><span class="s2">&quot;RandomArrays&quot;</span><span class="p">,</span>
 <span class="gp">... </span>                      <span class="n">path</span><span class="o">=</span><span class="s2">&quot;some/nested/path/test_data&quot;</span><span class="p">,</span>
 <span class="gp">... </span>                      <span class="n">parameters</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
@@ -334,17 +334,17 @@ based on the public ids of the events.</p>
 <p class="rubric">Example</p>
 <p>For now we will create a new ASDF file but one can also use an
 existing one.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">impory</span> <span class="n">pyasdf</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">impory</span> <span class="n">pyasdf</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">obspy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span> <span class="o">=</span> <span class="n">pyasdf</span><span class="o">.</span><span class="n">ASDFDataSet</span><span class="p">(</span><span class="s2">&quot;new_file.h5&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>One can add an event either by passing a filename ...</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">add_quakeml</span><span class="p">(</span><span class="s2">&quot;/path/to/quake.xml&quot;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">add_quakeml</span><span class="p">(</span><span class="s2">&quot;/path/to/quake.xml&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>... or by passing an existing event or catalog object.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cat</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">read_events</span><span class="p">(</span><span class="s2">&quot;/path/to/quakem.xml&quot;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cat</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">read_events</span><span class="p">(</span><span class="s2">&quot;/path/to/quakem.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">add_quakeml</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -415,7 +415,7 @@ traces. Must not contain a comma as that is used as a separator.</li>
 </table>
 <p class="rubric">Examples</p>
 <p>We first setup an example ASDF file with a single event.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyasdf</span> <span class="kn">import</span> <span class="n">ASDFDataSet</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyasdf</span> <span class="k">import</span> <span class="n">ASDFDataSet</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span> <span class="o">=</span> <span class="n">ASDFDataSet</span><span class="p">(</span><span class="s2">&quot;event_tests.h5&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">add_quakeml</span><span class="p">(</span><span class="s2">&quot;quake.xml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">event</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">events</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -428,16 +428,16 @@ observation of that earthquake straight from a datacenter called
 and unproceseed data) and associate it with the event. Keep in mind
 that this association is optional. It can also be associated with
 multiple events - in that case just pass a list of objects.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">add_waveforms</span><span class="p">(</span><span class="s2">&quot;recording.mseed&quot;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;raw_recording&quot;</span><span class="p">,</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">add_waveforms</span><span class="p">(</span><span class="s2">&quot;recording.mseed&quot;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;raw_recording&quot;</span><span class="p">,</span>
 <span class="gp">... </span>                 <span class="n">event_id</span><span class="o">=</span><span class="n">event</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>It is also possible to directly add
 <a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy Documentation (1.0.1) v1.0)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.stream.Stream</span></code></a> objects containing an arbitrary
 number of <a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.trace.Trace.html#obspy.core.trace.Trace" title="(in ObsPy Documentation (1.0.1) v1.0)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.trace.Trace</span></code></a> objects.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">obspy</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">obspy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">st</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>  <span class="c1"># Reads an example file without argument.</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">st</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">st</span><span class="p">)</span>
 <span class="go">3 Trace(s) in Stream:</span>
 <span class="go">BW.RJOB..EHZ | 2009-08-24T00:20:03.00Z - ... | 100.0 Hz, 3000 samples</span>
 <span class="go">BW.RJOB..EHN | 2009-08-24T00:20:03.00Z - ... | 100.0 Hz, 3000 samples</span>
@@ -446,7 +446,7 @@ number of <a class="reference external" href="http://docs.obspy.org/packages/aut
 </pre></div>
 </div>
 <p>Just to demonstrate that all waveforms can also be retrieved again.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="k">print</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="o">.</span><span class="n">BW_RJOB</span><span class="o">.</span><span class="n">obspy_example</span><span class="p">))</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">print</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="o">.</span><span class="n">BW_RJOB</span><span class="o">.</span><span class="n">obspy_example</span><span class="p">))</span>
 <span class="go">3 Trace(s) in Stream:</span>
 <span class="go">BW.RJOB..EHZ | 2009-08-24T00:20:03.00Z - ... | 100.0 Hz, 3000 samples</span>
 <span class="go">BW.RJOB..EHN | 2009-08-24T00:20:03.00Z - ... | 100.0 Hz, 3000 samples</span>
@@ -461,7 +461,7 @@ waveform. Please again keep in mind that they are all optional and
 depending on your use case they might or might not be
 useful/meaningful. You can again pass lists of all of these objects
 in which case multiple associations will be stored in the file.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">origin</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">preferred_origin</span><span class="p">()</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">origin</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">preferred_origin</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">magnitude</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">preferred_magnitude</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">focal_mechanism</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">preferred_focal_mechansism</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">add_waveforms</span><span class="p">(</span><span class="s2">&quot;synthetics.sac&quot;</span><span class="p">,</span> <span class="n">event_id</span><span class="o">=</span><span class="n">event</span><span class="p">,</span>
@@ -562,8 +562,8 @@ e.g. <code class="docutils literal"><span class="pre">&quot;IU.ANMO&quot;</span>
 <code class="descname">ifilter</code><span class="sig-paren">(</span><em>*query_objects</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyasdf/asdf_data_set.html#ASDFDataSet.ifilter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyasdf.asdf_data_set.ASDFDataSet.ifilter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return an iterator containing only the filtered information. Usage
 is fairly complex, a separate documentation page for
-<a class="reference internal" href="querying_data.html"><em>Querying a Data Set</em></a> is available - here is just a quick example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">ifilter</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">network</span> <span class="o">==</span> <span class="s2">&quot;B?&quot;</span><span class="p">,</span>
+<a class="reference internal" href="querying_data.html"><span class="doc">Querying a Data Set</span></a> is available - here is just a quick example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">ifilter</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">network</span> <span class="o">==</span> <span class="s2">&quot;B?&quot;</span><span class="p">,</span>
 <span class="gp">... </span>                          <span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">channel</span> <span class="o">==</span> <span class="s2">&quot;*Z&quot;</span><span class="p">,</span>
 <span class="gp">... </span>                          <span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">starttime</span> <span class="o">&gt;=</span> <span class="s2">&quot;2015-01-01&quot;</span><span class="p">)</span>
 <span class="gp">... </span>    <span class="o">...</span>
@@ -590,7 +590,7 @@ if run with MPI and <code class="docutils literal"><span class="pre">False</span
 <dd><p>Process the contents of an <code class="docutils literal"><span class="pre">ASDF</span></code> file in parallel.</p>
 <p>Applies a function to the contents of the current data set and
 writes the output to a new <code class="docutils literal"><span class="pre">ASDF</span></code> file. Can be run with and
-without MPI. Please see the <a class="reference internal" href="parallel_processing.html"><em>Parallel Processing</em></a> document for
+without MPI. Please see the <a class="reference internal" href="parallel_processing.html"><span class="doc">Parallel Processing</span></a> document for
 more details.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -620,7 +620,7 @@ error occurs in one of the workers.</li>
 <p>This is mostly useful for comparing data in two data sets in any
 number of scenarios. It again takes a function and will apply it on
 each station that is common in both data sets. Please see the
-<a class="reference internal" href="parallel_processing.html"><em>Parallel Processing</em></a> document for more details.</p>
+<a class="reference internal" href="parallel_processing.html"><span class="doc">Parallel Processing</span></a> document for more details.</p>
 <p>Can only be run with MPI.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />

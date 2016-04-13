@@ -823,7 +823,8 @@
         <span class="n">station_name</span> <span class="o">=</span> <span class="n">station_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
         <span class="n">station</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">waveforms</span><span class="p">,</span> <span class="n">station_name</span><span class="p">)</span>
         <span class="n">st</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
-        <span class="n">inv</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="s2">&quot;StationXML&quot;</span><span class="p">)</span>
+        <span class="n">inv</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="s2">&quot;StationXML&quot;</span><span class="p">)</span> \
+            <span class="k">if</span> <span class="s2">&quot;StationXML&quot;</span> <span class="ow">in</span> <span class="n">station</span> <span class="k">else</span> <span class="bp">None</span>
         <span class="k">return</span> <span class="n">st</span><span class="p">,</span> <span class="n">inv</span></div>
 
     <span class="k">def</span> <span class="nf">_get_waveform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">waveform_name</span><span class="p">):</span>
@@ -1547,7 +1548,12 @@
                       <span class="s2">&quot;last):</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">traceback_limit</span><span class="p">)</span>
                 <span class="n">tb</span> <span class="o">+=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_list</span><span class="p">(</span><span class="n">full_tb</span><span class="p">))</span>
                 <span class="n">tb</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="n">tb</span> <span class="o">+=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">exc_line</span><span class="p">)</span>
+                <span class="c1"># A bit convoluted but compatible with Python 2 and</span>
+                <span class="c1"># 3 and hopefully all encoding problems.</span>
+                <span class="n">tb</span> <span class="o">+=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                    <span class="n">_i</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">errors</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">_i</span><span class="p">,</span> <span class="s2">&quot;decode&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">_i</span>
+                    <span class="k">for</span> <span class="n">_i</span> <span class="ow">in</span> <span class="n">exc_line</span><span class="p">)</span>
 
                 <span class="c1"># These potentially keep references to the HDF5 file</span>
                 <span class="c1"># which in some obscure way and likely due to</span>
@@ -1630,12 +1636,7 @@
                 <span class="c1"># Get the station and all possible tags.</span>
                 <span class="n">waveforms</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">[</span><span class="s2">&quot;Waveforms&quot;</span><span class="p">][</span><span class="n">station</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 
-                <span class="c1"># Only care about stations that have station information.</span>
-                <span class="k">if</span> <span class="s2">&quot;StationXML&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">waveforms</span><span class="p">:</span>
-                    <span class="k">continue</span>
-
                 <span class="n">tags</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-
                 <span class="k">for</span> <span class="n">waveform</span> <span class="ow">in</span> <span class="n">waveforms</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">waveform</span> <span class="o">==</span> <span class="s2">&quot;StationXML&quot;</span><span class="p">:</span>
                         <span class="k">continue</span>
@@ -1912,6 +1913,12 @@
                 <span class="n">tb</span> <span class="o">+=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_list</span><span class="p">(</span><span class="n">full_tb</span><span class="p">))</span>
                 <span class="n">tb</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
                 <span class="n">tb</span> <span class="o">+=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">exc_line</span><span class="p">)</span>
+                <span class="c1"># A bit convoluted but compatible with Python 2 and</span>
+                <span class="c1"># 3 and hopefully all encoding problems.</span>
+                <span class="n">tb</span> <span class="o">+=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                    <span class="n">_i</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">errors</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">_i</span><span class="p">,</span> <span class="s2">&quot;decode&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">_i</span>
+                    <span class="k">for</span> <span class="n">_i</span> <span class="ow">in</span> <span class="n">exc_line</span><span class="p">)</span>
 
                 <span class="c1"># These potentially keep references to the HDF5 file</span>
                 <span class="c1"># which in some obscure way and likely due to</span>
@@ -2106,7 +2113,12 @@
                               <span class="s2">&quot;last):</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">__traceback_limit</span><span class="p">)</span>
                         <span class="n">tb</span> <span class="o">+=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_list</span><span class="p">(</span><span class="n">full_tb</span><span class="p">))</span>
                         <span class="n">tb</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
-                        <span class="n">tb</span> <span class="o">+=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">exc_line</span><span class="p">)</span>
+                        <span class="c1"># A bit convoluted but compatible with Python 2 and</span>
+                        <span class="c1"># 3 and hopefully all encoding problems.</span>
+                        <span class="n">tb</span> <span class="o">+=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                            <span class="n">_i</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">errors</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">_i</span><span class="p">,</span> <span class="s2">&quot;decode&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">_i</span>
+                            <span class="k">for</span> <span class="n">_i</span> <span class="ow">in</span> <span class="n">exc_line</span><span class="p">)</span>
 
                         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">print_lock</span><span class="p">:</span>
                             <span class="k">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>

@@ -93,7 +93,7 @@
             
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Tutorial</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#learning-python-and-obspy">Learning Python and ObsPy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#using-pyasdf">Using pyasdf</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#creating-an-asdf-data-set">Creating an ASDF data set</a><ul>
@@ -139,7 +139,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -209,7 +209,7 @@ following resources are useful if you are starting out with Python and ObsPy:</p
 <h2><a class="toc-backref" href="#id2">Using pyasdf</a><a class="headerlink" href="#using-pyasdf" title="Permalink to this headline">¶</a></h2>
 <p>This section will teach you the basics of creating and working with ASDF
 files with <cite>pyasdf</cite>. For more detailed information, please see the
-<a class="reference internal" href="api.html"><em>API</em></a> documentation or have a look at the <a class="reference internal" href="examples.html"><em>Examples</em></a> section that
+<a class="reference internal" href="api.html"><span class="doc">API</span></a> documentation or have a look at the <a class="reference internal" href="examples.html"><span class="doc">Examples</span></a> section that
 demonstrates more complex workflows.</p>
 <div class="admonition-notes-on-using-mpi admonition">
 <p class="first admonition-title">Notes on using MPI</p>
@@ -225,7 +225,7 @@ recognized as being called with MPI.</p>
 <p class="last">Due to a limitation of Python you should always delete all references to
 the <a class="reference internal" href="asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet" title="pyasdf.asdf_data_set.ASDFDataSet"><code class="xref py py-class docutils literal"><span class="pre">ASDFDataSet</span></code></a> objects at the end.
 Otherwise the program will potentially not finish when called with MPI.
-An even better alternative is described in <a class="reference internal" href="usage_as_context_manager.html"><em>Usage as a Context Manager</em></a>.</p>
+An even better alternative is described in <a class="reference internal" href="usage_as_context_manager.html"><span class="doc">Usage as a Context Manager</span></a>.</p>
 </div>
 <div class="section" id="creating-an-asdf-data-set">
 <h3><a class="toc-backref" href="#id3">Creating an ASDF data set</a><a class="headerlink" href="#creating-an-asdf-data-set" title="Permalink to this headline">¶</a></h3>
@@ -512,8 +512,7 @@ waveform trace:</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">provenance</span><span class="o">.</span><span class="n">get_provenance_document_for_id</span><span class="p">(</span><span class="n">prov_id</span><span class="p">)[</span><span class="s2">&quot;document&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
-<p class="graphviz">
-<object data="_images/graphviz-2d9e9b5b91360927db00c44822e88e2c0dce2d5b.svg" type="image/svg+xml">
+<object data="_images/graphviz-3b227380ef345a94b72ecf5c94dfa458a7833209.svg" type="image/svg+xml">
             <p class="warning">digraph G {
 	graph [bb=&quot;0,0,1480,925.94&quot;,
 		charset=&quot;utf-8&quot;,
@@ -1056,7 +1055,6 @@ waveform trace:</p>
 		pos=&quot;1118.4,596.31 1132.5,625.71 1160.2,683.08 1164.5,691.86&quot;,
 		style=dashed];
 }</p></object>
-</p>
 </div>
 <div class="section" id="reading-auxiliary-data">
 <h4><a class="toc-backref" href="#id12">Reading Auxiliary Data</a><a class="headerlink" href="#reading-auxiliary-data" title="Permalink to this headline">¶</a></h4>

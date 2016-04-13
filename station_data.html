@@ -102,7 +102,7 @@
 <li class="toctree-l2"><a class="reference internal" href="deleting_pieces.html">Deleting Pieces of a Data Set</a></li>
 <li class="toctree-l2"><a class="reference internal" href="of_tags_and_labels.html">Of Tags and Labels</a></li>
 <li class="toctree-l2"><a class="reference internal" href="querying_data.html">Querying a Data Set</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">Working With Station Data</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Working With Station Data</a></li>
 </ul>
 </li>
 </ul>
@@ -127,7 +127,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -157,7 +157,7 @@
 accessing the <code class="docutils literal"><span class="pre">StationXML</span></code> attribute will parse the data to an
 <a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.inventory.inventory.Inventory.html#obspy.core.inventory.inventory.Inventory" title="(in ObsPy Documentation (1.0.1) v1.0)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.inventory.inventory.Inventory</span></code></a> object if the station has one. Please
 see its documentation for more details of how to work with it.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyasdf</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyasdf</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span> <span class="o">=</span> <span class="n">pyasdf</span><span class="o">.</span><span class="n">ASDFDataSet</span><span class="p">(</span><span class="s2">&quot;example_file.h5&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="o">.</span><span class="n">IU_FURI</span><span class="o">.</span><span class="n">StationXML</span>
 <span class="go">Inventory created at 2014-12-09T19:43:16.000000Z</span>
@@ -179,12 +179,12 @@ see its documentation for more details of how to work with it.</p>
 station information including the instrument response. As parsing the full
 file is a fairly slow operation <code class="docutils literal"><span class="pre">pyasdf</span></code> offers functionality to very
 quickly extract the coordinates for any station. Either at the station level</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="o">.</span><span class="n">IU_FURI</span><span class="o">.</span><span class="n">coordinates</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="o">.</span><span class="n">IU_FURI</span><span class="o">.</span><span class="n">coordinates</span>
 <span class="go">{&#39;elevation_in_m&#39;: 2570.0, &#39;latitude&#39;: 8.8952, &#39;longitude&#39;: 38.6798}</span>
 </pre></div>
 </div>
 <p>or at the channel level (now the information is time-dependent!):</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="o">.</span><span class="n">IU_FURI</span><span class="o">.</span><span class="n">channel_coordinates</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="o">.</span><span class="n">IU_FURI</span><span class="o">.</span><span class="n">channel_coordinates</span>
 <span class="go">{&#39;IU.FURI.00.BHE&#39;: [{&#39;elevation_in_m&#39;: 2565.0,</span>
 <span class="go">   &#39;endtime&#39;: 2011-09-03T08:00:00.000000Z,</span>
 <span class="go">   &#39;latitude&#39;: 8.8952,</span>
@@ -208,7 +208,7 @@ quickly extract the coordinates for any station. Either at the station level</p>
 <p>The <code class="docutils literal"><span class="pre">pyasdf</span></code> library will parse the StationXML files on demand. While this
 will still read the whole StationXML file (and is thus I/O bound), it is much
 faster then parsing all the information:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="p">)</span>
 <span class="go">196</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="o">%</span><span class="n">timeit</span> <span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">waveforms</span><span class="p">:</span> <span class="n">station</span><span class="o">.</span><span class="n">coordinates</span>
 <span class="go">1 loops, best of 3: 512 ms per loop</span>
@@ -217,7 +217,7 @@ faster then parsing all the information:</p>
 </pre></div>
 </div>
 <p>A convenience function to extract the coordinates for all stations also exists:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">get_all_coordinates</span><span class="p">()</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">get_all_coordinates</span><span class="p">()</span>
 <span class="go">{&#39;AF.CVNA&#39;: {&#39;elevation_in_m&#39;: 1050.0,</span>
 <span class="go">             &#39;latitude&#39;: -31.482,</span>
 <span class="go">             &#39;longitude&#39;: 19.762},</span>
