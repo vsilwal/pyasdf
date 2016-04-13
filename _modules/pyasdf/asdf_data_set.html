@@ -201,7 +201,7 @@
     <span class="n">NoStationXMLForStation</span>
 <span class="kn">from</span> <span class="nn">.header</span> <span class="kn">import</span> <span class="n">COMPRESSIONS</span><span class="p">,</span> <span class="n">FORMAT_NAME</span><span class="p">,</span> \
     <span class="n">FORMAT_VERSION</span><span class="p">,</span> <span class="n">MSG_TAGS</span><span class="p">,</span> <span class="n">MAX_MEMORY_PER_WORKER_IN_MB</span><span class="p">,</span> <span class="n">POISON_PILL</span><span class="p">,</span> \
-    <span class="n">PROV_FILENAME_REGEX</span><span class="p">,</span> <span class="n">TAG_REGEX</span>
+    <span class="n">PROV_FILENAME_REGEX</span><span class="p">,</span> <span class="n">TAG_REGEX</span><span class="p">,</span> <span class="n">VALID_SEISMOGRAM_DTYPES</span>
 <span class="kn">from</span> <span class="nn">.query</span> <span class="kn">import</span> <span class="n">Query</span><span class="p">,</span> <span class="n">merge_query_functions</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">is_mpi_env</span><span class="p">,</span> <span class="n">StationAccessor</span><span class="p">,</span> <span class="n">sizeof_fmt</span><span class="p">,</span> <span class="n">ReceivedMessage</span><span class="p">,</span>\
     <span class="n">pretty_receiver_log</span><span class="p">,</span> <span class="n">pretty_sender_log</span><span class="p">,</span> <span class="n">JobQueueHelper</span><span class="p">,</span> <span class="n">StreamBuffer</span><span class="p">,</span> \
@@ -1040,6 +1040,16 @@
         <span class="c1"># Delegate to ObsPy&#39;s format/input detection.</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">waveform</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">waveform</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="n">waveform</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">trace</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">in</span> <span class="n">VALID_SEISMOGRAM_DTYPES</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The trace&#39;s dtype (&#39;</span><span class="si">%s</span><span class="s2">&#39;) is not allowed &quot;</span>
+                                <span class="s2">&quot;inside ASDF. Allowed are little and big &quot;</span>
+                                <span class="s2">&quot;endian 4 and 8 byte signed integers and &quot;</span>
+                                <span class="s2">&quot;floating point numbers.&quot;</span> <span class="o">%</span>
+                                <span class="n">trace</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
         <span class="c1"># Actually add the data.</span>
         <span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="n">waveform</span><span class="p">:</span>
@@ -1912,7 +1922,6 @@
                       <span class="s2">&quot;last):</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">traceback_limit</span><span class="p">)</span>
                 <span class="n">tb</span> <span class="o">+=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_list</span><span class="p">(</span><span class="n">full_tb</span><span class="p">))</span>
                 <span class="n">tb</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="n">tb</span> <span class="o">+=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">exc_line</span><span class="p">)</span>
                 <span class="c1"># A bit convoluted but compatible with Python 2 and</span>
                 <span class="c1"># 3 and hopefully all encoding problems.</span>
                 <span class="n">tb</span> <span class="o">+=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
