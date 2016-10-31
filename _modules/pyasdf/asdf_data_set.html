@@ -37,6 +37,9 @@
   
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
   
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
     <link rel="top" title="pyasdf 0.1.x documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
@@ -151,7 +154,7 @@
 <span class="sd">:license:</span>
 <span class="sd">    BSD 3-Clause (&quot;BSD New&quot; or &quot;BSD Simplified&quot;)</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="p">(</span><span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="p">(</span><span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span>
                         <span class="n">unicode_literals</span><span class="p">)</span>
 
 <span class="c1"># Import ObsPy first as import h5py on some machines will some reset paths</span>
@@ -173,7 +176,7 @@
 
 <span class="kn">import</span> <span class="nn">h5py</span>
 <span class="kn">import</span> <span class="nn">lxml.etree</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">prov</span>
 <span class="kn">import</span> <span class="nn">prov.model</span>
 
@@ -197,19 +200,19 @@
     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span> <span class="o">=</span> <span class="n">get_warning_fct</span><span class="p">()</span>
 
 
-<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">ASDFException</span><span class="p">,</span> <span class="n">ASDFWarning</span><span class="p">,</span> <span class="n">ASDFValueError</span><span class="p">,</span> \
+<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="k">import</span> <span class="n">ASDFException</span><span class="p">,</span> <span class="n">ASDFWarning</span><span class="p">,</span> <span class="n">ASDFValueError</span><span class="p">,</span> \
     <span class="n">NoStationXMLForStation</span>
-<span class="kn">from</span> <span class="nn">.header</span> <span class="kn">import</span> <span class="n">COMPRESSIONS</span><span class="p">,</span> <span class="n">FORMAT_NAME</span><span class="p">,</span> \
+<span class="kn">from</span> <span class="nn">.header</span> <span class="k">import</span> <span class="n">COMPRESSIONS</span><span class="p">,</span> <span class="n">FORMAT_NAME</span><span class="p">,</span> \
     <span class="n">FORMAT_VERSION</span><span class="p">,</span> <span class="n">MSG_TAGS</span><span class="p">,</span> <span class="n">MAX_MEMORY_PER_WORKER_IN_MB</span><span class="p">,</span> <span class="n">POISON_PILL</span><span class="p">,</span> \
     <span class="n">PROV_FILENAME_REGEX</span><span class="p">,</span> <span class="n">TAG_REGEX</span><span class="p">,</span> <span class="n">VALID_SEISMOGRAM_DTYPES</span>
-<span class="kn">from</span> <span class="nn">.query</span> <span class="kn">import</span> <span class="n">Query</span><span class="p">,</span> <span class="n">merge_query_functions</span>
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">is_mpi_env</span><span class="p">,</span> <span class="n">StationAccessor</span><span class="p">,</span> <span class="n">sizeof_fmt</span><span class="p">,</span> <span class="n">ReceivedMessage</span><span class="p">,</span>\
+<span class="kn">from</span> <span class="nn">.query</span> <span class="k">import</span> <span class="n">Query</span><span class="p">,</span> <span class="n">merge_query_functions</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">is_mpi_env</span><span class="p">,</span> <span class="n">StationAccessor</span><span class="p">,</span> <span class="n">sizeof_fmt</span><span class="p">,</span> <span class="n">ReceivedMessage</span><span class="p">,</span>\
     <span class="n">pretty_receiver_log</span><span class="p">,</span> <span class="n">pretty_sender_log</span><span class="p">,</span> <span class="n">JobQueueHelper</span><span class="p">,</span> <span class="n">StreamBuffer</span><span class="p">,</span> \
     <span class="n">AuxiliaryDataGroupAccessor</span><span class="p">,</span> <span class="n">AuxiliaryDataContainer</span><span class="p">,</span> <span class="n">get_multiprocessing</span><span class="p">,</span> \
     <span class="n">ProvenanceAccessor</span><span class="p">,</span> <span class="n">split_qualified_name</span><span class="p">,</span> <span class="n">_read_string_array</span><span class="p">,</span> \
     <span class="n">FilteredWaveformAccessor</span><span class="p">,</span> <span class="n">label2string</span><span class="p">,</span> <span class="n">labelstring2list</span><span class="p">,</span> \
     <span class="n">AuxiliaryDataAccessor</span><span class="p">,</span> <span class="n">wf_name2tag</span><span class="p">,</span> <span class="n">to_list_of_resource_identifiers</span>
-<span class="kn">from</span> <span class="nn">.inventory_utils</span> <span class="kn">import</span> <span class="n">isolate_and_merge_station</span><span class="p">,</span> <span class="n">merge_inventories</span>
+<span class="kn">from</span> <span class="nn">.inventory_utils</span> <span class="k">import</span> <span class="n">isolate_and_merge_station</span><span class="p">,</span> <span class="n">merge_inventories</span>
 
 
 <div class="viewcode-block" id="ASDFDataSet"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet">[docs]</a><span class="k">class</span> <span class="nc">ASDFDataSet</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -220,8 +223,9 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">q</span> <span class="o">=</span> <span class="n">Query</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;gzip-3&quot;</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-                 <span class="n">debug</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">mpi</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;a&quot;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;gzip-3&quot;</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">mpi</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;a&quot;</span><span class="p">,</span>
+                 <span class="n">single_item_read_limit_in_mb</span><span class="o">=</span><span class="mf">1024.0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type filename: str</span>
 <span class="sd">        :param filename: The filename of the HDF5 file (to be).</span>
@@ -259,9 +263,21 @@
 <span class="sd">            quite useful for some use cases as long as one is aware of the</span>
 <span class="sd">            potential repercussions.</span>
 <span class="sd">        :type mode: str</span>
+<span class="sd">        :type single_item_read_limit_in_mb: float</span>
+<span class="sd">        :param single_item_read_limit_in_mb: This limits the amount of waveform</span>
+<span class="sd">            data that can be read with a simple attribute or dictionary</span>
+<span class="sd">            access. Some ASDF files can get very big and this raises an</span>
+<span class="sd">            error if one tries to access more then the specified value. This</span>
+<span class="sd">            is mainly to guard against accidentally filling ones memory on</span>
+<span class="sd">            the interactive command line when just exploring an ASDF data</span>
+<span class="sd">            set. There are other ways to still access data and even this</span>
+<span class="sd">            setting can be overwritten.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__force_mpi</span> <span class="o">=</span> <span class="n">mpi</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">debug</span>
+
+        <span class="c1"># The limit on how much data can be read with a single item access.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">single_item_read_limit_in_mb</span> <span class="o">=</span> <span class="n">single_item_read_limit_in_mb</span>
 
         <span class="c1"># Deal with compression settings.</span>
         <span class="k">if</span> <span class="n">compression</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">COMPRESSIONS</span><span class="p">:</span>
@@ -279,11 +295,11 @@
             <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Compression will be disabled as parallel HDF5 does not &quot;</span> \
                   <span class="s2">&quot;support compression&quot;</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">ASDFWarning</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__compression</span> <span class="o">=</span> <span class="n">COMPRESSIONS</span><span class="p">[</span><span class="bp">None</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__shuffle</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__compression</span> <span class="o">=</span> <span class="n">COMPRESSIONS</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__shuffle</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="c1"># No need to shuffle if no compression is used.</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__shuffle</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__shuffle</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="c1"># Open file or take an already open HDF5 file object.</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="p">:</span>
@@ -357,13 +373,13 @@
 <span class="sd">        :type other:`~pyasdf.asdf_data_set.ASDFDDataSet`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">return</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_waveform_group</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">_waveform_group</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">return</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_provenance_group</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">_provenance_group</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">return</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">events</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">events</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">return</span> <span class="kc">False</span>
         <span class="k">for</span> <span class="n">station</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_waveform_group</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">other_group</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">_waveform_group</span><span class="p">[</span><span class="n">station</span><span class="p">]</span>
             <span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">data_set</span> <span class="ow">in</span> <span class="n">group</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -376,8 +392,8 @@
                         <span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_allclose</span><span class="p">(</span>
                             <span class="n">data_set</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">other_data_set</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="bp">False</span>
-        <span class="k">return</span> <span class="bp">True</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
@@ -393,7 +409,7 @@
 <span class="sd">        Enable usage as a context manager.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__del__</span><span class="p">()</span>
-        <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="nf">__delattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="c1"># Only the events can be deleted.</span>
@@ -468,10 +484,10 @@
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;__is_mpi&quot;</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__is_mpi</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__force_mpi</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__is_mpi</span> <span class="o">=</span> <span class="bp">True</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__force_mpi</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__is_mpi</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__force_mpi</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__is_mpi</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__force_mpi</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__is_mpi</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__is_mpi</span> <span class="o">=</span> <span class="n">is_mpi_env</span><span class="p">()</span>
 
@@ -482,9 +498,9 @@
             <span class="c1"># Check if HDF5 has been complied with parallel I/O.</span>
             <span class="n">c</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="s2">&quot;mpi&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">c</span><span class="o">.</span><span class="n">mpi</span><span class="p">:</span>
-                <span class="n">is_parallel</span> <span class="o">=</span> <span class="bp">False</span>
+                <span class="n">is_parallel</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">is_parallel</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="n">is_parallel</span> <span class="o">=</span> <span class="kc">True</span>
 
             <span class="k">if</span> <span class="ow">not</span> <span class="n">is_parallel</span><span class="p">:</span>
                 <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Running under MPI requires HDF5/h5py to be complied &quot;</span> \
@@ -521,26 +537,26 @@
 
         <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">_read_string_array</span><span class="p">(</span><span class="n">data</span><span class="p">))</span> <span class="k">as</span> <span class="n">buf</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">cat</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">read_events</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">&quot;quakeml&quot;</span><span class="p">)</span>
+                <span class="n">cat</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">read_events</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;quakeml&quot;</span><span class="p">)</span>
             <span class="k">except</span><span class="p">:</span>
                 <span class="c1"># ObsPy is not able to read empty QuakeML files but they are</span>
                 <span class="c1"># still valid QuakeML files.</span>
                 <span class="n">buf</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="bp">None</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">result</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">quakeml</span><span class="o">.</span><span class="n">_validate</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
                 <span class="k">except</span><span class="p">:</span>
                     <span class="k">pass</span>
                 <span class="c1"># If validation is successful, but the initial read failed,</span>
                 <span class="c1"># it must have been an empty QuakeML object.</span>
-                <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
                     <span class="n">cat</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Catalog</span><span class="p">()</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="c1"># Re-raise exception</span>
                     <span class="k">raise</span>
         <span class="k">return</span> <span class="n">cat</span>
 
-    <span class="nd">@events.setter</span>
+    <span class="nd">@events</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the events of the dataset.</span>
@@ -557,7 +573,7 @@
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Must be an ObsPy event or catalog instance&quot;</span><span class="p">)</span>
 
         <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span> <span class="k">as</span> <span class="n">buf</span><span class="p">:</span>
-            <span class="n">cat</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">&quot;quakeml&quot;</span><span class="p">)</span>
+            <span class="n">cat</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;quakeml&quot;</span><span class="p">)</span>
             <span class="n">buf</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">buf</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;byte&quot;</span><span class="p">))</span>
 
@@ -567,15 +583,15 @@
                                        <span class="n">compression</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                                        <span class="n">compression_opts</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
                                        <span class="n">shuffle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__shuffle</span><span class="p">,</span>
-                                       <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,),</span> <span class="n">maxshape</span><span class="o">=</span><span class="p">(</span><span class="bp">None</span><span class="p">,),</span>
+                                       <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,),</span> <span class="n">maxshape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,),</span>
                                        <span class="n">fletcher32</span><span class="o">=</span><span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="p">))</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">[</span><span class="s2">&quot;QuakeML&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">[</span><span class="s2">&quot;QuakeML&quot;</span><span class="p">][:]</span> <span class="o">=</span> <span class="n">data</span>
 
 <div class="viewcode-block" id="ASDFDataSet.add_auxiliary_data_file"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.add_auxiliary_data_file">[docs]</a>    <span class="k">def</span> <span class="nf">add_auxiliary_data_file</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="n">filename_or_object</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-            <span class="n">provenance_id</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">filename_or_object</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">provenance_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Special function adding a file or file like object as an auxiliary</span>
 <span class="sd">        data object denoting a file. This is very useful to store arbitrary</span>
@@ -599,7 +615,7 @@
                 <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">fh</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span>
                                      <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;byte&quot;</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="n">parameters</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">parameters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">parameters</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">add_auxiliary_data</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s2">&quot;Files&quot;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
@@ -607,7 +623,7 @@
                                 <span class="n">provenance_id</span><span class="o">=</span><span class="n">provenance_id</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ASDFDataSet.add_auxiliary_data"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.add_auxiliary_data">[docs]</a>    <span class="k">def</span> <span class="nf">add_auxiliary_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span>
-                           <span class="n">provenance_id</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+                           <span class="n">provenance_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds auxiliary data to the file.</span>
 
@@ -654,10 +670,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Assert the data type name.</span>
         <span class="n">pattern</span> <span class="o">=</span> <span class="s2">r&quot;^[A-Z][A-Za-z0-9]*$&quot;</span>
-        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">data_type</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">data_type</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ASDFValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Data type name &#39;{name}&#39; is invalid. It must validate &quot;</span>
-                <span class="s2">&quot;against the regular expression &#39;{pattern}&#39;.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="s2">&quot;Data type name &#39;</span><span class="si">{name}</span><span class="s2">&#39; is invalid. It must validate &quot;</span>
+                <span class="s2">&quot;against the regular expression &#39;</span><span class="si">{pattern}</span><span class="s2">&#39;.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                     <span class="n">name</span><span class="o">=</span><span class="n">data_type</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">pattern</span><span class="p">))</span>
 
         <span class="c1"># Split the path.</span>
@@ -666,13 +682,13 @@
         <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">tag_path</span><span class="p">:</span>
             <span class="c1"># Assert each path piece.</span>
             <span class="n">tag_pattern</span> <span class="o">=</span> <span class="s2">r&quot;^[a-zA-Z0-9][a-zA-Z0-9_]*[a-zA-Z0-9]$&quot;</span>
-            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">tag_pattern</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">tag_pattern</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ASDFValueError</span><span class="p">(</span>
-                    <span class="s2">&quot;Tag name &#39;{name}&#39; is invalid. It must validate &quot;</span>
-                    <span class="s2">&quot;against the regular expression &#39;{pattern}&#39;.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="s2">&quot;Tag name &#39;</span><span class="si">{name}</span><span class="s2">&#39; is invalid. It must validate &quot;</span>
+                    <span class="s2">&quot;against the regular expression &#39;</span><span class="si">{pattern}</span><span class="s2">&#39;.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                         <span class="n">name</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">tag_pattern</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="n">provenance_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">provenance_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Will raise an error if not a valid qualified name.</span>
             <span class="n">split_qualified_name</span><span class="p">(</span><span class="n">provenance_id</span><span class="p">)</span>
         <span class="c1"># Complicated multi-step process but it enables one to use</span>
@@ -680,14 +696,14 @@
         <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_auxiliary_data_get_collective_information</span><span class="p">(</span>
             <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">,</span> <span class="n">tag_path</span><span class="o">=</span><span class="n">tag_path</span><span class="p">,</span>
             <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="n">provenance_id</span><span class="o">=</span><span class="n">provenance_id</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">info</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">info</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_auxiliary_data_write_collective_information</span><span class="p">(</span><span class="n">info</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_auxiliary_data_write_independent_information</span><span class="p">(</span><span class="n">info</span><span class="o">=</span><span class="n">info</span><span class="p">,</span>
                                                                <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_add_auxiliary_data_get_collective_information</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">tag_path</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">provenance_id</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">tag_path</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">provenance_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The information required for the collective part of adding some</span>
 <span class="sd">        auxiliary data.</span>
@@ -701,7 +717,7 @@
                                  <span class="s2">&quot;parameters.&quot;</span><span class="p">)</span>
         <span class="c1"># If the provenance id is set, add it to the parameters. At this</span>
         <span class="c1"># point it is assumed, that the id is valid.</span>
-        <span class="k">if</span> <span class="n">provenance_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">provenance_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">parameters</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
             <span class="n">parameters</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;provenance_id&quot;</span><span class="p">:</span>
                               <span class="bp">self</span><span class="o">.</span><span class="n">_zeropad_ascii_string</span><span class="p">(</span><span class="n">provenance_id</span><span class="p">)})</span>
@@ -716,9 +732,9 @@
         <span class="c1"># XXX: Figure out why this is necessary. It should work according to</span>
         <span class="c1"># the specs.</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="p">:</span>
-            <span class="n">fletcher32</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="n">fletcher32</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">fletcher32</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">fletcher32</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="n">info</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;data_name&quot;</span><span class="p">:</span> <span class="n">group_name</span><span class="p">,</span>
@@ -731,7 +747,7 @@
                 <span class="s2">&quot;compression_opts&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
                 <span class="s2">&quot;shuffle&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shuffle</span><span class="p">,</span>
                 <span class="s2">&quot;fletcher32&quot;</span><span class="p">:</span> <span class="n">fletcher32</span><span class="p">,</span>
-                <span class="s2">&quot;maxshape&quot;</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">([</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+                <span class="s2">&quot;maxshape&quot;</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">([</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
             <span class="p">},</span>
             <span class="s2">&quot;dataset_attrs&quot;</span><span class="p">:</span> <span class="n">parameters</span><span class="p">,</span>
         <span class="p">}</span>
@@ -792,7 +808,7 @@
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Catalog</span><span class="p">):</span>
             <span class="n">cat</span> <span class="o">=</span> <span class="n">event</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">cat</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">read_events</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">&quot;quakeml&quot;</span><span class="p">)</span>
+            <span class="n">cat</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">read_events</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;quakeml&quot;</span><span class="p">)</span>
 
         <span class="n">old_cat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">events</span>
         <span class="n">existing_resource_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">_i</span><span class="o">.</span><span class="n">resource_id</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">_i</span> <span class="ow">in</span> <span class="n">old_cat</span><span class="p">])</span>
@@ -824,23 +840,69 @@
         <span class="n">station</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">waveforms</span><span class="p">,</span> <span class="n">station_name</span><span class="p">)</span>
         <span class="n">st</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
         <span class="n">inv</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="s2">&quot;StationXML&quot;</span><span class="p">)</span> \
-            <span class="k">if</span> <span class="s2">&quot;StationXML&quot;</span> <span class="ow">in</span> <span class="n">station</span> <span class="k">else</span> <span class="bp">None</span>
+            <span class="k">if</span> <span class="s2">&quot;StationXML&quot;</span> <span class="ow">in</span> <span class="n">station</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="n">st</span><span class="p">,</span> <span class="n">inv</span></div>
 
-    <span class="k">def</span> <span class="nf">_get_waveform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">waveform_name</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_get_idx_and_size_estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">waveform_name</span><span class="p">,</span> <span class="n">starttime</span><span class="p">,</span> <span class="n">endtime</span><span class="p">):</span>
+        <span class="n">network</span><span class="p">,</span> <span class="n">station</span> <span class="o">=</span> <span class="n">waveform_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[:</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">[</span><span class="s2">&quot;Waveforms&quot;</span><span class="p">][</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">station</span><span class="p">)][</span>
+            <span class="n">waveform_name</span><span class="p">]</span>
+
+        <span class="n">idx_start</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">idx_end</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;sampling_rate&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Starttime is a timestamp in nanoseconds.</span>
+        <span class="c1"># Get time of first and time of last sample.</span>
+        <span class="n">data_starttime</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">UTCDateTime</span><span class="p">(</span>
+            <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;starttime&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="mf">1.0E9</span><span class="p">)</span>
+        <span class="n">data_endtime</span> <span class="o">=</span> <span class="n">data_starttime</span> <span class="o">+</span> <span class="p">(</span><span class="n">idx_end</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span>
+
+        <span class="c1"># Modify the data indices to restrict the data if necessary.</span>
+        <span class="k">if</span> <span class="n">starttime</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">starttime</span> <span class="o">&gt;</span> <span class="n">data_starttime</span><span class="p">:</span>
+            <span class="n">offset</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">((</span><span class="n">starttime</span> <span class="o">-</span> <span class="n">data_starttime</span><span class="p">)</span> <span class="o">//</span> <span class="n">dt</span><span class="p">))</span>
+            <span class="n">idx_start</span> <span class="o">=</span> <span class="n">offset</span>
+            <span class="c1"># Also modify the data_starttime here as it changes the actually</span>
+            <span class="c1"># read data.</span>
+            <span class="n">data_starttime</span> <span class="o">+=</span> <span class="n">offset</span> <span class="o">*</span> <span class="n">dt</span>
+        <span class="k">if</span> <span class="n">endtime</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">endtime</span> <span class="o">&lt;</span> <span class="n">data_endtime</span><span class="p">:</span>
+            <span class="n">offset</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">((</span><span class="n">data_endtime</span> <span class="o">-</span> <span class="n">endtime</span><span class="p">)</span> <span class="o">//</span> <span class="n">dt</span><span class="p">))</span>
+            <span class="n">idx_end</span> <span class="o">-=</span> <span class="n">offset</span>
+
+        <span class="c1"># Check the size against the limit.</span>
+        <span class="n">array_size_in_mb</span> <span class="o">=</span> \
+            <span class="p">(</span><span class="n">idx_end</span> <span class="o">-</span> <span class="n">idx_start</span><span class="p">)</span> <span class="o">*</span> <span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span> <span class="o">/</span> <span class="mf">1024.0</span> <span class="o">/</span> <span class="mf">1024.0</span>
+
+        <span class="k">del</span> <span class="n">data</span>
+
+        <span class="k">return</span> <span class="n">idx_start</span><span class="p">,</span> <span class="n">idx_end</span><span class="p">,</span> <span class="n">data_starttime</span><span class="p">,</span> <span class="n">array_size_in_mb</span>
+
+    <span class="k">def</span> <span class="nf">_get_waveform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">waveform_name</span><span class="p">,</span> <span class="n">starttime</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">endtime</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves the waveform for a certain path name as a Trace object. For</span>
 <span class="sd">        internal use only, use the dot accessors for outside access.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">idx_start</span><span class="p">,</span> <span class="n">idx_end</span><span class="p">,</span> <span class="n">data_starttime</span><span class="p">,</span> <span class="n">array_size_in_mb</span> <span class="o">=</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">_get_idx_and_size_estimate</span><span class="p">(</span><span class="n">waveform_name</span><span class="p">,</span>
+                                            <span class="n">starttime</span><span class="p">,</span> <span class="n">endtime</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">array_size_in_mb</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">single_item_read_limit_in_mb</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;The current selection would read </span><span class="si">%.2f</span><span class="s2"> MB into memory from &quot;</span>
+                   <span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39;. The current limit is </span><span class="si">%.2f</span><span class="s2"> MB. Adjust by setting &quot;</span>
+                   <span class="s2">&quot;&#39;ASDFDataSet.single_item_read_limit_in_mb&#39; or use a &quot;</span>
+                   <span class="s2">&quot;different method to read the waveform data.&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                    <span class="n">array_size_in_mb</span><span class="p">,</span> <span class="n">waveform_name</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">single_item_read_limit_in_mb</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">ASDFValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
         <span class="n">network</span><span class="p">,</span> <span class="n">station</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">channel</span> <span class="o">=</span> <span class="n">waveform_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[:</span><span class="mi">4</span><span class="p">]</span>
         <span class="n">channel</span> <span class="o">=</span> <span class="n">channel</span><span class="p">[:</span><span class="n">channel</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;__&quot;</span><span class="p">)]</span>
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">[</span><span class="s2">&quot;Waveforms&quot;</span><span class="p">][</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">station</span><span class="p">)][</span>
             <span class="n">waveform_name</span><span class="p">]</span>
-        <span class="n">tr</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">Trace</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-        <span class="c1"># Starttime is a timestamp in nanoseconds.</span>
-        <span class="n">tr</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">starttime</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">UTCDateTime</span><span class="p">(</span>
-            <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;starttime&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="mf">1.0E9</span><span class="p">)</span>
-        <span class="n">tr</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">sampling_rate</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;sampling_rate&quot;</span><span class="p">])</span>
+
+        <span class="n">tr</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">Trace</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">idx_start</span><span class="p">:</span> <span class="n">idx_end</span><span class="p">])</span>
+        <span class="n">tr</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">starttime</span> <span class="o">=</span> <span class="n">data_starttime</span>
+        <span class="n">tr</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">sampling_rate</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;sampling_rate&quot;</span><span class="p">]</span>
         <span class="n">tr</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">network</span> <span class="o">=</span> <span class="n">network</span>
         <span class="n">tr</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">station</span> <span class="o">=</span> <span class="n">station</span>
         <span class="n">tr</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">location</span>
@@ -901,14 +963,14 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Pretty string formatting.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ret</span> <span class="o">=</span> <span class="s2">&quot;{format} file [format version: {version}]: &#39;{filename}&#39; ({&quot;</span> \
+        <span class="n">ret</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{format}</span><span class="s2"> file [format version: </span><span class="si">{version}</span><span class="s2">]: &#39;</span><span class="si">{filename}</span><span class="s2">&#39; ({&quot;</span> \
               <span class="s2">&quot;size})&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                  <span class="n">format</span><span class="o">=</span><span class="n">FORMAT_NAME</span><span class="p">,</span>
+                  <span class="nb">format</span><span class="o">=</span><span class="n">FORMAT_NAME</span><span class="p">,</span>
                   <span class="n">version</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">asdf_format_version</span><span class="p">,</span>
                   <span class="n">filename</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">),</span>
                   <span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pretty_filesize</span><span class="p">)</span>
         <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">Contains </span><span class="si">%i</span><span class="s2"> event(s)&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">)</span>
-        <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">Contains waveform data from {len} station(s).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">Contains waveform data from </span><span class="si">{len}</span><span class="s2"> station(s).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="nb">len</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">[</span><span class="s2">&quot;Waveforms&quot;</span><span class="p">])</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">auxiliary_data</span><span class="p">):</span>
@@ -920,9 +982,170 @@
     <span class="k">def</span> <span class="nf">_repr_pretty_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">cycle</span><span class="p">):</span>
         <span class="n">p</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__str__</span><span class="p">())</span>
 
-<div class="viewcode-block" id="ASDFDataSet.add_waveforms"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.add_waveforms">[docs]</a>    <span class="k">def</span> <span class="nf">add_waveforms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">waveform</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">event_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">origin_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                      <span class="n">magnitude_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">focal_mechanism_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                      <span class="n">provenance_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ASDFDataSet.append_waveforms"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.append_waveforms">[docs]</a>    <span class="k">def</span> <span class="nf">append_waveforms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">waveform</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Append waveforms to an existing data array if possible.</span>
+
+<span class="sd">        .. note::</span>
+
+<span class="sd">            The :meth:`.add_waveforms` method is the better choice in most</span>
+<span class="sd">            cases. This function here is only useful for special cases!</span>
+
+<span class="sd">        The main purpose of this function is to enable the construction of</span>
+<span class="sd">        ASDF files with large single arrays. The classical example is all</span>
+<span class="sd">        recordings of a station for a year or longer. If the</span>
+<span class="sd">        :meth:`.add_waveforms` method is used ASDF will internally store</span>
+<span class="sd">        each file in one or more data sets. This function here will attempt</span>
+<span class="sd">        to enlarge existing data arrays and append to them creating larger</span>
+<span class="sd">        ones that are a bit more efficient to read. It is slower to write</span>
+<span class="sd">        this way but it can potentially be faster to read.</span>
+
+<span class="sd">        This is only possible if the to be appended waveform traces</span>
+<span class="sd">        seamlessly fit after an existing trace with a tolerance of half a</span>
+<span class="sd">        sampling interval.</span>
+
+<span class="sd">        Please note that a single array in ASDF cannot have any gaps and/or</span>
+<span class="sd">        overlaps so even if this function is used it might still result in</span>
+<span class="sd">        several data sets in the HDF5 file.</span>
+
+<span class="sd">        This additionally requires that the data-sets being appended to have</span>
+<span class="sd">        chunks as non-chunked data cannot be resized. MPI is consequently</span>
+<span class="sd">        not allowed for this function as well.</span>
+
+<span class="sd">        .. warning::</span>
+
+<span class="sd">            Any potentially set `event_id`, `origin_id`, `magnitude_id`,</span>
+<span class="sd">            `focal_mechanism_id`, `provenance_id`, or `labels` will carry over</span>
+<span class="sd">            from the trace that is being appended to so please only use this</span>
+<span class="sd">            method if you known what you are doing.</span>
+
+
+<span class="sd">        .. rubric:: Example</span>
+
+<span class="sd">        Assuming three trace in three different files, ``A``, ``B``,</span>
+<span class="sd">        and ``C``, that could seamlessly be merged to one big trace</span>
+<span class="sd">        without producing a gap or overlap. Using :meth:`.add_waveforms`</span>
+<span class="sd">        will create three seperate data arrays in the ASDF file, e.g.</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            ds.add_waveforms(A, tag=&quot;random&quot;)</span>
+<span class="sd">            ds.add_waveforms(B, tag=&quot;random&quot;)</span>
+<span class="sd">            ds.add_waveforms(C, tag=&quot;random&quot;)</span>
+
+<span class="sd">        results in:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            /Waveforms</span>
+<span class="sd">                /XX.YYYY</span>
+<span class="sd">                    A</span>
+<span class="sd">                    B</span>
+<span class="sd">                    C</span>
+
+<span class="sd">        Using this method here on the other hand will (if possible) create a</span>
+<span class="sd">        single large array which might be a bit faster to read or to iterate</span>
+<span class="sd">        over.</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            ds.append_waveforms(A, tag=&quot;random&quot;)</span>
+<span class="sd">            ds.append_waveforms(B, tag=&quot;random&quot;)</span>
+<span class="sd">            ds.append_waveforms(C, tag=&quot;random&quot;)</span>
+
+<span class="sd">        This results in:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            /Waveforms</span>
+<span class="sd">                /XX.YYYY</span>
+<span class="sd">                    A + B + C</span>
+
+<span class="sd">        :param waveform: The waveform to add. Can either be an ObsPy Stream</span>
+<span class="sd">            or Trace object or something ObsPy can read.</span>
+<span class="sd">        :type waveform: :class:`obspy.core.stream.Stream`,</span>
+<span class="sd">            :class:`obspy.core.trace.Trace`, str, ...</span>
+<span class="sd">        :param tag: The path that will be given to all waveform files. It is</span>
+<span class="sd">            mandatory for all traces and facilitates identification of the data</span>
+<span class="sd">            within one ASDF volume. The ``&quot;raw_record&quot;`` path is,</span>
+<span class="sd">            by convention, reserved to raw, recorded, unprocessed data.</span>
+<span class="sd">        :type tag: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ASDFException</span><span class="p">(</span><span class="s2">&quot;This function cannot work with parallel &quot;</span>
+                                <span class="s2">&quot;MPI I/O.&quot;</span><span class="p">)</span>
+
+        <span class="n">tag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__parse_and_validate_tag</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+        <span class="n">waveform</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__parse_waveform_input_and_validate</span><span class="p">(</span><span class="n">waveform</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">_get_dataset_within_tolerance</span><span class="p">(</span><span class="n">station_group</span><span class="p">,</span> <span class="n">trace</span><span class="p">):</span>
+            <span class="c1"># Tolerance.</span>
+            <span class="n">min_t</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">starttime</span><span class="o">.</span><span class="n">timestamp</span> <span class="o">-</span> \
+                <span class="mf">0.5</span> <span class="o">*</span> <span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">delta</span>
+            <span class="n">max_t</span> <span class="o">=</span> <span class="n">min_t</span> <span class="o">+</span> <span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">delta</span>
+
+            <span class="n">i</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s2">&quot;__&quot;</span>
+            <span class="k">for</span> <span class="n">ds_name</span> <span class="ow">in</span> <span class="n">station_group</span><span class="o">.</span><span class="n">list</span><span class="p">():</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">ds_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="n">ds</span> <span class="o">=</span> <span class="n">station_group</span><span class="o">.</span><span class="n">_WaveformAccessor__hdf5_group</span><span class="p">[</span><span class="n">ds_name</span><span class="p">]</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;starttime&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">1</span><span class="n">e9</span> <span class="o">+</span> <span class="n">ds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> \
+                    <span class="mf">1.0</span> <span class="o">/</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;sampling_rate&quot;</span><span class="p">]</span>
+                <span class="k">del</span> <span class="n">ds</span>
+                <span class="k">if</span> <span class="n">min_t</span> <span class="o">&lt;=</span> <span class="n">t</span> <span class="o">&lt;=</span> <span class="n">max_t</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">ds_name</span>
+
+        <span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="n">waveform</span><span class="p">:</span>
+            <span class="c1"># The logic is quite easy - find an existing data-set that is</span>
+            <span class="c1"># within the allowed tolerance and append, otherwise just pass</span>
+            <span class="c1"># to the add_waveforms() method.</span>
+            <span class="n">sta_name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">network</span><span class="p">,</span> <span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">station</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">sta_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">[</span><span class="s2">&quot;Waveforms&quot;</span><span class="p">]:</span>
+                <span class="n">ds_name</span> <span class="o">=</span> <span class="n">_get_dataset_within_tolerance</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">waveforms</span><span class="p">[</span><span class="n">sta_name</span><span class="p">],</span> <span class="n">trace</span><span class="o">=</span><span class="n">trace</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">ds_name</span><span class="p">:</span>
+                    <span class="c1"># Append!</span>
+                    <span class="n">sta_group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">[</span><span class="s2">&quot;Waveforms&quot;</span><span class="p">][</span><span class="n">sta_name</span><span class="p">]</span>
+                    <span class="n">ds</span> <span class="o">=</span> <span class="n">sta_group</span><span class="p">[</span><span class="n">ds_name</span><span class="p">]</span>
+
+                    <span class="c1"># Make sure it actually can be resized.</span>
+                    <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">maxshape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&#39;maxshape&#39; of &#39;</span><span class="si">%s</span><span class="s2">&#39; is not set to None which &quot;</span>
+                               <span class="s2">&quot;prevents it from being resized.&quot;</span> <span class="o">%</span> <span class="n">ds_name</span><span class="p">)</span>
+                        <span class="k">raise</span> <span class="n">ASDFValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">chunks</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Data set &#39;</span><span class="si">%s</span><span class="s2">&#39; is not chunked which &quot;</span>
+                               <span class="s2">&quot;prevents it from being resized.&quot;</span> <span class="o">%</span> <span class="n">ds_name</span><span class="p">)</span>
+                        <span class="k">raise</span> <span class="n">ASDFValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+                    <span class="n">existing</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="c1"># Resize.</span>
+                    <span class="n">ds</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">existing</span> <span class="o">+</span> <span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">npts</span><span class="p">,</span> <span class="p">))</span>
+                    <span class="c1"># Add data.</span>
+                    <span class="n">ds</span><span class="p">[</span><span class="n">existing</span><span class="p">:]</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">data</span>
+
+                    <span class="c1"># Rename.</span>
+                    <span class="n">new_data_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_waveform_ds_name</span><span class="p">(</span>
+                        <span class="n">net</span><span class="o">=</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">network</span><span class="p">,</span> <span class="n">sta</span><span class="o">=</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">station</span><span class="p">,</span>
+                        <span class="n">loc</span><span class="o">=</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">location</span><span class="p">,</span> <span class="n">cha</span><span class="o">=</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span>
+                        <span class="n">start</span><span class="o">=</span><span class="n">obspy</span><span class="o">.</span><span class="n">UTCDateTime</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;starttime&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">1</span><span class="n">e9</span><span class="p">),</span>
+                        <span class="n">end</span><span class="o">=</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">endtime</span><span class="p">,</span>
+                        <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span>
+                    <span class="k">del</span> <span class="n">ds</span>
+
+                    <span class="c1"># This does not copy data but just changes the name.</span>
+                    <span class="n">sta_group</span><span class="p">[</span><span class="n">new_data_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">sta_group</span><span class="p">[</span><span class="n">ds_name</span><span class="p">]</span>
+                    <span class="k">del</span> <span class="n">sta_group</span><span class="p">[</span><span class="n">ds_name</span><span class="p">]</span>
+
+                    <span class="k">del</span> <span class="n">sta_group</span>
+                    <span class="k">continue</span>
+
+            <span class="c1"># If this did not work - append.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_waveforms</span><span class="p">(</span><span class="n">waveform</span><span class="o">=</span><span class="n">trace</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ASDFDataSet.add_waveforms"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.add_waveforms">[docs]</a>    <span class="k">def</span> <span class="nf">add_waveforms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">waveform</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">event_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">origin_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">magnitude_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">focal_mechanism_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">provenance_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds one or more waveforms to the current ASDF file.</span>
 
@@ -1021,17 +1244,38 @@
 <span class="sd">        ...                  focal_mechanism_id=focal_mechanism)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">provenance_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">provenance_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Will raise an error if not a valid qualified name.</span>
             <span class="n">split_qualified_name</span><span class="p">(</span><span class="n">provenance_id</span><span class="p">)</span>
 
         <span class="c1"># Parse labels to a single comma separated string.</span>
         <span class="n">labels</span> <span class="o">=</span> <span class="n">label2string</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
 
+        <span class="n">tag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__parse_and_validate_tag</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+        <span class="n">waveform</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__parse_waveform_input_and_validate</span><span class="p">(</span><span class="n">waveform</span><span class="p">)</span>
+
+        <span class="c1"># Actually add the data.</span>
+        <span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="n">waveform</span><span class="p">:</span>
+            <span class="c1"># Complicated multi-step process but it enables one to use</span>
+            <span class="c1"># parallel I/O with the same functions.</span>
+            <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_trace_get_collective_information</span><span class="p">(</span>
+                <span class="n">trace</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">event_id</span><span class="o">=</span><span class="n">event_id</span><span class="p">,</span> <span class="n">origin_id</span><span class="o">=</span><span class="n">origin_id</span><span class="p">,</span>
+                <span class="n">magnitude_id</span><span class="o">=</span><span class="n">magnitude_id</span><span class="p">,</span>
+                <span class="n">focal_mechanism_id</span><span class="o">=</span><span class="n">focal_mechanism_id</span><span class="p">,</span>
+                <span class="n">provenance_id</span><span class="o">=</span><span class="n">provenance_id</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">info</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_trace_write_collective_information</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_trace_write_independent_information</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">trace</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__parse_and_validate_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
         <span class="n">tag</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">tag</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;stationxml&quot;</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Tag &#39;</span><span class="si">%s</span><span class="s2">&#39; is invalid.&quot;</span> <span class="o">%</span> <span class="n">tag</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tag</span>
+
+    <span class="k">def</span> <span class="nf">__parse_waveform_input_and_validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">waveform</span><span class="p">):</span>
         <span class="c1"># The next function expects some kind of iterable that yields traces.</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">waveform</span><span class="p">,</span> <span class="n">obspy</span><span class="o">.</span><span class="n">Trace</span><span class="p">):</span>
             <span class="n">waveform</span> <span class="o">=</span> <span class="p">[</span><span class="n">waveform</span><span class="p">]</span>
@@ -1050,20 +1294,7 @@
                                 <span class="s2">&quot;endian 4 and 8 byte signed integers and &quot;</span>
                                 <span class="s2">&quot;floating point numbers.&quot;</span> <span class="o">%</span>
                                 <span class="n">trace</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-
-        <span class="c1"># Actually add the data.</span>
-        <span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="n">waveform</span><span class="p">:</span>
-            <span class="c1"># Complicated multi-step process but it enables one to use</span>
-            <span class="c1"># parallel I/O with the same functions.</span>
-            <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_trace_get_collective_information</span><span class="p">(</span>
-                <span class="n">trace</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">event_id</span><span class="o">=</span><span class="n">event_id</span><span class="p">,</span> <span class="n">origin_id</span><span class="o">=</span><span class="n">origin_id</span><span class="p">,</span>
-                <span class="n">magnitude_id</span><span class="o">=</span><span class="n">magnitude_id</span><span class="p">,</span>
-                <span class="n">focal_mechanism_id</span><span class="o">=</span><span class="n">focal_mechanism_id</span><span class="p">,</span>
-                <span class="n">provenance_id</span><span class="o">=</span><span class="n">provenance_id</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">info</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="k">continue</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_add_trace_write_collective_information</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_add_trace_write_independent_information</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">trace</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">waveform</span>
 
 <div class="viewcode-block" id="ASDFDataSet.get_provenance_document"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.get_provenance_document">[docs]</a>    <span class="k">def</span> <span class="nf">get_provenance_document</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1078,10 +1309,10 @@
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_provenance_group</span><span class="p">[</span><span class="n">document_name</span><span class="p">]</span>
 
         <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">_read_string_array</span><span class="p">(</span><span class="n">data</span><span class="p">))</span> <span class="k">as</span> <span class="n">buf</span><span class="p">:</span>
-            <span class="n">doc</span> <span class="o">=</span> <span class="n">prov</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">&quot;xml&quot;</span><span class="p">)</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="n">prov</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;xml&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">doc</span></div>
 
-<div class="viewcode-block" id="ASDFDataSet.add_provenance_document"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.add_provenance_document">[docs]</a>    <span class="k">def</span> <span class="nf">add_provenance_document</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ASDFDataSet.add_provenance_document"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.add_provenance_document">[docs]</a>    <span class="k">def</span> <span class="nf">add_provenance_document</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a provenance document to the current ASDF file.</span>
 
@@ -1103,13 +1334,13 @@
             <span class="n">name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
 
         <span class="c1"># Assert the name against the regex.</span>
-        <span class="k">if</span> <span class="n">PROV_FILENAME_REGEX</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">PROV_FILENAME_REGEX</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ASDFValueError</span><span class="p">(</span><span class="s2">&quot;Name &#39;</span><span class="si">%s</span><span class="s2">&#39; is invalid. It must validate &quot;</span>
                                  <span class="s2">&quot;against the regular expression &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span> <span class="o">%</span>
                                  <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">PROV_FILENAME_REGEX</span><span class="o">.</span><span class="n">pattern</span><span class="p">))</span>
 
         <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span> <span class="k">as</span> <span class="n">buf</span><span class="p">:</span>
-            <span class="n">document</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">&quot;xml&quot;</span><span class="p">)</span>
+            <span class="n">document</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;xml&quot;</span><span class="p">)</span>
             <span class="n">buf</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">buf</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;byte&quot;</span><span class="p">))</span>
 
@@ -1124,8 +1355,8 @@
                 <span class="n">compression</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                 <span class="n">compression_opts</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
                 <span class="n">shuffle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__shuffle</span><span class="p">,</span>
-                <span class="n">maxshape</span><span class="o">=</span><span class="p">(</span><span class="bp">None</span><span class="p">,),</span>
-                <span class="n">fletcher32</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span></div>
+                <span class="n">maxshape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,),</span>
+                <span class="n">fletcher32</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_add_trace_write_independent_information</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">trace</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1153,10 +1384,17 @@
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;dataset_attrs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
+    <span class="k">def</span> <span class="nf">__get_waveform_ds_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">net</span><span class="p">,</span> <span class="n">sta</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">cha</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{net}</span><span class="s2">.</span><span class="si">{sta}</span><span class="s2">.</span><span class="si">{loc}</span><span class="s2">.</span><span class="si">{cha}</span><span class="s2">__</span><span class="si">{start}</span><span class="s2">__</span><span class="si">{end}</span><span class="s2">__</span><span class="si">{tag}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">net</span><span class="o">=</span><span class="n">net</span><span class="p">,</span> <span class="n">sta</span><span class="o">=</span><span class="n">sta</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">loc</span><span class="p">,</span> <span class="n">cha</span><span class="o">=</span><span class="n">cha</span><span class="p">,</span>
+            <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S&quot;</span><span class="p">),</span>
+            <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S&quot;</span><span class="p">),</span>
+            <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">_add_trace_get_collective_information</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="n">trace</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">event_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">origin_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-            <span class="n">magnitude_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">focal_mechanism_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-            <span class="n">provenance_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">trace</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">event_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">origin_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">magnitude_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">focal_mechanism_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">provenance_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The information required for the collective part of adding a trace.</span>
 
@@ -1173,14 +1411,10 @@
 
         <span class="n">station_name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">network</span><span class="p">,</span> <span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">station</span><span class="p">)</span>
         <span class="c1"># Generate the name of the data within its station folder.</span>
-        <span class="n">data_name</span> <span class="o">=</span> <span class="s2">&quot;{net}.{sta}.{loc}.{cha}__{start}__{end}__{tag}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">net</span><span class="o">=</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">network</span><span class="p">,</span>
-            <span class="n">sta</span><span class="o">=</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">station</span><span class="p">,</span>
-            <span class="n">loc</span><span class="o">=</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">location</span><span class="p">,</span>
-            <span class="n">cha</span><span class="o">=</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span>
-            <span class="n">start</span><span class="o">=</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">starttime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S&quot;</span><span class="p">),</span>
-            <span class="n">end</span><span class="o">=</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">endtime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S&quot;</span><span class="p">),</span>
-            <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span>
+        <span class="n">data_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_waveform_ds_name</span><span class="p">(</span>
+            <span class="n">net</span><span class="o">=</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">network</span><span class="p">,</span> <span class="n">sta</span><span class="o">=</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">station</span><span class="p">,</span>
+            <span class="n">loc</span><span class="o">=</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">location</span><span class="p">,</span> <span class="n">cha</span><span class="o">=</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span>
+            <span class="n">start</span><span class="o">=</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">starttime</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">endtime</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span>
 
         <span class="n">group_name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">station_name</span><span class="p">,</span> <span class="n">data_name</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">group_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_waveform_group</span><span class="p">:</span>
@@ -1191,9 +1425,9 @@
 
         <span class="c1"># Checksumming cannot be used when writing with MPI I/O.</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="p">:</span>
-            <span class="n">fletcher32</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="n">fletcher32</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">fletcher32</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">fletcher32</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="n">info</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;station_name&quot;</span><span class="p">:</span> <span class="n">station_name</span><span class="p">,</span>
@@ -1206,7 +1440,7 @@
                 <span class="s2">&quot;compression_opts&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
                 <span class="s2">&quot;shuffle&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shuffle</span><span class="p">,</span>
                 <span class="s2">&quot;fletcher32&quot;</span><span class="p">:</span> <span class="n">fletcher32</span><span class="p">,</span>
-                <span class="s2">&quot;maxshape&quot;</span><span class="p">:</span> <span class="p">(</span><span class="bp">None</span><span class="p">,)</span>
+                <span class="s2">&quot;maxshape&quot;</span><span class="p">:</span> <span class="p">(</span><span class="kc">None</span><span class="p">,)</span>
             <span class="p">},</span>
             <span class="s2">&quot;dataset_attrs&quot;</span><span class="p">:</span> <span class="p">{</span>
                 <span class="c1"># Starttime is the epoch time in nanoseconds.</span>
@@ -1250,7 +1484,7 @@
             <span class="s2">&quot;magnitude_id&quot;</span><span class="p">:</span> <span class="n">magnitude_id</span><span class="p">,</span>
             <span class="s2">&quot;focal_mechanism_id&quot;</span><span class="p">:</span> <span class="n">focal_mechanism_id</span><span class="p">}</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">ids</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> \
+            <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> \
                     <span class="nb">hasattr</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="p">,</span> <span class="s2">&quot;asdf&quot;</span><span class="p">)</span> <span class="ow">and</span> \
                     <span class="nb">hasattr</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">asdf</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span><span class="p">):</span>
                 <span class="n">obj</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">asdf</span><span class="p">[</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span><span class="p">]</span>
@@ -1261,7 +1495,7 @@
 
         <span class="c1"># Set the provenance id. Either get the one from the arguments or</span>
         <span class="c1"># use the one already set in the trace.stats attribute.</span>
-        <span class="k">if</span> <span class="n">provenance_id</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> \
+        <span class="k">if</span> <span class="n">provenance_id</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> \
                 <span class="nb">hasattr</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="p">,</span> <span class="s2">&quot;asdf&quot;</span><span class="p">)</span> <span class="ow">and</span> \
                 <span class="nb">hasattr</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">asdf</span><span class="p">,</span> <span class="s2">&quot;provenance_id&quot;</span><span class="p">):</span>
             <span class="n">provenance_id</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">asdf</span><span class="p">[</span><span class="s2">&quot;provenance_id&quot;</span><span class="p">]</span>
@@ -1282,13 +1516,13 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">station_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">[</span><span class="s2">&quot;Waveforms&quot;</span><span class="p">]</span> <span class="ow">or</span> \
                 <span class="s2">&quot;StationXML&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">[</span><span class="s2">&quot;Waveforms&quot;</span><span class="p">][</span><span class="n">station_name</span><span class="p">]:</span>
-            <span class="k">return</span> <span class="bp">None</span>
+            <span class="k">return</span> <span class="kc">None</span>
 
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">[</span><span class="s2">&quot;Waveforms&quot;</span><span class="p">][</span><span class="n">station_name</span><span class="p">][</span><span class="s2">&quot;StationXML&quot;</span><span class="p">]</span>
 
         <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">_read_string_array</span><span class="p">(</span><span class="n">data</span><span class="p">))</span> <span class="k">as</span> <span class="n">buf</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">inv</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">read_inventory</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">&quot;stationxml&quot;</span><span class="p">)</span>
+                <span class="n">inv</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">read_inventory</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;stationxml&quot;</span><span class="p">)</span>
             <span class="k">except</span> <span class="n">lxml</span><span class="o">.</span><span class="n">etree</span><span class="o">.</span><span class="n">XMLSyntaxError</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                     <span class="s2">&quot;Invalid XML file stored in the StationXML group for &quot;</span>
@@ -1304,7 +1538,7 @@
         <span class="c1"># Write the station information to a numpy array that will then be</span>
         <span class="c1"># written to the HDF5 file.</span>
         <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span> <span class="k">as</span> <span class="n">buf</span><span class="p">:</span>
-            <span class="n">inv</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">&quot;stationxml&quot;</span><span class="p">)</span>
+            <span class="n">inv</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;stationxml&quot;</span><span class="p">)</span>
             <span class="n">buf</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">buf</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;byte&quot;</span><span class="p">))</span>
 
@@ -1323,8 +1557,8 @@
                 <span class="n">compression</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                 <span class="n">compression_opts</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__compression</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
                 <span class="n">shuffle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__shuffle</span><span class="p">,</span>
-                <span class="n">maxshape</span><span class="o">=</span><span class="p">(</span><span class="bp">None</span><span class="p">,),</span>
-                <span class="n">fletcher32</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                <span class="n">maxshape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,),</span>
+                <span class="n">fletcher32</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ASDFDataSet.add_stationxml"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.add_stationxml">[docs]</a>    <span class="k">def</span> <span class="nf">add_stationxml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stationxml</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1345,7 +1579,7 @@
         <span class="c1"># it can read it.</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stationxml</span><span class="p">,</span>
                           <span class="n">obspy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">inventory</span><span class="o">.</span><span class="n">inventory</span><span class="o">.</span><span class="n">Inventory</span><span class="p">):</span>
-            <span class="n">stationxml</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">read_inventory</span><span class="p">(</span><span class="n">stationxml</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">&quot;stationxml&quot;</span><span class="p">)</span>
+            <span class="n">stationxml</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">read_inventory</span><span class="p">(</span><span class="n">stationxml</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;stationxml&quot;</span><span class="p">)</span>
 
         <span class="c1"># Now we essentially walk the whole inventory, see what parts are</span>
         <span class="c1"># already available and add only the new ones. This involved quite a</span>
@@ -1361,7 +1595,7 @@
             <span class="c1"># Get any existing station information.</span>
             <span class="n">existing_inventory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_station</span><span class="p">(</span><span class="n">station_name</span><span class="p">)</span>
             <span class="c1"># If it does not exist yet, make sure its well behaved and add it.</span>
-            <span class="k">if</span> <span class="n">existing_inventory</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">existing_inventory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_add_inventory_object</span><span class="p">(</span>
                     <span class="n">inv</span><span class="o">=</span><span class="n">isolate_and_merge_station</span><span class="p">(</span>
                         <span class="n">stationxml</span><span class="p">,</span> <span class="n">network_id</span><span class="o">=</span><span class="n">network_id</span><span class="p">,</span>
@@ -1389,27 +1623,27 @@
             <span class="n">has_stationxml</span> <span class="o">=</span> <span class="s2">&quot;StationXML&quot;</span> <span class="ow">in</span> <span class="n">station</span>
             <span class="n">has_waveforms</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">station</span><span class="o">.</span><span class="n">get_waveform_tags</span><span class="p">())</span>
 
-            <span class="k">if</span> <span class="n">has_stationxml</span> <span class="ow">is</span> <span class="bp">False</span> <span class="ow">and</span> <span class="n">has_waveforms</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">has_stationxml</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">and</span> <span class="n">has_waveforms</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
                 <span class="k">continue</span>
 
-            <span class="k">elif</span> <span class="n">has_stationxml</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
-                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;No station information available for station &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span>
+            <span class="k">elif</span> <span class="n">has_stationxml</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No station information available for station &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span>
                       <span class="n">station</span><span class="o">.</span><span class="n">_station_name</span><span class="p">)</span>
                 <span class="n">summary</span><span class="p">[</span><span class="s2">&quot;no_station_information&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="k">continue</span>
-            <span class="k">elif</span> <span class="n">has_waveforms</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
-                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Station with no waveforms: &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span>
+            <span class="k">elif</span> <span class="n">has_waveforms</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Station with no waveforms: &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span>
                       <span class="n">station</span><span class="o">.</span><span class="n">_station_name</span><span class="p">)</span>
                 <span class="n">summary</span><span class="p">[</span><span class="s2">&quot;no_waveforms&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="k">continue</span>
             <span class="n">summary</span><span class="p">[</span><span class="s2">&quot;good_stations&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
 
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Checked </span><span class="si">%i</span><span class="s2"> station(s):&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">waveforms</span><span class="p">))</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="si">%i</span><span class="s2"> station(s) have no available station information&quot;</span> <span class="o">%</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Checked </span><span class="si">%i</span><span class="s2"> station(s):&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">waveforms</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="si">%i</span><span class="s2"> station(s) have no available station information&quot;</span> <span class="o">%</span>
               <span class="n">summary</span><span class="p">[</span><span class="s2">&quot;no_station_information&quot;</span><span class="p">])</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="si">%i</span><span class="s2"> station(s) with no waveforms&quot;</span> <span class="o">%</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="si">%i</span><span class="s2"> station(s) with no waveforms&quot;</span> <span class="o">%</span>
               <span class="n">summary</span><span class="p">[</span><span class="s2">&quot;no_waveforms&quot;</span><span class="p">])</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="si">%i</span><span class="s2"> good station(s)&quot;</span> <span class="o">%</span> <span class="n">summary</span><span class="p">[</span><span class="s2">&quot;good_stations&quot;</span><span class="p">])</span></div>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="si">%i</span><span class="s2"> good station(s)&quot;</span> <span class="o">%</span> <span class="n">summary</span><span class="p">[</span><span class="s2">&quot;good_stations&quot;</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="ASDFDataSet.ifilter"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.ifilter">[docs]</a>    <span class="k">def</span> <span class="nf">ifilter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">query_objects</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1430,10 +1664,10 @@
             <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;network&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;station&quot;</span><span class="p">]:</span>
                 <span class="n">net_code</span><span class="p">,</span> <span class="n">sta_code</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">_station_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;network&quot;</span><span class="p">]:</span>
-                    <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;network&quot;</span><span class="p">](</span><span class="n">net_code</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;network&quot;</span><span class="p">](</span><span class="n">net_code</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
                         <span class="k">continue</span>
                 <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;station&quot;</span><span class="p">]:</span>
-                    <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;station&quot;</span><span class="p">](</span><span class="n">sta_code</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;station&quot;</span><span class="p">](</span><span class="n">sta_code</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
                         <span class="k">continue</span>
 
             <span class="c1"># Check if the coordinates have to be parsed. Only station level</span>
@@ -1448,21 +1682,21 @@
                     <span class="n">longitude</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span>
                     <span class="n">elevation_in_m</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[</span><span class="s2">&quot;elevation_in_m&quot;</span><span class="p">]</span>
                 <span class="k">except</span> <span class="n">NoStationXMLForStation</span><span class="p">:</span>
-                    <span class="n">latitude</span> <span class="o">=</span> <span class="bp">None</span>
-                    <span class="n">longitude</span> <span class="o">=</span> <span class="bp">None</span>
-                    <span class="n">elevation_in_m</span> <span class="o">=</span> <span class="bp">None</span>
+                    <span class="n">latitude</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="n">longitude</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="n">elevation_in_m</span> <span class="o">=</span> <span class="kc">None</span>
 
                 <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]:</span>
-                    <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">](</span><span class="n">latitude</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">](</span><span class="n">latitude</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
                         <span class="k">continue</span>
 
                 <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]:</span>
-                    <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">](</span><span class="n">longitude</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">](</span><span class="n">longitude</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
                         <span class="k">continue</span>
 
                 <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;elevation_in_m&quot;</span><span class="p">]:</span>
                     <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;elevation_in_m&quot;</span><span class="p">](</span><span class="n">elevation_in_m</span><span class="p">)</span> \
-                            <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                            <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
                         <span class="k">continue</span>
 
             <span class="n">wfs</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">filter_waveforms</span><span class="p">(</span><span class="n">queries</span><span class="p">)</span>
@@ -1522,7 +1756,7 @@
             <span class="n">total_job_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">usable_stations</span><span class="p">)</span>
             <span class="n">jobs</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">usable_stations</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">jobs</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="n">jobs</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="c1"># Scatter jobs.</span>
         <span class="n">jobs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">jobs</span><span class="p">,</span> <span class="n">root</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -1533,7 +1767,7 @@
         <span class="k">for</span> <span class="n">_i</span><span class="p">,</span> <span class="n">station</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">jobs</span><span class="p">):</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">print</span><span class="p">(</span><span class="s2">&quot; -&gt; Processing approximately task </span><span class="si">%i</span><span class="s2"> of </span><span class="si">%i</span><span class="s2"> ...&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; -&gt; Processing approximately task </span><span class="si">%i</span><span class="s2"> of </span><span class="si">%i</span><span class="s2"> ...&quot;</span> <span class="o">%</span> <span class="p">(</span>
                       <span class="p">(</span><span class="n">_i</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">total_job_count</span><span class="p">))</span>
 
             <span class="k">try</span><span class="p">:</span>
@@ -1574,8 +1808,8 @@
                 <span class="k">del</span> <span class="n">exc_info</span>
                 <span class="k">del</span> <span class="n">stack</span>
 
-                <span class="k">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-                <span class="k">print</span><span class="p">(</span><span class="n">tb</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">tb</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">results</span><span class="p">[</span><span class="n">station</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span>
 
@@ -1627,7 +1861,7 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">file_exists</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_filename</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">file_exists</span> <span class="o">=</span> <span class="bp">False</span>
+                <span class="n">file_exists</span> <span class="o">=</span> <span class="kc">False</span>
 
             <span class="c1"># Make sure the exception is still raised on every core.</span>
             <span class="n">file_exists</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">bcast</span><span class="p">(</span><span class="n">file_exists</span><span class="p">,</span> <span class="n">root</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -1658,7 +1892,7 @@
                     <span class="n">station_tags</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">station</span><span class="p">,</span> <span class="n">tag</span><span class="p">))</span>
             <span class="n">has_station_tags</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">station_tags</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">has_station_tags</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="n">has_station_tags</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="p">:</span>
             <span class="n">has_station_tags</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">bcast</span><span class="p">(</span><span class="n">has_station_tags</span><span class="p">,</span> <span class="n">root</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -1669,7 +1903,7 @@
         <span class="c1"># Copy the station and event data only on the master process.</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mpi</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
             <span class="c1"># Deactivate MPI even if active to not run into any barriers.</span>
-            <span class="n">output_data_set</span> <span class="o">=</span> <span class="n">ASDFDataSet</span><span class="p">(</span><span class="n">output_filename</span><span class="p">,</span> <span class="n">mpi</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+            <span class="n">output_data_set</span> <span class="o">=</span> <span class="n">ASDFDataSet</span><span class="p">(</span><span class="n">output_filename</span><span class="p">,</span> <span class="n">mpi</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">station_name</span><span class="p">,</span> <span class="n">station_group</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_waveform_group</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">station_group</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                     <span class="k">if</span> <span class="n">tag</span> <span class="o">!=</span> <span class="s2">&quot;StationXML&quot;</span><span class="p">:</span>
@@ -1693,7 +1927,7 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="p">:</span>
             <span class="n">compression</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__compression</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">compression</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="n">compression</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="n">output_data_set</span> <span class="o">=</span> <span class="n">ASDFDataSet</span><span class="p">(</span><span class="n">output_filename</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="n">compression</span><span class="p">)</span>
 
@@ -1727,7 +1961,7 @@
 <span class="sd">        The master node. It distributes the jobs and takes care that</span>
 <span class="sd">        metadata modifying actions are collective.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">mpi4py</span> <span class="kn">import</span> <span class="n">MPI</span>
+        <span class="kn">from</span> <span class="nn">mpi4py</span> <span class="k">import</span> <span class="n">MPI</span>
 
         <span class="n">worker_nodes</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
         <span class="n">workers_requesting_write</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1737,7 +1971,7 @@
 
         <span class="n">__last_print</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Launching processing using MPI on </span><span class="si">%i</span><span class="s2"> processors.&quot;</span> <span class="o">%</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Launching processing using MPI on </span><span class="si">%i</span><span class="s2"> processors.&quot;</span> <span class="o">%</span>
               <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
 
         <span class="c1"># Barrier to indicate we are ready for looping. Must be repeated in</span>
@@ -1750,22 +1984,22 @@
 
             <span class="c1"># Informative output.</span>
             <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">__last_print</span> <span class="o">&gt;</span> <span class="mf">2.0</span><span class="p">:</span>
-                <span class="k">print</span><span class="p">(</span><span class="n">jobs</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">jobs</span><span class="p">)</span>
                 <span class="n">__last_print</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
             <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">workers_requesting_write</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> <span class="ow">or</span> \
                     <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">workers_requesting_write</span><span class="p">)</span> <span class="ow">and</span>
                      <span class="n">jobs</span><span class="o">.</span><span class="n">all_poison_pills_received</span><span class="p">):</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
-                    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;MASTER: initializing metadata synchronization.&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MASTER: initializing metadata synchronization.&quot;</span><span class="p">)</span>
 
                 <span class="c1"># Send force write msgs to all workers and block until all</span>
                 <span class="c1"># have been sent. Don&#39;t use blocking send cause then one</span>
                 <span class="c1"># will have to wait each time anew and not just once for each.</span>
                 <span class="c1"># The message will ready each worker for a collective</span>
                 <span class="c1"># operation once its current operation is ready.</span>
-                <span class="n">requests</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_send_mpi</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="s2">&quot;MASTER_FORCES_WRITE&quot;</span><span class="p">,</span>
-                                           <span class="n">blocking</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                <span class="n">requests</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_send_mpi</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="s2">&quot;MASTER_FORCES_WRITE&quot;</span><span class="p">,</span>
+                                           <span class="n">blocking</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
                             <span class="k">for</span> <span class="n">rank</span> <span class="ow">in</span> <span class="n">worker_nodes</span><span class="p">]</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">MPI</span><span class="o">.</span><span class="n">Request</span><span class="o">.</span><span class="n">waitall</span><span class="p">(</span><span class="n">requests</span><span class="p">)</span>
 
@@ -1774,7 +2008,7 @@
                 <span class="c1"># Reset workers requesting a write.</span>
                 <span class="n">workers_requesting_write</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">[]</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
-                    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;MASTER: done with metadata synchronization.&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MASTER: done with metadata synchronization.&quot;</span><span class="p">)</span>
                 <span class="k">continue</span>
 
             <span class="c1"># Retrieve any possible message and &quot;dispatch&quot; appropriately.</span>
@@ -1810,10 +2044,10 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Master done, shutting down workers...&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Master done, shutting down workers...&quot;</span><span class="p">)</span>
         <span class="c1"># Shutdown workers.</span>
         <span class="k">for</span> <span class="n">rank</span> <span class="ow">in</span> <span class="n">worker_nodes</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_send_mpi</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="s2">&quot;ALL_DONE&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_send_mpi</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="s2">&quot;ALL_DONE&quot;</span><span class="p">)</span>
 
         <span class="c1"># Collect any stray messages that a poison pill has been received.</span>
         <span class="c1"># Does not matter for the flow but for aestetic reasons this is nicer.</span>
@@ -1826,7 +2060,7 @@
                                <span class="n">tag</span><span class="o">=</span><span class="n">MSG_TAGS</span><span class="p">[</span><span class="s2">&quot;POISON_PILL_RECEIVED&quot;</span><span class="p">])</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">jobs</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">jobs</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_dispatch_processing_mpi_worker_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">process_function</span><span class="p">,</span>
                                              <span class="n">output_dataset</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">,</span>
@@ -1838,9 +2072,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span> <span class="o">=</span> <span class="n">StreamBuffer</span><span class="p">()</span>
 
         <span class="n">worker_state</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;poison_pill_received&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
-            <span class="s2">&quot;waiting_for_write&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
-            <span class="s2">&quot;waiting_for_item&quot;</span><span class="p">:</span> <span class="bp">False</span>
+            <span class="s2">&quot;poison_pill_received&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;waiting_for_write&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;waiting_for_item&quot;</span><span class="p">:</span> <span class="kc">False</span>
         <span class="p">}</span>
 
         <span class="c1"># Barrier to indicate we are ready for looping. Must be repeated in</span>
@@ -1855,16 +2089,16 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_msg</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;MASTER_FORCES_WRITE&quot;</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_sync_metadata</span><span class="p">(</span><span class="n">output_dataset</span><span class="p">,</span> <span class="n">tag_map</span><span class="o">=</span><span class="n">tag_map</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                    <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                         <span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
                             <span class="n">output_dataset</span><span class="o">.</span>\
                                 <span class="n">_add_trace_write_independent_information</span><span class="p">(</span>
                                     <span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">__info</span><span class="p">,</span> <span class="n">trace</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_send_mpi</span><span class="p">((</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)),</span> <span class="mi">0</span><span class="p">,</span>
                                    <span class="s2">&quot;WORKER_DONE_WITH_ITEM&quot;</span><span class="p">,</span>
-                                   <span class="n">blocking</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                                   <span class="n">blocking</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-                <span class="n">worker_state</span><span class="p">[</span><span class="s2">&quot;waiting_for_write&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+                <span class="n">worker_state</span><span class="p">[</span><span class="s2">&quot;waiting_for_write&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
 
             <span class="c1"># Keep looping and wait for either the next write or that the</span>
             <span class="c1"># loop terminates.</span>
@@ -1874,8 +2108,8 @@
 
             <span class="k">if</span> <span class="ow">not</span> <span class="n">worker_state</span><span class="p">[</span><span class="s2">&quot;waiting_for_item&quot;</span><span class="p">]:</span>
                 <span class="c1"># Send message that the worker requires work.</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_send_mpi</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;WORKER_REQUESTS_ITEM&quot;</span><span class="p">,</span> <span class="n">blocking</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-                <span class="n">worker_state</span><span class="p">[</span><span class="s2">&quot;waiting_for_item&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_send_mpi</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;WORKER_REQUESTS_ITEM&quot;</span><span class="p">,</span> <span class="n">blocking</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">worker_state</span><span class="p">[</span><span class="s2">&quot;waiting_for_item&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="k">continue</span>
 
             <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_msg</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;MASTER_SENDS_ITEM&quot;</span><span class="p">)</span>
@@ -1884,18 +2118,18 @@
 
             <span class="c1"># Beyond this point it will always have received a new item.</span>
             <span class="n">station_tag</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">data</span>
-            <span class="n">worker_state</span><span class="p">[</span><span class="s2">&quot;waiting_for_item&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="n">worker_state</span><span class="p">[</span><span class="s2">&quot;waiting_for_item&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
 
             <span class="c1"># If no more work to be done, store state and keep looping as</span>
             <span class="c1"># stuff still might require to be written.</span>
             <span class="k">if</span> <span class="n">station_tag</span> <span class="o">==</span> <span class="n">POISON_PILL</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_send_mpi</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;WORKER_REQUESTS_WRITE&quot;</span><span class="p">,</span>
-                                   <span class="n">blocking</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-                    <span class="n">worker_state</span><span class="p">[</span><span class="s2">&quot;waiting_for_write&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
-                <span class="n">worker_state</span><span class="p">[</span><span class="s2">&quot;poison_pill_received&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_send_mpi</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;POISON_PILL_RECEIVED&quot;</span><span class="p">,</span>
-                               <span class="n">blocking</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_send_mpi</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;WORKER_REQUESTS_WRITE&quot;</span><span class="p">,</span>
+                                   <span class="n">blocking</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="n">worker_state</span><span class="p">[</span><span class="s2">&quot;waiting_for_write&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">worker_state</span><span class="p">[</span><span class="s2">&quot;poison_pill_received&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_send_mpi</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;POISON_PILL_RECEIVED&quot;</span><span class="p">,</span>
+                               <span class="n">blocking</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
                 <span class="k">continue</span>
 
             <span class="c1"># Otherwise process the data.</span>
@@ -1938,11 +2172,11 @@
                 <span class="k">del</span> <span class="n">exc_info</span>
                 <span class="k">del</span> <span class="n">stack</span>
 
-                <span class="k">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-                <span class="k">print</span><span class="p">(</span><span class="n">tb</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">tb</span><span class="p">)</span>
 
                 <span class="c1"># Make sure synchronization works.</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span><span class="p">[</span><span class="n">station_tag</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span><span class="p">[</span><span class="n">station_tag</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># Add stream to buffer only if no error occured.</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span><span class="p">[</span><span class="n">station_tag</span><span class="p">]</span> <span class="o">=</span> <span class="n">stream</span>
@@ -1951,11 +2185,11 @@
             <span class="c1"># the current execution.</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span><span class="o">.</span><span class="n">get_size</span><span class="p">()</span> <span class="o">&gt;=</span> \
                     <span class="n">MAX_MEMORY_PER_WORKER_IN_MB</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">**</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_send_mpi</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;WORKER_REQUESTS_WRITE&quot;</span><span class="p">,</span>
-                               <span class="n">blocking</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-                <span class="n">worker_state</span><span class="p">[</span><span class="s2">&quot;waiting_for_write&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_send_mpi</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;WORKER_REQUESTS_WRITE&quot;</span><span class="p">,</span>
+                               <span class="n">blocking</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">worker_state</span><span class="p">[</span><span class="s2">&quot;waiting_for_write&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Worker </span><span class="si">%i</span><span class="s2"> shutting down...&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">rank</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Worker </span><span class="si">%i</span><span class="s2"> shutting down...&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">rank</span><span class="p">)</span>
 
         <span class="c1"># Collect any left-over messages. This can happen if the node</span>
         <span class="c1"># requests a new item (which would be a poison pill in any case) but</span>
@@ -1977,7 +2211,7 @@
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;stream_buffer&quot;</span><span class="p">):</span>
             <span class="n">sendobj</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">stream</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stream_buffer</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="k">if</span> <span class="n">stream</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">stream</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">continue</span>
                 <span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="n">stream</span><span class="p">:</span>
                     <span class="n">info</span> <span class="o">=</span> \
@@ -1986,11 +2220,11 @@
                     <span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">__info</span> <span class="o">=</span> <span class="n">info</span>
                     <span class="n">sendobj</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">sendobj</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span>
+            <span class="n">sendobj</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span>
 
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">allgather</span><span class="p">(</span><span class="n">sendobj</span><span class="o">=</span><span class="n">sendobj</span><span class="p">)</span>
         <span class="c1"># Chain and remove None.</span>
-        <span class="n">trace_info</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">,</span>
+        <span class="n">trace_info</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
                             <span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
         <span class="c1"># Write collective part.</span>
         <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">trace_info</span><span class="p">:</span>
@@ -2002,7 +2236,7 @@
             <span class="k">for</span> <span class="n">rank</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
                 <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_msg</span><span class="p">(</span><span class="n">rank</span><span class="p">,</span> <span class="s2">&quot;WORKER_REQUESTS_WRITE&quot;</span><span class="p">)</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="ow">and</span> <span class="n">msg</span><span class="p">:</span>
-                    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;MASTER: Ignoring write request by worker </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MASTER: Ignoring write request by worker </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span>
                           <span class="n">rank</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
@@ -2077,7 +2311,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">__traceback_limit</span> <span class="o">=</span> <span class="n">traceback_limit</span>
 
             <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-                <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">__task_count</span> <span class="o">+=</span> <span class="mi">1</span>
                     <span class="n">stationtag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_queue</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">stationtag</span> <span class="o">==</span> <span class="n">POISON_PILL</span><span class="p">:</span>
@@ -2087,7 +2321,7 @@
                     <span class="c1"># Only print on &quot;rank&quot; 0.</span>
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__process_name</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">print_lock</span><span class="p">:</span>
-                            <span class="k">print</span><span class="p">(</span><span class="s2">&quot; -&gt; Processing approximately task </span><span class="si">%i</span><span class="s2"> of &quot;</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; -&gt; Processing approximately task </span><span class="si">%i</span><span class="s2"> of &quot;</span>
                                   <span class="s2">&quot;</span><span class="si">%i</span><span class="s2"> ...&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">min</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">__task_count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span>
                                                   <span class="bp">self</span><span class="o">.</span><span class="n">__cpu_count</span><span class="p">,</span>
                                                   <span class="bp">self</span><span class="o">.</span><span class="n">__total_task_count</span><span class="p">),</span>
@@ -2130,8 +2364,8 @@
                             <span class="k">for</span> <span class="n">_i</span> <span class="ow">in</span> <span class="n">exc_line</span><span class="p">)</span>
 
                         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">print_lock</span><span class="p">:</span>
-                            <span class="k">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-                            <span class="k">print</span><span class="p">(</span><span class="n">tb</span><span class="p">)</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="n">tb</span><span class="p">)</span>
 
                         <span class="bp">self</span><span class="o">.</span><span class="n">input_queue</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>
                         <span class="k">continue</span>
@@ -2156,7 +2390,7 @@
                 <span class="n">process_name</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">total_task_count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">station_tags</span><span class="p">),</span>
                 <span class="n">cpu_count</span><span class="o">=</span><span class="n">cpu_count</span><span class="p">,</span> <span class="n">traceback_limit</span><span class="o">=</span><span class="n">traceback_limit</span><span class="p">))</span>
 
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Launching processing using multiprocessing on </span><span class="si">%i</span><span class="s2"> cores ...&quot;</span> <span class="o">%</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Launching processing using multiprocessing on </span><span class="si">%i</span><span class="s2"> cores ...&quot;</span> <span class="o">%</span>
               <span class="n">cpu_count</span><span class="p">)</span>
         <span class="n">_start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
@@ -2168,7 +2402,7 @@
 
         <span class="n">_end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
         <span class="n">_dur</span> <span class="o">=</span> <span class="p">(</span><span class="n">_end</span> <span class="o">-</span> <span class="n">_start</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Finished processing in </span><span class="si">%.2f</span><span class="s2"> seconds (</span><span class="si">%.2g</span><span class="s2"> sec/station).&quot;</span> <span class="o">%</span> <span class="p">(</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Finished processing in </span><span class="si">%.2f</span><span class="s2"> seconds (</span><span class="si">%.2g</span><span class="s2"> sec/station).&quot;</span> <span class="o">%</span> <span class="p">(</span>
             <span class="n">_dur</span><span class="p">,</span> <span class="n">_dur</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">station_tags</span><span class="p">)))</span>
 
         <span class="n">ASDFDataSet</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__original_filename</span><span class="p">)</span>
@@ -2189,7 +2423,7 @@
             <span class="n">pretty_receiver_log</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">rank</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">msg</span>
 
-    <span class="k">def</span> <span class="nf">_send_mpi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">blocking</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_send_mpi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">blocking</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Helper method to send a message via MPI.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -2222,7 +2456,54 @@
                 <span class="n">coords</span><span class="p">[</span><span class="n">station</span><span class="o">.</span><span class="n">_station_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">coordinates</span>
             <span class="k">except</span> <span class="n">NoStationXMLForStation</span><span class="p">:</span>
                 <span class="k">pass</span>
-        <span class="k">return</span> <span class="n">coords</span></div></div>
+        <span class="k">return</span> <span class="n">coords</span></div>
+
+<div class="viewcode-block" id="ASDFDataSet.get_waveforms"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.get_waveforms">[docs]</a>    <span class="k">def</span> <span class="nf">get_waveforms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">network</span><span class="p">,</span> <span class="n">station</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">starttime</span><span class="p">,</span>
+                      <span class="n">endtime</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">automerge</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Directly access waveforms.</span>
+
+<span class="sd">        This enables a more exact specification of what one wants to</span>
+<span class="sd">        retrieve from an ASDF file. Most importantly it honors the start and</span>
+<span class="sd">        end time and only reads those samples that are actually desired -</span>
+<span class="sd">        this is especially important for large, continuous data sets.</span>
+
+<span class="sd">        :type network: str</span>
+<span class="sd">        :param network: The network code. Can contain wildcards.</span>
+<span class="sd">        :type station: str</span>
+<span class="sd">        :param station: The station code. Can contain wildcards.</span>
+<span class="sd">        :type location: str</span>
+<span class="sd">        :param location: The location code. Can contain wildcards.</span>
+<span class="sd">        :type channel: str</span>
+<span class="sd">        :param channel: The channel code. Can contain wildcards.</span>
+<span class="sd">        :type starttime: :class:`obspy.core.utcdatetime.UTCDateTime`.</span>
+<span class="sd">        :param starttime: The time of the first sample.</span>
+<span class="sd">        :type endtime: :class:`obspy.core.utcdatetime.UTCDateTime`.</span>
+<span class="sd">        :param endtime: The time of the last sample.</span>
+<span class="sd">        :type tag: str</span>
+<span class="sd">        :param tag: The tag to extract.</span>
+<span class="sd">        :type automerge: bool</span>
+<span class="sd">        :param automerge: Automatically merge adjacent traces if they are</span>
+<span class="sd">            exactly adjacent (e.g. last sample from previous trace + first</span>
+<span class="sd">            sample of next trace are one delta apart).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">st</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">Stream</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ifilter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">network</span> <span class="o">==</span> <span class="n">network</span><span class="p">,</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">station</span> <span class="o">==</span> <span class="n">station</span><span class="p">,</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">location</span> <span class="o">==</span> <span class="n">location</span><span class="p">,</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">channel</span> <span class="o">==</span> <span class="n">channel</span><span class="p">,</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">tag</span><span class="p">,</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">starttime</span> <span class="o">&lt;=</span> <span class="n">endtime</span><span class="p">,</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">endtime</span> <span class="o">&gt;=</span> <span class="n">starttime</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">get_waveform_tags</span><span class="p">():</span>
+                <span class="n">st</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">starttime</span><span class="o">=</span><span class="n">starttime</span><span class="p">,</span>
+                                     <span class="n">endtime</span><span class="o">=</span><span class="n">endtime</span><span class="p">))</span>
+
+        <span class="c1"># Cleanup merge - will only merge exactly adjacent traces.</span>
+        <span class="k">if</span> <span class="n">automerge</span><span class="p">:</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">method</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">st</span></div></div>
 </pre></div>
 
            </div>

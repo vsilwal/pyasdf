@@ -37,6 +37,9 @@
   
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
   
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
     <link rel="top" title="pyasdf 0.1.x documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
@@ -151,13 +154,13 @@
 <span class="sd">:license:</span>
 <span class="sd">    BSD 3-Clause (&quot;BSD New&quot; or &quot;BSD Simplified&quot;)</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="p">(</span><span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="p">(</span><span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span>
                         <span class="n">unicode_literals</span><span class="p">)</span>
 
 <span class="kn">import</span> <span class="nn">collections</span>
 <span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">from</span> <span class="nn">lxml</span> <span class="kn">import</span> <span class="n">etree</span>
-<span class="kn">from</span> <span class="nn">obspy</span> <span class="kn">import</span> <span class="n">UTCDateTime</span>
+<span class="kn">from</span> <span class="nn">lxml</span> <span class="k">import</span> <span class="n">etree</span>
+<span class="kn">from</span> <span class="nn">obspy</span> <span class="k">import</span> <span class="n">UTCDateTime</span>
 
 
 <div class="viewcode-block" id="merge_inventories"><a class="viewcode-back" href="../../inventory_utils.html#pyasdf.inventory_utils.merge_inventories">[docs]</a><span class="k">def</span> <span class="nf">merge_inventories</span><span class="p">(</span><span class="n">inv_a</span><span class="p">,</span> <span class="n">inv_b</span><span class="p">,</span> <span class="n">network_id</span><span class="p">,</span> <span class="n">station_id</span><span class="p">):</span>
@@ -201,7 +204,7 @@
 <span class="sd">    :type station_id: str</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">inv</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">inv</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">network</span><span class="o">=</span><span class="n">network_id</span><span class="p">,</span> <span class="n">station</span><span class="o">=</span><span class="n">station_id</span><span class="p">,</span>
-                                   <span class="n">keep_empty</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+                                   <span class="n">keep_empty</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 
     <span class="c1"># Merge networks if necessary.</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inv</span><span class="o">.</span><span class="n">networks</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
@@ -210,17 +213,17 @@
             <span class="c1"># Merge the stations.</span>
             <span class="n">network</span><span class="o">.</span><span class="n">stations</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">other_network</span><span class="o">.</span><span class="n">stations</span><span class="p">)</span>
             <span class="c1"># Update the times if necessary.</span>
-            <span class="k">if</span> <span class="n">other_network</span><span class="o">.</span><span class="n">start_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">network</span><span class="o">.</span><span class="n">start_date</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> \
+            <span class="k">if</span> <span class="n">other_network</span><span class="o">.</span><span class="n">start_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">network</span><span class="o">.</span><span class="n">start_date</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> \
                         <span class="n">network</span><span class="o">.</span><span class="n">start_date</span> <span class="o">&gt;</span> <span class="n">other_network</span><span class="o">.</span><span class="n">start_date</span><span class="p">:</span>
                     <span class="n">network</span><span class="o">.</span><span class="n">start_date</span> <span class="o">=</span> <span class="n">other_network</span><span class="o">.</span><span class="n">start_date</span>
             <span class="c1"># None is the &quot;biggest&quot; end_date.</span>
-            <span class="k">if</span> <span class="n">network</span><span class="o">.</span><span class="n">end_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">other_network</span><span class="o">.</span><span class="n">end_date</span> <span class="ow">is</span> \
-                    <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">network</span><span class="o">.</span><span class="n">end_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">other_network</span><span class="o">.</span><span class="n">end_date</span> <span class="ow">is</span> \
+                    <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">other_network</span><span class="o">.</span><span class="n">end_date</span> <span class="o">&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">end_date</span><span class="p">:</span>
                     <span class="n">network</span><span class="o">.</span><span class="n">end_date</span> <span class="o">=</span> <span class="n">other_network</span><span class="o">.</span><span class="n">end_date</span>
-            <span class="k">elif</span> <span class="n">other_network</span><span class="o">.</span><span class="n">end_date</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="n">network</span><span class="o">.</span><span class="n">end_date</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">elif</span> <span class="n">other_network</span><span class="o">.</span><span class="n">end_date</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">network</span><span class="o">.</span><span class="n">end_date</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="c1"># Update comments.</span>
             <span class="n">network</span><span class="o">.</span><span class="n">comments</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
                 <span class="nb">set</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">comments</span><span class="p">)</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">other_network</span><span class="o">.</span><span class="n">comments</span><span class="p">)))</span>
@@ -233,11 +236,11 @@
                         <span class="n">other_network</span><span class="o">.</span><span class="n">total_number_of_stations</span>
             <span class="c1"># Update the other elements</span>
             <span class="n">network</span><span class="o">.</span><span class="n">alternate_code</span> <span class="o">=</span> <span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">alternate_code</span> <span class="ow">or</span>
-                                      <span class="n">other_network</span><span class="o">.</span><span class="n">alternate_code</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">None</span>
+                                      <span class="n">other_network</span><span class="o">.</span><span class="n">alternate_code</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span>
             <span class="n">network</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">description</span> <span class="ow">or</span>
-                                   <span class="n">other_network</span><span class="o">.</span><span class="n">description</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">None</span>
+                                   <span class="n">other_network</span><span class="o">.</span><span class="n">description</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span>
             <span class="n">network</span><span class="o">.</span><span class="n">historical_code</span> <span class="o">=</span> <span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">historical_code</span> <span class="ow">or</span>
-                                       <span class="n">other_network</span><span class="o">.</span><span class="n">historical_code</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">None</span>
+                                       <span class="n">other_network</span><span class="o">.</span><span class="n">historical_code</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span>
             <span class="n">network</span><span class="o">.</span><span class="n">restricted_status</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">restricted_status</span> <span class="ow">or</span> \
                 <span class="n">other_network</span><span class="o">.</span><span class="n">restricted_status</span>
         <span class="n">inv</span><span class="o">.</span><span class="n">networks</span> <span class="o">=</span> <span class="p">[</span><span class="n">network</span><span class="p">]</span>
@@ -249,17 +252,17 @@
             <span class="c1"># Merge the channels.</span>
             <span class="n">station</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">other_station</span><span class="o">.</span><span class="n">channels</span><span class="p">)</span>
             <span class="c1"># Update the times if necessary.</span>
-            <span class="k">if</span> <span class="n">other_station</span><span class="o">.</span><span class="n">start_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">station</span><span class="o">.</span><span class="n">start_date</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> \
+            <span class="k">if</span> <span class="n">other_station</span><span class="o">.</span><span class="n">start_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">station</span><span class="o">.</span><span class="n">start_date</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> \
                         <span class="n">station</span><span class="o">.</span><span class="n">start_date</span> <span class="o">&gt;</span> <span class="n">other_station</span><span class="o">.</span><span class="n">start_date</span><span class="p">:</span>
                     <span class="n">station</span><span class="o">.</span><span class="n">start_date</span> <span class="o">=</span> <span class="n">other_station</span><span class="o">.</span><span class="n">start_date</span>
             <span class="c1"># None is the &quot;biggest&quot; end_date.</span>
-            <span class="k">if</span> <span class="n">station</span><span class="o">.</span><span class="n">end_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">other_station</span><span class="o">.</span><span class="n">end_date</span> <span class="ow">is</span> \
-                    <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">station</span><span class="o">.</span><span class="n">end_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">other_station</span><span class="o">.</span><span class="n">end_date</span> <span class="ow">is</span> \
+                    <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">other_station</span><span class="o">.</span><span class="n">end_date</span> <span class="o">&gt;</span> <span class="n">station</span><span class="o">.</span><span class="n">end_date</span><span class="p">:</span>
                     <span class="n">station</span><span class="o">.</span><span class="n">end_date</span> <span class="o">=</span> <span class="n">other_station</span><span class="o">.</span><span class="n">end_date</span>
-            <span class="k">elif</span> <span class="n">other_station</span><span class="o">.</span><span class="n">end_date</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="n">station</span><span class="o">.</span><span class="n">end_date</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">elif</span> <span class="n">other_station</span><span class="o">.</span><span class="n">end_date</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">station</span><span class="o">.</span><span class="n">end_date</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="c1"># Update comments.</span>
             <span class="n">station</span><span class="o">.</span><span class="n">comments</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
                 <span class="nb">set</span><span class="p">(</span><span class="n">station</span><span class="o">.</span><span class="n">comments</span><span class="p">)</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">other_station</span><span class="o">.</span><span class="n">comments</span><span class="p">)))</span>
@@ -272,11 +275,11 @@
                         <span class="n">other_station</span><span class="o">.</span><span class="n">total_number_of_channels</span>
             <span class="c1"># Update the other elements</span>
             <span class="n">station</span><span class="o">.</span><span class="n">alternate_code</span> <span class="o">=</span> <span class="p">(</span><span class="n">station</span><span class="o">.</span><span class="n">alternate_code</span> <span class="ow">or</span>
-                                      <span class="n">other_station</span><span class="o">.</span><span class="n">alternate_code</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">None</span>
+                                      <span class="n">other_station</span><span class="o">.</span><span class="n">alternate_code</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span>
             <span class="n">station</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="p">(</span><span class="n">station</span><span class="o">.</span><span class="n">description</span> <span class="ow">or</span>
-                                   <span class="n">other_station</span><span class="o">.</span><span class="n">description</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">None</span>
+                                   <span class="n">other_station</span><span class="o">.</span><span class="n">description</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span>
             <span class="n">station</span><span class="o">.</span><span class="n">historical_code</span> <span class="o">=</span> <span class="p">(</span><span class="n">station</span><span class="o">.</span><span class="n">historical_code</span> <span class="ow">or</span>
-                                       <span class="n">other_station</span><span class="o">.</span><span class="n">historical_code</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">None</span>
+                                       <span class="n">other_station</span><span class="o">.</span><span class="n">historical_code</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span>
             <span class="n">station</span><span class="o">.</span><span class="n">restricted_status</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">restricted_status</span> <span class="ow">or</span> \
                 <span class="n">other_station</span><span class="o">.</span><span class="n">restricted_status</span>
         <span class="n">inv</span><span class="o">.</span><span class="n">networks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">stations</span> <span class="o">=</span> <span class="p">[</span><span class="n">station</span><span class="p">]</span>
@@ -322,7 +325,7 @@
         <span class="n">coordinates</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="c1"># Small state machine.</span>
-        <span class="n">net_state</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">net_state</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="n">tags</span> <span class="o">=</span> <span class="p">(</span><span class="n">network_tag</span><span class="p">,</span> <span class="n">station_tag</span><span class="p">)</span>
         <span class="n">context</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">iterparse</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">events</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tags</span><span class="p">)</span>
@@ -349,7 +352,7 @@
         <span class="n">coordinates</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
 
         <span class="c1"># Small state machine.</span>
-        <span class="n">net_state</span><span class="p">,</span> <span class="n">sta_state</span> <span class="o">=</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="n">net_state</span><span class="p">,</span> <span class="n">sta_state</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
         <span class="n">tags</span> <span class="o">=</span> <span class="p">(</span><span class="n">network_tag</span><span class="p">,</span> <span class="n">station_tag</span><span class="p">,</span> <span class="n">channel_tag</span><span class="p">)</span>
         <span class="n">context</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">iterparse</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">events</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tags</span><span class="p">)</span>

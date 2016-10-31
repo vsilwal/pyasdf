@@ -37,6 +37,9 @@
   
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
   
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
     <link rel="top" title="pyasdf 0.1.x documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
@@ -149,7 +152,7 @@
 <span class="sd">:license:</span>
 <span class="sd">    BSD 3-Clause (&quot;BSD New&quot; or &quot;BSD Simplified&quot;)</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="p">(</span><span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="p">(</span><span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span>
                         <span class="n">unicode_literals</span><span class="p">)</span>
 
 <span class="kn">import</span> <span class="nn">copy</span>
@@ -166,20 +169,20 @@
 
 <span class="c1"># Py2k/3k compat.</span>
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">urlparse</span> <span class="kn">import</span> <span class="n">urlparse</span>
+    <span class="kn">from</span> <span class="nn">urlparse</span> <span class="k">import</span> <span class="n">urlparse</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urlparse</span>
+    <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="k">import</span> <span class="n">urlparse</span>
 
 <span class="kn">import</span> <span class="nn">h5py</span>
-<span class="kn">from</span> <span class="nn">lxml.etree</span> <span class="kn">import</span> <span class="n">QName</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">lxml.etree</span> <span class="k">import</span> <span class="n">QName</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">obspy</span>
 
-<span class="kn">from</span> <span class="nn">.compat</span> <span class="kn">import</span> <span class="n">string_types</span>
-<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="p">(</span><span class="n">WaveformNotInFileException</span><span class="p">,</span> <span class="n">NoStationXMLForStation</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">.compat</span> <span class="k">import</span> <span class="n">string_types</span>
+<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="k">import</span> <span class="p">(</span><span class="n">WaveformNotInFileException</span><span class="p">,</span> <span class="n">NoStationXMLForStation</span><span class="p">,</span>
                          <span class="n">ASDFValueError</span><span class="p">,</span> <span class="n">ASDFAttributeError</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">.header</span> <span class="kn">import</span> <span class="n">MSG_TAGS</span>
-<span class="kn">from</span> <span class="nn">.inventory_utils</span> <span class="kn">import</span> <span class="n">get_coordinates</span>
+<span class="kn">from</span> <span class="nn">.header</span> <span class="k">import</span> <span class="n">MSG_TAGS</span>
+<span class="kn">from</span> <span class="nn">.inventory_utils</span> <span class="k">import</span> <span class="n">get_coordinates</span>
 
 <span class="c1"># Tuple holding a the body of a received message.</span>
 <span class="n">ReceivedMessage</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;ReceivedMessage&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">])</span>
@@ -200,8 +203,8 @@
                <span class="s2">&quot;Processing-with-Python-and-ObsPy for more information.&quot;</span><span class="p">)</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
         <span class="c1"># Disable by replacing with dummy implementation using threads.</span>
-        <span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="kn">as</span> <span class="nn">mp</span>
-        <span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">dummy</span>  <span class="c1"># NOQA</span>
+        <span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="k">as</span> <span class="nn">mp</span>
+        <span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="k">import</span> <span class="n">dummy</span>  <span class="c1"># NOQA</span>
         <span class="n">multiprocessing</span> <span class="o">=</span> <span class="n">dummy</span>
         <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">cpu_count</span>
     <span class="k">else</span><span class="p">:</span>
@@ -223,12 +226,12 @@
                        <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_info&quot;</span><span class="p">)])</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="s2">&quot;accelerate&quot;</span> <span class="ow">in</span> <span class="n">config_info</span> <span class="ow">or</span> <span class="s2">&quot;veclib&quot;</span> <span class="ow">in</span> <span class="n">config_info</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="kc">True</span>
     <span class="k">elif</span> <span class="s2">&quot;openblas&quot;</span> <span class="ow">in</span> <span class="n">config_info</span><span class="p">:</span>
         <span class="c1"># Most openBLAS can only operate with one thread...</span>
         <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OPENBLAS_NUM_THREADS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">False</span></div>
+        <span class="k">return</span> <span class="kc">False</span></div>
 
 
 <div class="viewcode-block" id="sizeof_fmt"><a class="viewcode-back" href="../../utils.html#pyasdf.utils.sizeof_fmt">[docs]</a><span class="k">def</span> <span class="nf">sizeof_fmt</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
@@ -285,7 +288,7 @@
 
     <span class="k">def</span> <span class="nf">_check_size_limit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_limit</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="o">.</span><span class="n">popitem</span><span class="p">(</span><span class="n">last</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="o">.</span><span class="n">popitem</span><span class="p">(</span><span class="n">last</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ProvenanceAccessor"><a class="viewcode-back" href="../../utils.html#pyasdf.utils.ProvenanceAccessor">[docs]</a><span class="k">class</span> <span class="nc">ProvenanceAccessor</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -411,26 +414,26 @@
             <span class="k">except</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
                 <span class="k">pass</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">provenance_id</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">provenance_id</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">parameters</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">__file_cache</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__file_cache</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">return</span> <span class="kc">False</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">path</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">data_type</span> <span class="ow">or</span> \
                 <span class="bp">self</span><span class="o">.</span><span class="n">provenance_id</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">provenance_id</span> <span class="ow">or</span> \
                 <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">return</span> <span class="kc">False</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">return</span> <span class="kc">False</span>
 
-        <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="kc">True</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
@@ -447,7 +450,7 @@
             <span class="k">raise</span> <span class="n">ASDFAttributeError</span><span class="p">(</span>
                 <span class="s2">&quot;The &#39;file&#39; property is only available &quot;</span>
                 <span class="s2">&quot;for auxiliary data with the data type &#39;Files&#39;.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file_cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file_cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file_cache</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">__file_cache</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">_read_string_array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
@@ -460,14 +463,14 @@
         <span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="p">(</span>
-            <span class="s2">&quot;Auxiliary Data of Type &#39;{data_type}&#39;</span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Path: &#39;{path}&#39;</span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="s2">&quot;{provenance}&quot;</span>
-            <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Data shape: &#39;{data_shape}&#39;, dtype: &#39;{dtype}&#39;</span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Parameters:</span><span class="se">\n\t\t</span><span class="s2">{parameters}&quot;</span>
+            <span class="s2">&quot;Auxiliary Data of Type &#39;</span><span class="si">{data_type}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Path: &#39;</span><span class="si">{path}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;</span><span class="si">{provenance}</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Data shape: &#39;</span><span class="si">{data_shape}</span><span class="s2">&#39;, dtype: &#39;</span><span class="si">{dtype}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Parameters:</span><span class="se">\n\t\t</span><span class="si">{parameters}</span><span class="s2">&quot;</span>
             <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_type</span><span class="o">=</span><span class="n">split_dt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data_shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
                     <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">),</span>
-                    <span class="n">provenance</span><span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">provenance_id</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span>
+                    <span class="n">provenance</span><span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">provenance_id</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span>
                     <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Provenance ID: &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">provenance_id</span><span class="p">,</span>
                     <span class="n">parameters</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n\t\t</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
                         <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">_i</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">_i</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">_i</span> <span class="ow">in</span>
@@ -489,21 +492,21 @@
 
     <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">return</span> <span class="kc">False</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__auxiliary_data_type</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">__auxiliary_data_type</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">return</span> <span class="kc">False</span>
 
         <span class="n">ds1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data_set</span><span class="p">()</span>
         <span class="n">ds2</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">__data_set</span><span class="p">()</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">ds1</span><span class="o">.</span><span class="n">filename</span> <span class="o">!=</span> <span class="n">ds2</span><span class="o">.</span><span class="n">filename</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">False</span>
+                <span class="k">return</span> <span class="kc">False</span>
         <span class="k">finally</span><span class="p">:</span>
             <span class="k">del</span> <span class="n">ds1</span>
             <span class="k">del</span> <span class="n">ds2</span>
 
-        <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="kc">True</span>
 
     <span class="k">def</span> <span class="nf">__delattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
@@ -585,17 +588,17 @@
 
         <span class="k">if</span> <span class="n">groups</span><span class="p">:</span>
             <span class="n">ret_str</span> <span class="o">+=</span> <span class="p">(</span>
-                <span class="s2">&quot;{count} auxiliary data sub group(s) of type &#39;{type}&#39; &quot;</span>
+                <span class="s2">&quot;</span><span class="si">{count}</span><span class="s2"> auxiliary data sub group(s) of type &#39;</span><span class="si">{type}</span><span class="s2">&#39; &quot;</span>
                 <span class="s2">&quot;available:</span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">{items}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">groups</span><span class="p">),</span>
+                <span class="s2">&quot;</span><span class="se">\t</span><span class="si">{items}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">groups</span><span class="p">),</span>
                                    <span class="nb">type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__auxiliary_data_type</span><span class="p">,</span>
                                    <span class="n">items</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">groups</span><span class="p">)))</span>
         <span class="k">if</span> <span class="n">data_arrays</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">ret_str</span><span class="p">:</span>
                 <span class="n">ret_str</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
             <span class="n">ret_str</span> <span class="o">+=</span> <span class="p">(</span>
-                <span class="s2">&quot;{count} auxiliary data item(s) of type &#39;{type}&#39; available:</span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">{items}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">data_arrays</span><span class="p">),</span>
+                <span class="s2">&quot;</span><span class="si">{count}</span><span class="s2"> auxiliary data item(s) of type &#39;</span><span class="si">{type}</span><span class="s2">&#39; available:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="s2">&quot;</span><span class="se">\t</span><span class="si">{items}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">data_arrays</span><span class="p">),</span>
                                    <span class="nb">type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__auxiliary_data_type</span><span class="p">,</span>
                                    <span class="n">items</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_arrays</span><span class="p">)))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">groups</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">data_arrays</span><span class="p">:</span>
@@ -649,8 +652,8 @@
         <span class="n">item</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
         <span class="n">__auxiliary_data_group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data_set</span><span class="p">()</span><span class="o">.</span><span class="n">_auxiliary_data_group</span>
         <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">__auxiliary_data_group</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">False</span>
-        <span class="k">return</span> <span class="bp">True</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
 
     <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">__auxiliary_group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data_set</span><span class="p">()</span><span class="o">.</span><span class="n">_auxiliary_data_group</span>
@@ -668,7 +671,7 @@
 
         <span class="k">return</span> <span class="p">(</span>
             <span class="s2">&quot;Data set contains the following auxiliary data types:</span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">{items}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="se">\t</span><span class="si">{items}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                 <span class="n">items</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> (</span><span class="si">%i</span><span class="s2"> item(s))&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">_i</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">_i</span><span class="p">]))</span>
                                    <span class="k">for</span> <span class="n">_i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="p">()])</span>
             <span class="p">)</span>
@@ -758,16 +761,16 @@
             <span class="c1"># Location and channel codes.</span>
             <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;channel&quot;</span><span class="p">]:</span>
                 <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">loc_code</span><span class="p">,</span> <span class="n">cha_code</span> <span class="o">=</span> <span class="n">wf_name2seed_codes</span><span class="p">(</span><span class="n">wf</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">](</span><span class="n">loc_code</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">](</span><span class="n">loc_code</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
                         <span class="k">continue</span>
-                <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;channel&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;channel&quot;</span><span class="p">](</span><span class="n">cha_code</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;channel&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;channel&quot;</span><span class="p">](</span><span class="n">cha_code</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
                         <span class="k">continue</span>
             <span class="c1"># Tag</span>
             <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;tag&quot;</span><span class="p">]:</span>
                 <span class="n">tag</span> <span class="o">=</span> <span class="n">wf_name2tag</span><span class="p">(</span><span class="n">wf</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;tag&quot;</span><span class="p">](</span><span class="n">tag</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;tag&quot;</span><span class="p">](</span><span class="n">tag</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
                     <span class="k">continue</span>
 
             <span class="c1"># Any of the other queries requires parsing the attribute path.</span>
@@ -783,11 +786,11 @@
 
                     <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;sampling_rate&quot;</span><span class="p">]:</span>
                         <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;sampling_rate&quot;</span><span class="p">](</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;sampling_rate&quot;</span><span class="p">])</span> \
-                                <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                                <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
                             <span class="k">continue</span>
 
                     <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;npts&quot;</span><span class="p">]:</span>
-                        <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;npts&quot;</span><span class="p">](</span><span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="p">[</span><span class="n">wf</span><span class="p">]))</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;npts&quot;</span><span class="p">](</span><span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="p">[</span><span class="n">wf</span><span class="p">]))</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
                             <span class="k">continue</span>
 
                     <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;starttime&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;endtime&quot;</span><span class="p">]:</span>
@@ -797,24 +800,24 @@
                             <span class="mf">1.0</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;sampling_rate&quot;</span><span class="p">])</span>
 
                         <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;starttime&quot;</span><span class="p">]:</span>
-                            <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;starttime&quot;</span><span class="p">](</span><span class="n">starttime</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;starttime&quot;</span><span class="p">](</span><span class="n">starttime</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
                                 <span class="k">continue</span>
 
                         <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;endtime&quot;</span><span class="p">]:</span>
-                            <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;endtime&quot;</span><span class="p">](</span><span class="n">endtime</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;endtime&quot;</span><span class="p">](</span><span class="n">endtime</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
                                 <span class="k">continue</span>
 
                     <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;labels&quot;</span><span class="p">]:</span>
                         <span class="k">if</span> <span class="s2">&quot;labels&quot;</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
                             <span class="n">labels</span> <span class="o">=</span> <span class="n">labelstring2list</span><span class="p">(</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;labels&quot;</span><span class="p">])</span>
                         <span class="k">else</span><span class="p">:</span>
-                            <span class="n">labels</span> <span class="o">=</span> <span class="bp">None</span>
-                        <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;labels&quot;</span><span class="p">](</span><span class="n">labels</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                            <span class="n">labels</span> <span class="o">=</span> <span class="kc">None</span>
+                        <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;labels&quot;</span><span class="p">](</span><span class="n">labels</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
                             <span class="k">continue</span>
 
                     <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;event&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;magnitude&quot;</span><span class="p">]</span> <span class="ow">or</span> \
                             <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;origin&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;focal_mechanism&quot;</span><span class="p">]:</span>
-                        <span class="n">any_fails</span> <span class="o">=</span> <span class="bp">False</span>
+                        <span class="n">any_fails</span> <span class="o">=</span> <span class="kc">False</span>
                         <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;event&quot;</span><span class="p">,</span> <span class="s2">&quot;origin&quot;</span><span class="p">,</span> <span class="s2">&quot;magnitude&quot;</span><span class="p">,</span>
                                    <span class="s2">&quot;focal_mechanism&quot;</span><span class="p">]:</span>
                             <span class="k">if</span> <span class="n">queries</span><span class="p">[</span><span class="nb">id</span><span class="p">]:</span>
@@ -826,12 +829,12 @@
                                     <span class="n">values</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">tostring</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>\
                                         <span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
                                 <span class="k">else</span><span class="p">:</span>
-                                    <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span>
+                                    <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span>
 
                                 <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">queries</span><span class="p">[</span><span class="nb">id</span><span class="p">](</span><span class="n">_i</span><span class="p">)</span> <span class="k">for</span> <span class="n">_i</span> <span class="ow">in</span> <span class="n">values</span><span class="p">):</span>
-                                    <span class="n">any_fails</span> <span class="o">=</span> <span class="bp">True</span>
+                                    <span class="n">any_fails</span> <span class="o">=</span> <span class="kc">True</span>
                                     <span class="k">break</span>
-                        <span class="k">if</span> <span class="n">any_fails</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">any_fails</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
                             <span class="k">continue</span>
 
                 <span class="k">finally</span><span class="p">:</span>
@@ -842,20 +845,20 @@
 
     <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">return</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_station_name</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">_station_name</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">return</span> <span class="kc">False</span>
 
         <span class="n">ds1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data_set</span><span class="p">()</span>
         <span class="n">ds2</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">__data_set</span><span class="p">()</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">ds1</span><span class="o">.</span><span class="n">filename</span> <span class="o">!=</span> <span class="n">ds2</span><span class="o">.</span><span class="n">filename</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">False</span>
+                <span class="k">return</span> <span class="kc">False</span>
         <span class="k">finally</span><span class="p">:</span>
             <span class="k">del</span> <span class="n">ds1</span>
             <span class="k">del</span> <span class="n">ds2</span>
 
-        <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="kc">True</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
@@ -983,16 +986,38 @@
         <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Item &#39;</span><span class="si">%s</span><span class="s2">&#39; not found.&quot;</span> <span class="o">%</span> <span class="n">item</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">item</span><span class="o">=</span><span class="n">item</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">starttime</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">endtime</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__filter_data</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
         <span class="c1"># StationXML access.</span>
         <span class="k">if</span> <span class="n">items</span> <span class="o">==</span> <span class="p">[</span><span class="s2">&quot;StationXML&quot;</span><span class="p">]:</span>
             <span class="n">station</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data_set</span><span class="p">()</span><span class="o">.</span><span class="n">_get_station</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_station_name</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">station</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">station</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; object has no attribute &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)))</span>
             <span class="k">return</span> <span class="n">station</span>
 
-        <span class="n">traces</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__data_set</span><span class="p">()</span><span class="o">.</span><span class="n">_get_waveform</span><span class="p">(</span><span class="n">_i</span><span class="p">)</span> <span class="k">for</span> <span class="n">_i</span> <span class="ow">in</span> <span class="n">items</span><span class="p">]</span>
+        <span class="c1"># Get an estimate of the total require memory.</span>
+        <span class="n">total_size</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__data_set</span><span class="p">()</span><span class="o">.</span><span class="n">_get_idx_and_size_estimate</span><span class="p">(</span>
+                <span class="n">_i</span><span class="p">,</span> <span class="n">starttime</span><span class="o">=</span><span class="n">starttime</span><span class="p">,</span> <span class="n">endtime</span><span class="o">=</span><span class="n">endtime</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">_i</span> <span class="ow">in</span> <span class="n">items</span><span class="p">])</span>
+
+        <span class="c1"># Raise an error to not read an extreme amount of data into memory.</span>
+        <span class="k">if</span> <span class="n">total_size</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data_set</span><span class="p">()</span><span class="o">.</span><span class="n">single_item_read_limit_in_mb</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;All waveforms for station &#39;</span><span class="si">%s</span><span class="s2">&#39; and item &#39;</span><span class="si">%s</span><span class="s2">&#39; would &quot;</span>
+                   <span class="s2">&quot;require &#39;</span><span class="si">%.2f</span><span class="s2"> MB of memory. The current limit is </span><span class="si">%.2f</span><span class="s2"> &quot;</span>
+                   <span class="s2">&quot;MB. Adjust by setting &quot;</span>
+                   <span class="s2">&quot;&#39;ASDFDataSet.single_item_read_limit_in_mb&#39; or use a &quot;</span>
+                   <span class="s2">&quot;different method to read the waveform data.&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                       <span class="bp">self</span><span class="o">.</span><span class="n">_station_name</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">total_size</span><span class="p">,</span>
+                       <span class="bp">self</span><span class="o">.</span><span class="n">__data_set</span><span class="p">()</span><span class="o">.</span><span class="n">single_item_read_limit_in_mb</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">ASDFValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="n">traces</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__data_set</span><span class="p">()</span><span class="o">.</span><span class="n">_get_waveform</span><span class="p">(</span><span class="n">_i</span><span class="p">,</span> <span class="n">starttime</span><span class="o">=</span><span class="n">starttime</span><span class="p">,</span>
+                                                  <span class="n">endtime</span><span class="o">=</span><span class="n">endtime</span><span class="p">)</span>
+                  <span class="k">for</span> <span class="n">_i</span> <span class="ow">in</span> <span class="n">items</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">obspy</span><span class="o">.</span><span class="n">Stream</span><span class="p">(</span><span class="n">traces</span><span class="o">=</span><span class="n">traces</span><span class="p">)</span>
 
 <div class="viewcode-block" id="WaveformAccessor.list"><a class="viewcode-back" href="../../utils.html#pyasdf.utils.WaveformAccessor.list">[docs]</a>    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1027,10 +1052,10 @@
         <span class="n">waveform_contents</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_waveform_tags</span><span class="p">())</span>
 
         <span class="n">ret_str</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="s2">&quot;Contents of the data set for station {station}:</span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="s2">&quot;    - {station_xml}</span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="s2">&quot;    - {count} Waveform Tag(s):</span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="s2">&quot;        {waveforms}&quot;</span>
+            <span class="s2">&quot;Contents of the data set for station </span><span class="si">{station}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;    - </span><span class="si">{station_xml}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;    - </span><span class="si">{count}</span><span class="s2"> Waveform Tag(s):</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;        </span><span class="si">{waveforms}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">ret_str</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="n">station</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_station_name</span><span class="p">,</span>
@@ -1075,16 +1100,16 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">import</span> <span class="nn">mpi4py</span>
     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">import</span> <span class="nn">mpi4py.MPI</span>
     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">if</span> <span class="n">mpi4py</span><span class="o">.</span><span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">mpi4py</span><span class="o">.</span><span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">False</span>
-    <span class="k">return</span> <span class="bp">True</span></div>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
 
 
 <div class="viewcode-block" id="StreamBuffer"><a class="viewcode-back" href="../../utils.html#pyasdf.utils.StreamBuffer">[docs]</a><span class="k">class</span> <span class="nc">StreamBuffer</span><span class="p">(</span><span class="n">collections</span><span class="o">.</span><span class="n">MutableMapping</span><span class="p">):</span>
@@ -1099,7 +1124,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__streams</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">obspy</span><span class="o">.</span><span class="n">Stream</span><span class="p">)</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">obspy</span><span class="o">.</span><span class="n">Stream</span><span class="p">)</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__streams</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
@@ -1122,7 +1147,7 @@
         <span class="n">cum_size</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">stream</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__streams</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
             <span class="c1"># Skip None values.</span>
-            <span class="k">if</span> <span class="n">stream</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">stream</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="n">cum_size</span> <span class="o">+=</span> <span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="n">stream</span><span class="p">:</span>
@@ -1139,7 +1164,7 @@
 <span class="k">class</span> <span class="nc">Job</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="n">__slots__</span> <span class="o">=</span> <span class="s2">&quot;arguments&quot;</span><span class="p">,</span> <span class="s2">&quot;result&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arguments</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arguments</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">arguments</span> <span class="o">=</span> <span class="n">arguments</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="n">result</span>
 
@@ -1289,7 +1314,7 @@
         <span class="k">if</span> <span class="n">second</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">colors</span><span class="p">[</span><span class="n">second</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)]</span> <span class="o">+</span> \
         <span class="p">(</span><span class="s2">&quot;WORKER </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">second</span><span class="p">)</span> <span class="o">+</span> <span class="n">colorama</span><span class="o">.</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span>
 
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> [</span><span class="si">%s</span><span class="s2">] -- </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">payload</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> [</span><span class="si">%s</span><span class="s2">] -- </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">payload</span><span class="p">)))</span>
 
 
 <div class="viewcode-block" id="split_qualified_name"><a class="viewcode-back" href="../../utils.html#pyasdf.utils.split_qualified_name">[docs]</a><span class="k">def</span> <span class="nf">split_qualified_name</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
@@ -1362,7 +1387,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    List of labels to a comma-saperated string.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">_i</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
             <span class="k">if</span> <span class="s2">&quot;,&quot;</span> <span class="ow">in</span> <span class="n">_i</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>

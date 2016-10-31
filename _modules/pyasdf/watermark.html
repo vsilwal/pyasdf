@@ -37,6 +37,9 @@
   
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
   
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
     <link rel="top" title="pyasdf 0.1.x documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
@@ -152,22 +155,22 @@
 <span class="sd">:license:</span>
 <span class="sd">    BSD 3-Clause (&quot;BSD New&quot; or &quot;BSD Simplified&quot;)</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="p">(</span><span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="p">(</span><span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span>
                         <span class="n">unicode_literals</span><span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">cpu_count</span>
-<span class="kn">from</span> <span class="nn">pkg_resources</span> <span class="kn">import</span> <span class="n">get_distribution</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="k">import</span> <span class="n">cpu_count</span>
+<span class="kn">from</span> <span class="nn">pkg_resources</span> <span class="k">import</span> <span class="n">get_distribution</span>
 <span class="kn">import</span> <span class="nn">platform</span>
-<span class="kn">from</span> <span class="nn">socket</span> <span class="kn">import</span> <span class="n">gethostname</span>
-<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">strftime</span>
+<span class="kn">from</span> <span class="nn">socket</span> <span class="k">import</span> <span class="n">gethostname</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">strftime</span>
 
 <span class="kn">import</span> <span class="nn">h5py</span>
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">mpi4py</span> <span class="kn">import</span> <span class="n">MPI</span>
+    <span class="kn">from</span> <span class="nn">mpi4py</span> <span class="k">import</span> <span class="n">MPI</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="n">MPI</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">MPI</span> <span class="o">=</span> <span class="kc">None</span>
 
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">is_multiprocessing_problematic</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">is_multiprocessing_problematic</span>
 
 <span class="c1"># Dependencies.</span>
 <span class="n">modules</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;numpy&quot;</span><span class="p">,</span> <span class="s2">&quot;scipy&quot;</span><span class="p">,</span> <span class="s2">&quot;obspy&quot;</span><span class="p">,</span> <span class="s2">&quot;lxml&quot;</span><span class="p">,</span> <span class="s2">&quot;h5py&quot;</span><span class="p">,</span> <span class="s2">&quot;prov&quot;</span><span class="p">]</span>
@@ -179,13 +182,13 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return information about the current system relevant for pyasdf.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">vendor</span> <span class="o">=</span> <span class="n">MPI</span><span class="o">.</span><span class="n">get_vendor</span><span class="p">()</span> <span class="k">if</span> <span class="n">MPI</span> <span class="k">else</span> <span class="bp">None</span>
+    <span class="n">vendor</span> <span class="o">=</span> <span class="n">MPI</span><span class="o">.</span><span class="n">get_vendor</span><span class="p">()</span> <span class="k">if</span> <span class="n">MPI</span> <span class="k">else</span> <span class="kc">None</span>
 
     <span class="n">c</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="s2">&quot;mpi&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">c</span><span class="o">.</span><span class="n">mpi</span><span class="p">:</span>
-        <span class="n">is_parallel</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">is_parallel</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">is_parallel</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">is_parallel</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="n">watermark</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;python_implementation&quot;</span><span class="p">:</span> <span class="n">platform</span><span class="o">.</span><span class="n">python_implementation</span><span class="p">(),</span>
@@ -204,16 +207,16 @@
         <span class="s2">&quot;timezone&quot;</span><span class="p">:</span> <span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Z&#39;</span><span class="p">),</span>
         <span class="s2">&quot;hdf5_version&quot;</span><span class="p">:</span> <span class="n">h5py</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">hdf5_version</span><span class="p">,</span>
         <span class="s2">&quot;parallel_h5py&quot;</span><span class="p">:</span> <span class="n">is_parallel</span><span class="p">,</span>
-        <span class="s2">&quot;mpi_vendor&quot;</span><span class="p">:</span> <span class="n">vendor</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">vendor</span> <span class="k">else</span> <span class="bp">None</span><span class="p">,</span>
+        <span class="s2">&quot;mpi_vendor&quot;</span><span class="p">:</span> <span class="n">vendor</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">vendor</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
         <span class="s2">&quot;mpi_vendor_version&quot;</span><span class="p">:</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">vendor</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-        <span class="k">if</span> <span class="n">vendor</span> <span class="k">else</span> <span class="bp">None</span><span class="p">,</span>
+        <span class="k">if</span> <span class="n">vendor</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
         <span class="s2">&quot;problematic_multiprocessing&quot;</span><span class="p">:</span> <span class="n">is_multiprocessing_problematic</span><span class="p">()</span>
         <span class="p">}</span>
 
     <span class="n">watermark</span><span class="p">[</span><span class="s2">&quot;module_versions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">module</span><span class="p">:</span> <span class="n">get_distribution</span><span class="p">(</span><span class="n">module</span><span class="p">)</span><span class="o">.</span><span class="n">version</span> <span class="k">for</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">modules</span><span class="p">}</span>
-    <span class="k">if</span> <span class="n">MPI</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">watermark</span><span class="p">[</span><span class="s2">&quot;module_versions&quot;</span><span class="p">][</span><span class="s2">&quot;mpi4py&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">if</span> <span class="n">MPI</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">watermark</span><span class="p">[</span><span class="s2">&quot;module_versions&quot;</span><span class="p">][</span><span class="s2">&quot;mpi4py&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">return</span> <span class="n">watermark</span></div>
 </pre></div>

@@ -37,6 +37,9 @@
   
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="pyasdf 0.1.x documentation" href="index.html"/>
         <link rel="up" title="Detailed Explanations" href="detailed_explanations.html"/>
         <link rel="next" title="Working With Station Data" href="station_data.html"/>
@@ -109,6 +112,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="station_data.html">Working With Station Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="large_continuous_datasets.html">Large Continuous Data Sets</a></li>
 </ul>
 </li>
 </ul>
@@ -214,7 +218,7 @@ the rich comparison operators from Python: <code class="docutils literal"><span 
 <p>Separate arguments are chained by a logical <code class="docutils literal"><span class="pre">AND</span></code>, so <strong>every comma can be
 interpreted as a logical</strong> <code class="docutils literal"><span class="pre">AND</span></code> <strong>.</strong> The following query will iterate over
 all waveforms with a network starting with <code class="docutils literal"><span class="pre">T</span></code>, but not the <code class="docutils literal"><span class="pre">TA</span></code>
-(USArray) network. Wildcards are resolved by the <a class="reference external" href="http://docs.python.org/library/fnmatch.html#module-fnmatch" title="(in Python v2.7)"><code class="xref py py-mod docutils literal"><span class="pre">fnmatch</span></code></a> module.</p>
+(USArray) network. Wildcards are resolved by the <a class="reference external" href="https://docs.python.org/2/library/fnmatch.html#module-fnmatch" title="(in Python v2.7)"><code class="xref py py-mod docutils literal"><span class="pre">fnmatch</span></code></a> module.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">ifilter</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">network</span> <span class="o">==</span> <span class="s2">&quot;T*&quot;</span><span class="p">,</span>
                           <span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">network</span> <span class="o">!=</span> <span class="s2">&quot;TA&quot;</span><span class="p">):</span>
     <span class="o">...</span>
@@ -329,14 +333,14 @@ Search over geographical parameters stored in the StationXML files.</td>
 <td>The elevation in meters of the recording station.</td>
 </tr>
 <tr class="row-odd"><td colspan="3"><strong>Temporal Parameters:</strong>
-Pass as a <a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy Documentation (1.0.1) v1.0)"><code class="xref py py-class docutils literal"><span class="pre">UTCDateTime</span></code></a> object or any string or number that can be parsed to one.</td>
+Pass as a <a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy Documentation (1.0.2) v1.0)"><code class="xref py py-class docutils literal"><span class="pre">UTCDateTime</span></code></a> object or any string or number that can be parsed to one.</td>
 </tr>
 <tr class="row-even"><td><code class="docutils literal"><span class="pre">starttime</span></code></td>
-<td><a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy Documentation (1.0.1) v1.0)"><code class="xref py py-class docutils literal"><span class="pre">UTCDateTime</span></code></a>, <code class="docutils literal"><span class="pre">str</span></code>, or <code class="docutils literal"><span class="pre">float</span></code></td>
+<td><a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy Documentation (1.0.2) v1.0)"><code class="xref py py-class docutils literal"><span class="pre">UTCDateTime</span></code></a>, <code class="docutils literal"><span class="pre">str</span></code>, or <code class="docutils literal"><span class="pre">float</span></code></td>
 <td>The start time of the waveform.</td>
 </tr>
 <tr class="row-odd"><td><code class="docutils literal"><span class="pre">endtime</span></code></td>
-<td><a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy Documentation (1.0.1) v1.0)"><code class="xref py py-class docutils literal"><span class="pre">UTCDateTime</span></code></a>, <code class="docutils literal"><span class="pre">str</span></code>, or <code class="docutils literal"><span class="pre">float</span></code></td>
+<td><a class="reference external" href="http://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy Documentation (1.0.2) v1.0)"><code class="xref py py-class docutils literal"><span class="pre">UTCDateTime</span></code></a>, <code class="docutils literal"><span class="pre">str</span></code>, or <code class="docutils literal"><span class="pre">float</span></code></td>
 <td>The end time of the waveform.</td>
 </tr>
 <tr class="row-even"><td colspan="3"><strong>Waveform Attribute Parameters:</strong>
