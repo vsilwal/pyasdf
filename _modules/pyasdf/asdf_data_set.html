@@ -166,6 +166,7 @@
 <span class="kn">import</span> <span class="nn">io</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
 <span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">sys</span>
@@ -2290,105 +2291,17 @@
         <span class="c1"># The output queue will collect the reports from the jobs.</span>
         <span class="n">output_queue</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
 
-        <span class="k">class</span> <span class="nc">Process</span><span class="p">(</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">Process</span><span class="p">):</span>
-            <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_queue</span><span class="p">,</span> <span class="n">out_queue</span><span class="p">,</span> <span class="n">in_filename</span><span class="p">,</span>
-                         <span class="n">out_filename</span><span class="p">,</span> <span class="n">in_lock</span><span class="p">,</span> <span class="n">out_lock</span><span class="p">,</span> <span class="n">print_lock</span><span class="p">,</span>
-                         <span class="n">processing_function</span><span class="p">,</span> <span class="n">process_name</span><span class="p">,</span>
-                         <span class="n">total_task_count</span><span class="p">,</span> <span class="n">cpu_count</span><span class="p">,</span> <span class="n">traceback_limit</span><span class="p">):</span>
-                <span class="nb">super</span><span class="p">(</span><span class="n">Process</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">input_queue</span> <span class="o">=</span> <span class="n">in_queue</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">output_queue</span> <span class="o">=</span> <span class="n">out_queue</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">input_filename</span> <span class="o">=</span> <span class="n">in_filename</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">output_filename</span> <span class="o">=</span> <span class="n">out_filename</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">input_file_lock</span> <span class="o">=</span> <span class="n">in_lock</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">output_file_lock</span> <span class="o">=</span> <span class="n">out_lock</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">print_lock</span> <span class="o">=</span> <span class="n">print_lock</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">processing_function</span> <span class="o">=</span> <span class="n">processing_function</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__process_name</span> <span class="o">=</span> <span class="n">process_name</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__task_count</span> <span class="o">=</span> <span class="mi">0</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__total_task_count</span> <span class="o">=</span> <span class="n">total_task_count</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__cpu_count</span> <span class="o">=</span> <span class="n">cpu_count</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__traceback_limit</span> <span class="o">=</span> <span class="n">traceback_limit</span>
-
-            <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-                <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">__task_count</span> <span class="o">+=</span> <span class="mi">1</span>
-                    <span class="n">stationtag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_queue</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="n">stationtag</span> <span class="o">==</span> <span class="n">POISON_PILL</span><span class="p">:</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">input_queue</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>
-                        <span class="k">break</span>
-
-                    <span class="c1"># Only print on &quot;rank&quot; 0.</span>
-                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__process_name</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">print_lock</span><span class="p">:</span>
-                            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; -&gt; Processing approximately task </span><span class="si">%i</span><span class="s2"> of &quot;</span>
-                                  <span class="s2">&quot;</span><span class="si">%i</span><span class="s2"> ...&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">min</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">__task_count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span>
-                                                  <span class="bp">self</span><span class="o">.</span><span class="n">__cpu_count</span><span class="p">,</span>
-                                                  <span class="bp">self</span><span class="o">.</span><span class="n">__total_task_count</span><span class="p">),</span>
-                                              <span class="bp">self</span><span class="o">.</span><span class="n">__total_task_count</span><span class="p">))</span>
-
-                    <span class="n">station</span><span class="p">,</span> <span class="n">tag</span> <span class="o">=</span> <span class="n">stationtag</span>
-
-                    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_file_lock</span><span class="p">:</span>
-                        <span class="n">input_data_set</span> <span class="o">=</span> <span class="n">ASDFDataSet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_filename</span><span class="p">)</span>
-                        <span class="n">stream</span><span class="p">,</span> <span class="n">inv</span> <span class="o">=</span> \
-                            <span class="n">input_data_set</span><span class="o">.</span><span class="n">get_data_for_tag</span><span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
-                        <span class="n">input_data_set</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
-                        <span class="k">del</span> <span class="n">input_data_set</span>
-
-                    <span class="k">try</span><span class="p">:</span>
-                        <span class="n">output_stream</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">processing_function</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">inv</span><span class="p">)</span>
-                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-                        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Error during the processing of station &#39;</span><span class="si">%s</span><span class="s2">&#39; &quot;</span>
-                               <span class="s2">&quot;and tag &#39;</span><span class="si">%s</span><span class="s2">&#39; on CPU </span><span class="si">%i</span><span class="s2">:&quot;</span> <span class="o">%</span> <span class="p">(</span>
-                                <span class="n">stationtag</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">stationtag</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                                <span class="bp">self</span><span class="o">.</span><span class="n">__process_name</span><span class="p">))</span>
-
-                        <span class="c1"># Extract traceback from the exception.</span>
-                        <span class="n">exc_info</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
-                        <span class="n">stack</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">extract_stack</span><span class="p">(</span>
-                            <span class="n">limit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__traceback_limit</span><span class="p">)</span>
-                        <span class="n">tb</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">extract_tb</span><span class="p">(</span><span class="n">exc_info</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-                        <span class="n">full_tb</span> <span class="o">=</span> <span class="n">stack</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">tb</span>
-                        <span class="n">exc_line</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exception_only</span><span class="p">(</span>
-                            <span class="o">*</span><span class="n">exc_info</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>
-                        <span class="n">tb</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Traceback (At max </span><span class="si">%i</span><span class="s2"> levels - most recent call &quot;</span>
-                              <span class="s2">&quot;last):</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">__traceback_limit</span><span class="p">)</span>
-                        <span class="n">tb</span> <span class="o">+=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_list</span><span class="p">(</span><span class="n">full_tb</span><span class="p">))</span>
-                        <span class="n">tb</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
-                        <span class="c1"># A bit convoluted but compatible with Python 2 and</span>
-                        <span class="c1"># 3 and hopefully all encoding problems.</span>
-                        <span class="n">tb</span> <span class="o">+=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                            <span class="n">_i</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">errors</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
-                            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">_i</span><span class="p">,</span> <span class="s2">&quot;decode&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">_i</span>
-                            <span class="k">for</span> <span class="n">_i</span> <span class="ow">in</span> <span class="n">exc_line</span><span class="p">)</span>
-
-                        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">print_lock</span><span class="p">:</span>
-                            <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-                            <span class="nb">print</span><span class="p">(</span><span class="n">tb</span><span class="p">)</span>
-
-                        <span class="bp">self</span><span class="o">.</span><span class="n">input_queue</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>
-                        <span class="k">continue</span>
-
-                    <span class="k">if</span> <span class="n">output_stream</span><span class="p">:</span>
-                        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_file_lock</span><span class="p">:</span>
-                            <span class="n">output_data_set</span> <span class="o">=</span> <span class="n">ASDFDataSet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_filename</span><span class="p">)</span>
-                            <span class="n">output_data_set</span><span class="o">.</span><span class="n">add_waveforms</span><span class="p">(</span>
-                                <span class="n">output_stream</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag_map</span><span class="p">[</span><span class="n">tag</span><span class="p">])</span>
-                            <span class="k">del</span> <span class="n">output_data_set</span>
-
-                    <span class="bp">self</span><span class="o">.</span><span class="n">input_queue</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>
-
         <span class="c1"># Create n processes, with n being the number of available CPUs.</span>
         <span class="n">processes</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cpu_count</span><span class="p">):</span>
-            <span class="n">processes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Process</span><span class="p">(</span>
+            <span class="n">processes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_Process</span><span class="p">(</span>
                 <span class="n">in_queue</span><span class="o">=</span><span class="n">input_queue</span><span class="p">,</span> <span class="n">out_queue</span><span class="o">=</span><span class="n">output_queue</span><span class="p">,</span>
                 <span class="n">in_filename</span><span class="o">=</span><span class="n">input_filename</span><span class="p">,</span> <span class="n">out_filename</span><span class="o">=</span><span class="n">output_filename</span><span class="p">,</span>
                 <span class="n">in_lock</span><span class="o">=</span><span class="n">input_file_lock</span><span class="p">,</span> <span class="n">out_lock</span><span class="o">=</span><span class="n">output_file_lock</span><span class="p">,</span>
                 <span class="n">print_lock</span><span class="o">=</span><span class="n">print_lock</span><span class="p">,</span> <span class="n">processing_function</span><span class="o">=</span><span class="n">process_function</span><span class="p">,</span>
                 <span class="n">process_name</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">total_task_count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">station_tags</span><span class="p">),</span>
-                <span class="n">cpu_count</span><span class="o">=</span><span class="n">cpu_count</span><span class="p">,</span> <span class="n">traceback_limit</span><span class="o">=</span><span class="n">traceback_limit</span><span class="p">))</span>
+                <span class="n">cpu_count</span><span class="o">=</span><span class="n">cpu_count</span><span class="p">,</span> <span class="n">traceback_limit</span><span class="o">=</span><span class="n">traceback_limit</span><span class="p">,</span>
+                <span class="n">tag_map</span><span class="o">=</span><span class="n">tag_map</span><span class="p">))</span>
 
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Launching processing using multiprocessing on </span><span class="si">%i</span><span class="s2"> cores ...&quot;</span> <span class="o">%</span>
               <span class="n">cpu_count</span><span class="p">)</span>
@@ -2504,6 +2417,101 @@
         <span class="k">if</span> <span class="n">automerge</span><span class="p">:</span>
             <span class="n">st</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">method</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">st</span></div></div>
+
+
+<span class="k">class</span> <span class="nc">_Process</span><span class="p">(</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">Process</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Internal process used for the processing data in parallel with the</span>
+<span class="sd">    multi-processing module.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_queue</span><span class="p">,</span> <span class="n">out_queue</span><span class="p">,</span> <span class="n">in_filename</span><span class="p">,</span>
+                 <span class="n">out_filename</span><span class="p">,</span> <span class="n">in_lock</span><span class="p">,</span> <span class="n">out_lock</span><span class="p">,</span> <span class="n">print_lock</span><span class="p">,</span>
+                 <span class="n">processing_function</span><span class="p">,</span> <span class="n">process_name</span><span class="p">,</span>
+                 <span class="n">total_task_count</span><span class="p">,</span> <span class="n">cpu_count</span><span class="p">,</span> <span class="n">traceback_limit</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_Process</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_queue</span> <span class="o">=</span> <span class="n">in_queue</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_queue</span> <span class="o">=</span> <span class="n">out_queue</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_filename</span> <span class="o">=</span> <span class="n">in_filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_filename</span> <span class="o">=</span> <span class="n">out_filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_file_lock</span> <span class="o">=</span> <span class="n">in_lock</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_file_lock</span> <span class="o">=</span> <span class="n">out_lock</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">print_lock</span> <span class="o">=</span> <span class="n">print_lock</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">processing_function</span> <span class="o">=</span> <span class="n">processing_function</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__process_name</span> <span class="o">=</span> <span class="n">process_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__task_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__total_task_count</span> <span class="o">=</span> <span class="n">total_task_count</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__cpu_count</span> <span class="o">=</span> <span class="n">cpu_count</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__traceback_limit</span> <span class="o">=</span> <span class="n">traceback_limit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__tag_map</span> <span class="o">=</span> <span class="n">tag_map</span>
+
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__task_count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">stationtag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_queue</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">stationtag</span> <span class="o">==</span> <span class="n">POISON_PILL</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">input_queue</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>
+                <span class="k">break</span>
+
+            <span class="c1"># Only print on &quot;rank&quot; 0.</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__process_name</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">print_lock</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; -&gt; Processing approximately task </span><span class="si">%i</span><span class="s2"> of &quot;</span>
+                          <span class="s2">&quot;</span><span class="si">%i</span><span class="s2"> ...&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">min</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">__task_count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span>
+                                          <span class="bp">self</span><span class="o">.</span><span class="n">__cpu_count</span><span class="p">,</span>
+                                          <span class="bp">self</span><span class="o">.</span><span class="n">__total_task_count</span><span class="p">),</span>
+                                      <span class="bp">self</span><span class="o">.</span><span class="n">__total_task_count</span><span class="p">))</span>
+
+            <span class="n">station</span><span class="p">,</span> <span class="n">tag</span> <span class="o">=</span> <span class="n">stationtag</span>
+
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_file_lock</span><span class="p">:</span>
+                <span class="n">input_data_set</span> <span class="o">=</span> <span class="n">ASDFDataSet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_filename</span><span class="p">)</span>
+                <span class="n">stream</span><span class="p">,</span> <span class="n">inv</span> <span class="o">=</span> \
+                    <span class="n">input_data_set</span><span class="o">.</span><span class="n">get_data_for_tag</span><span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
+                <span class="n">input_data_set</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+                <span class="k">del</span> <span class="n">input_data_set</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">output_stream</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">processing_function</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">inv</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Error during the processing of station &#39;</span><span class="si">%s</span><span class="s2">&#39; &quot;</span>
+                       <span class="s2">&quot;and tag &#39;</span><span class="si">%s</span><span class="s2">&#39; on CPU </span><span class="si">%i</span><span class="s2">:&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                           <span class="n">stationtag</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">stationtag</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">__process_name</span><span class="p">))</span>
+
+                <span class="c1"># Extract traceback from the exception.</span>
+                <span class="n">exc_info</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
+                <span class="n">stack</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">extract_stack</span><span class="p">(</span>
+                    <span class="n">limit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__traceback_limit</span><span class="p">)</span>
+                <span class="n">tb</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">extract_tb</span><span class="p">(</span><span class="n">exc_info</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                <span class="n">full_tb</span> <span class="o">=</span> <span class="n">stack</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">tb</span>
+                <span class="n">exc_line</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exception_only</span><span class="p">(</span>
+                    <span class="o">*</span><span class="n">exc_info</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>
+                <span class="n">tb</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Traceback (At max </span><span class="si">%i</span><span class="s2"> levels - most recent call &quot;</span>
+                      <span class="s2">&quot;last):</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">__traceback_limit</span><span class="p">)</span>
+                <span class="n">tb</span> <span class="o">+=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_list</span><span class="p">(</span><span class="n">full_tb</span><span class="p">))</span>
+                <span class="n">tb</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="c1"># A bit convoluted but compatible with Python 2 and</span>
+                <span class="c1"># 3 and hopefully all encoding problems.</span>
+                <span class="n">tb</span> <span class="o">+=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                    <span class="n">_i</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">errors</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">_i</span><span class="p">,</span> <span class="s2">&quot;decode&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">_i</span>
+                    <span class="k">for</span> <span class="n">_i</span> <span class="ow">in</span> <span class="n">exc_line</span><span class="p">)</span>
+
+                <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">print_lock</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">tb</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">input_queue</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="n">output_stream</span><span class="p">:</span>
+                <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_file_lock</span><span class="p">:</span>
+                    <span class="n">output_data_set</span> <span class="o">=</span> <span class="n">ASDFDataSet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_filename</span><span class="p">)</span>
+                    <span class="n">output_data_set</span><span class="o">.</span><span class="n">add_waveforms</span><span class="p">(</span>
+                        <span class="n">output_stream</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__tag_map</span><span class="p">[</span><span class="n">tag</span><span class="p">])</span>
+                    <span class="k">del</span> <span class="n">output_data_set</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_queue</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>
 </pre></div>
 
            </div>
