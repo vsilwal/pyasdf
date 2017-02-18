@@ -446,10 +446,10 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span> <span class="o">!=</span> <span class="s2">&quot;Files&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;files&quot;</span><span class="p">,</span> <span class="s2">&quot;file&quot;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="n">ASDFAttributeError</span><span class="p">(</span>
                 <span class="s2">&quot;The &#39;file&#39; property is only available &quot;</span>
-                <span class="s2">&quot;for auxiliary data with the data type &#39;Files&#39;.&quot;</span><span class="p">)</span>
+                <span class="s2">&quot;for auxiliary data with the data type &#39;Files&#39; or &#39;File&#39;.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file_cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file_cache</span>
 
