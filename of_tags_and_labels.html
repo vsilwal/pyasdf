@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Of Tags and Labels &mdash; pyasdf 0.1.x documentation</title>
+  <title>Of Tags and Labels &mdash; pyasdf 0.1.1 documentation</title>
   
 
   
@@ -40,7 +40,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="pyasdf 0.1.x documentation" href="index.html"/>
+    <link rel="top" title="pyasdf 0.1.1 documentation" href="index.html"/>
         <link rel="up" title="Detailed Explanations" href="detailed_explanations.html"/>
         <link rel="next" title="Querying a Data Set" href="querying_data.html"/>
         <link rel="prev" title="Deleting Pieces of a Data Set" href="deleting_pieces.html"/> 
@@ -74,7 +74,7 @@
             
             
               <div class="version">
-                0.1.x
+                0.1.1
               </div>
             
           
@@ -222,7 +222,7 @@ example.</p>
 
 <span class="go"># Tags must be given. Labels are optional. Note how unicode is possible.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">add_waveforms</span><span class="p">(</span><span class="n">obspy</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;example&quot;</span><span class="p">,</span>
-<span class="gp">... </span>                 <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;example&quot;</span><span class="p">,</span> <span class="s2">u&quot;öä∂ß&quot;</span><span class="p">])</span>
+<span class="gp">... </span>                 <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;example&quot;</span><span class="p">,</span> <span class="sa">u</span><span class="s2">&quot;öä∂ß&quot;</span><span class="p">])</span>
 
 <span class="go"># After retrieving the data again, the labels are attached to the stats</span>
 <span class="go"># objects.</span>
@@ -232,7 +232,7 @@ example.</p>
 
 <span class="go"># It is also possible to search for waveforms with a certain label</span>
 <span class="go"># including wildcard searches.</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">st</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">ifilter</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">labels</span> <span class="o">==</span> <span class="s2">u&quot;*ä*&quot;</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">st</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">ifilter</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">labels</span> <span class="o">==</span> <span class="sa">u</span><span class="s2">&quot;*ä*&quot;</span><span class="p">):</span>
 <span class="gp">... </span>   <span class="k">print</span><span class="p">(</span><span class="n">st</span><span class="p">)</span>
 <span class="go">Filtered contents of the data set for station BW.RJOB:</span>
 <span class="go">    - Has no StationXML file</span>
@@ -284,7 +284,7 @@ example.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.1.x',
+            VERSION:'0.1.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

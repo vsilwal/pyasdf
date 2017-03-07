@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installation &mdash; pyasdf 0.1.x documentation</title>
+  <title>Installation &mdash; pyasdf 0.1.1 documentation</title>
   
 
   
@@ -40,7 +40,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="pyasdf 0.1.x documentation" href="index.html"/>
+    <link rel="top" title="pyasdf 0.1.1 documentation" href="index.html"/>
         <link rel="next" title="Tutorial" href="tutorial.html"/>
         <link rel="prev" title="pyasdf" href="index.html"/> 
 
@@ -73,7 +73,7 @@
             
             
               <div class="version">
-                0.1.x
+                0.1.1
               </div>
             
           
@@ -173,8 +173,7 @@ dependencies.</p>
 <p>Almost all dependencies for <code class="docutils literal"><span class="pre">pyasdf</span></code> with no parallel I/O support can be
 installed with <code class="docutils literal"><span class="pre">conda</span></code>, the remaining one is installed with <code class="docutils literal"><span class="pre">pip</span></code>:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda update conda
-$ conda install -c conda-forge obspy colorama pytest pip flake8 h5py dill
-$ pip install prov
+$ conda install -c conda-forge obspy colorama pytest pip flake8 h5py dill prov
 </pre></div>
 </div>
 </div>
@@ -188,8 +187,7 @@ you want to utilize parallel I/O best stick to Python 2.7 for now.</p>
 <p>The version with parallel I/O support is a bit more difficult as the <code class="docutils literal"><span class="pre">h5py</span></code>
 installable via <code class="docutils literal"><span class="pre">conda</span></code> has no parallel I/O support.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda update conda
-$ conda install -c conda-forge obspy colorama pytest pip flake8 dill
-$ pip install prov
+$ conda install -c conda-forge obspy colorama pytest pip flake8 dill prov
 </pre></div>
 </div>
 <p>For all of the following steps make sure that the MPI package of your local
@@ -227,7 +225,7 @@ information about the current system.</p>
 </pre></div>
 </div>
 <p>which will print something along the following lines:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pyasdf</span> <span class="n">version</span> <span class="mf">0.1</span><span class="o">.</span><span class="n">x</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pyasdf</span> <span class="n">version</span> <span class="mf">0.1</span><span class="o">.</span><span class="mi">1</span>
 <span class="o">===============================================================================</span>
 <span class="n">CPython</span> <span class="mf">2.7</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="n">compiler</span><span class="p">:</span> <span class="n">GCC</span> <span class="mf">4.2</span><span class="o">.</span><span class="mi">1</span> <span class="p">(</span><span class="n">Apple</span> <span class="n">Inc</span><span class="o">.</span> <span class="n">build</span> <span class="mi">5577</span><span class="p">)</span>
 <span class="n">Darwin</span> <span class="mf">14.3</span><span class="o">.</span><span class="mi">0</span> <span class="mi">64</span><span class="n">bit</span>
@@ -321,7 +319,7 @@ choice.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.1.x',
+            VERSION:'0.1.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

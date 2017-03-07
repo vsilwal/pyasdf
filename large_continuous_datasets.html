@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Large Continuous Data Sets &mdash; pyasdf 0.1.x documentation</title>
+  <title>Large Continuous Data Sets &mdash; pyasdf 0.1.1 documentation</title>
   
 
   
@@ -40,7 +40,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="pyasdf 0.1.x documentation" href="index.html"/>
+    <link rel="top" title="pyasdf 0.1.1 documentation" href="index.html"/>
         <link rel="up" title="Detailed Explanations" href="detailed_explanations.html"/>
         <link rel="prev" title="Working With Station Data" href="station_data.html"/> 
 
@@ -73,7 +73,7 @@
             
             
               <div class="version">
-                0.1.x
+                0.1.1
               </div>
             
           
@@ -169,10 +169,10 @@ work with (less bookkeeping) but are harder to move around, backup, and more
 prone to corruption through bit rot.</p>
 <p>We start with a folder full of MiniSEED files, one per day.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ du -sh EHZ.D
-7.3G    EHZ.D
+<span class="m">7</span>.3G    EHZ.D
 
 $ ls EHZ.D <span class="p">|</span> wc -l
-365
+<span class="m">365</span>
 </pre></div>
 </div>
 <p>A simple script writes everything into a single ASDF file. <a class="reference external" href="https://pypi.python.org/pypi/tqdm">tqdm</a> (install with <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">tqdm</span></code>) is a
@@ -200,7 +200,7 @@ suitable for any given application.</p>
 reading speed will naturally decrease. The compression option can be set when
 initializing the ASDF file. Here are some results for this particular data set:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>du -sh *.h5
-4.8G    out_gzip3.h5
+<span class="m">4</span>.8G    out_gzip3.h5
 23G     out_uncompressed.h5
 </pre></div>
 </div>
@@ -287,7 +287,7 @@ suitable for very big data arrays.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.1.x',
+            VERSION:'0.1.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

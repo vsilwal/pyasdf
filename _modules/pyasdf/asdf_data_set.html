@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pyasdf.asdf_data_set &mdash; pyasdf 0.1.x documentation</title>
+  <title>pyasdf.asdf_data_set &mdash; pyasdf 0.1.1 documentation</title>
   
 
   
@@ -40,7 +40,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="pyasdf 0.1.x documentation" href="../../index.html"/>
+    <link rel="top" title="pyasdf 0.1.1 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.1.x
+                0.1.1
               </div>
             
           
@@ -398,7 +398,7 @@
         <span class="k">return</span> <span class="kc">True</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -410,7 +410,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Enable usage as a context manager.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__del__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="fm">__del__</span><span class="p">()</span>
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="nf">__delattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
@@ -671,7 +671,7 @@
 <span class="sd">            b: 2</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Assert the data type name.</span>
-        <span class="n">pattern</span> <span class="o">=</span> <span class="s2">r&quot;^[A-Z][A-Za-z0-9]*$&quot;</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;^[A-Z][A-Za-z0-9]*$&quot;</span>
         <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">data_type</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ASDFValueError</span><span class="p">(</span>
                 <span class="s2">&quot;Data type name &#39;</span><span class="si">{name}</span><span class="s2">&#39; is invalid. It must validate &quot;</span>
@@ -683,7 +683,7 @@
 
         <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">tag_path</span><span class="p">:</span>
             <span class="c1"># Assert each path piece.</span>
-            <span class="n">tag_pattern</span> <span class="o">=</span> <span class="s2">r&quot;^[a-zA-Z0-9][a-zA-Z0-9_]*[a-zA-Z0-9]$&quot;</span>
+            <span class="n">tag_pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;^[a-zA-Z0-9][a-zA-Z0-9_]*[a-zA-Z0-9]$&quot;</span>
             <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">tag_pattern</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ASDFValueError</span><span class="p">(</span>
                     <span class="s2">&quot;Tag name &#39;</span><span class="si">{name}</span><span class="s2">&#39; is invalid. It must validate &quot;</span>
@@ -940,7 +940,7 @@
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">h5py</span><span class="o">.</span><span class="n">Group</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">AuxiliaryDataAccessor</span><span class="p">(</span>
-                <span class="n">auxiliary_data_type</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">r&quot;^/AuxiliaryData/&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                <span class="n">auxiliary_data_type</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^/AuxiliaryData/&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
                                            <span class="n">group</span><span class="o">.</span><span class="n">name</span><span class="p">),</span>
                 <span class="n">asdf_data_set</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">AuxiliaryDataContainer</span><span class="p">(</span>
@@ -982,7 +982,7 @@
         <span class="k">return</span> <span class="n">ret</span>
 
     <span class="k">def</span> <span class="nf">_repr_pretty_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">cycle</span><span class="p">):</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__str__</span><span class="p">())</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">())</span>
 
 <div class="viewcode-block" id="ASDFDataSet.append_waveforms"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet.append_waveforms">[docs]</a>    <span class="k">def</span> <span class="nf">append_waveforms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">waveform</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1091,7 +1091,7 @@
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">ds_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
                     <span class="k">continue</span>
                 <span class="n">ds</span> <span class="o">=</span> <span class="n">station_group</span><span class="o">.</span><span class="n">_WaveformAccessor__hdf5_group</span><span class="p">[</span><span class="n">ds_name</span><span class="p">]</span>
-                <span class="n">t</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;starttime&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">1</span><span class="n">e9</span> <span class="o">+</span> <span class="n">ds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> \
+                <span class="n">t</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;starttime&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1e9</span> <span class="o">+</span> <span class="n">ds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> \
                     <span class="mf">1.0</span> <span class="o">/</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;sampling_rate&quot;</span><span class="p">]</span>
                 <span class="k">del</span> <span class="n">ds</span>
                 <span class="k">if</span> <span class="n">min_t</span> <span class="o">&lt;=</span> <span class="n">t</span> <span class="o">&lt;=</span> <span class="n">max_t</span><span class="p">:</span>
@@ -1130,7 +1130,7 @@
                     <span class="n">new_data_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_waveform_ds_name</span><span class="p">(</span>
                         <span class="n">net</span><span class="o">=</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">network</span><span class="p">,</span> <span class="n">sta</span><span class="o">=</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">station</span><span class="p">,</span>
                         <span class="n">loc</span><span class="o">=</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">location</span><span class="p">,</span> <span class="n">cha</span><span class="o">=</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span>
-                        <span class="n">start</span><span class="o">=</span><span class="n">obspy</span><span class="o">.</span><span class="n">UTCDateTime</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;starttime&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">1</span><span class="n">e9</span><span class="p">),</span>
+                        <span class="n">start</span><span class="o">=</span><span class="n">obspy</span><span class="o">.</span><span class="n">UTCDateTime</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;starttime&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1e9</span><span class="p">),</span>
                         <span class="n">end</span><span class="o">=</span><span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">endtime</span><span class="p">,</span>
                         <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span>
                     <span class="k">del</span> <span class="n">ds</span>
@@ -2320,7 +2320,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Finished processing in </span><span class="si">%.2f</span><span class="s2"> seconds (</span><span class="si">%.2g</span><span class="s2"> sec/station).&quot;</span> <span class="o">%</span> <span class="p">(</span>
             <span class="n">_dur</span><span class="p">,</span> <span class="n">_dur</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">station_tags</span><span class="p">)))</span>
 
-        <span class="n">ASDFDataSet</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__original_filename</span><span class="p">)</span>
+        <span class="n">ASDFDataSet</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__original_filename</span><span class="p">)</span>
 
         <span class="k">return</span>
 
@@ -2430,7 +2430,7 @@
                  <span class="n">out_filename</span><span class="p">,</span> <span class="n">in_lock</span><span class="p">,</span> <span class="n">out_lock</span><span class="p">,</span> <span class="n">print_lock</span><span class="p">,</span>
                  <span class="n">processing_function</span><span class="p">,</span> <span class="n">process_name</span><span class="p">,</span>
                  <span class="n">total_task_count</span><span class="p">,</span> <span class="n">cpu_count</span><span class="p">,</span> <span class="n">traceback_limit</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">_Process</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_Process</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input_queue</span> <span class="o">=</span> <span class="n">in_queue</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output_queue</span> <span class="o">=</span> <span class="n">out_queue</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input_filename</span> <span class="o">=</span> <span class="n">in_filename</span>
@@ -2547,7 +2547,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.1.x',
+            VERSION:'0.1.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
