@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pyasdf.asdf_data_set &mdash; pyasdf 0.1.2 documentation</title>
+  <title>pyasdf.asdf_data_set &mdash; pyasdf 0.1.x documentation</title>
   
 
   
@@ -40,7 +40,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="pyasdf 0.1.2 documentation" href="../../index.html"/>
+    <link rel="top" title="pyasdf 0.1.x documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.1.2
+                0.1.x
               </div>
             
           
@@ -2438,7 +2438,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">input_file_lock</span> <span class="o">=</span> <span class="n">in_lock</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output_file_lock</span> <span class="o">=</span> <span class="n">out_lock</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">print_lock</span> <span class="o">=</span> <span class="n">print_lock</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">processing_function</span> <span class="o">=</span> <span class="n">dill</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">processing_function</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">processing_function</span> <span class="o">=</span> <span class="n">processing_function</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__process_name</span> <span class="o">=</span> <span class="n">process_name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__task_count</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__total_task_count</span> <span class="o">=</span> <span class="n">total_task_count</span>
@@ -2472,8 +2472,11 @@
                 <span class="n">input_data_set</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
                 <span class="k">del</span> <span class="n">input_data_set</span>
 
+            <span class="c1"># Using dill as it works on more systems.</span>
+            <span class="n">func</span> <span class="o">=</span> <span class="n">dill</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processing_function</span><span class="p">)</span>
+
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">output_stream</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">processing_function</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">inv</span><span class="p">)</span>
+                <span class="n">output_stream</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">inv</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                 <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Error during the processing of station &#39;</span><span class="si">%s</span><span class="s2">&#39; &quot;</span>
                        <span class="s2">&quot;and tag &#39;</span><span class="si">%s</span><span class="s2">&#39; on CPU </span><span class="si">%i</span><span class="s2">:&quot;</span> <span class="o">%</span> <span class="p">(</span>
@@ -2547,7 +2550,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.1.2',
+            VERSION:'0.1.x',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
