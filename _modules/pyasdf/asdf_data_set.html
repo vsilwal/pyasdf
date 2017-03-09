@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pyasdf.asdf_data_set &mdash; pyasdf 0.1.3 documentation</title>
+  <title>pyasdf.asdf_data_set &mdash; pyasdf 0.1.x documentation</title>
   
 
   
@@ -40,7 +40,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="pyasdf 0.1.3 documentation" href="../../index.html"/>
+    <link rel="top" title="pyasdf 0.1.x documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.1.3
+                0.1.x
               </div>
             
           
@@ -215,6 +215,10 @@
     <span class="n">FilteredWaveformAccessor</span><span class="p">,</span> <span class="n">label2string</span><span class="p">,</span> <span class="n">labelstring2list</span><span class="p">,</span> \
     <span class="n">AuxiliaryDataAccessor</span><span class="p">,</span> <span class="n">wf_name2tag</span><span class="p">,</span> <span class="n">to_list_of_resource_identifiers</span>
 <span class="kn">from</span> <span class="nn">.inventory_utils</span> <span class="k">import</span> <span class="n">isolate_and_merge_station</span><span class="p">,</span> <span class="n">merge_inventories</span>
+
+
+<span class="c1"># Always raise ASDF warnings as they are important for the user.</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s1">&#39;always&#39;</span><span class="p">,</span> <span class="n">ASDFWarning</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="ASDFDataSet"><a class="viewcode-back" href="../../asdf_data_set.html#pyasdf.asdf_data_set.ASDFDataSet">[docs]</a><span class="k">class</span> <span class="nc">ASDFDataSet</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -2550,7 +2554,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.1.3',
+            VERSION:'0.1.x',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
