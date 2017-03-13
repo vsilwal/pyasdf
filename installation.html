@@ -97,9 +97,8 @@
                 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#pyasdf-and-dependencies">pyasdf and Dependencies</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#dependencies-for-the-non-parallel-i-o-version">Dependencies for the non-parallel I/O version</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#dependencies-for-the-parallel-i-o-version">Dependencies for the parallel I/O version</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#installing-pyasdf">Installing pyasdf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#non-parallel-pyasdf">Non-parallel <code class="docutils literal"><span class="pre">pyasdf</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyasdf-with-parallel-i-o"><code class="docutils literal"><span class="pre">pyasdf</span></code> with parallel I/O</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a></li>
@@ -163,26 +162,37 @@ following Python modules: <code class="docutils literal"><span class="pre">NumPy
 <code class="docutils literal"><span class="pre">flake8</span></code>, <code class="docutils literal"><span class="pre">pytest</span></code>, <code class="docutils literal"><span class="pre">prov</span></code>, <code class="docutils literal"><span class="pre">dill</span></code>, and optionally <code class="docutils literal"><span class="pre">mpi4py</span></code>. You can
 install <code class="docutils literal"><span class="pre">pyasdf</span></code> with or without parallel I/O support; the later requires
 <code class="docutils literal"><span class="pre">mpi4py</span></code> and parallel versions of <code class="docutils literal"><span class="pre">hdf5</span></code> and <code class="docutils literal"><span class="pre">h5py</span></code>.</p>
+<p><code class="docutils literal"><span class="pre">pyasdf</span></code> itself is available on pypi and also as a conda package in the
+<code class="docutils literal"><span class="pre">conda-forge</span></code> channel (non-parallel only).</p>
 <p>If you know what you are doing, install it any way you see fit. Otherwise do
 yourself a favor and download the
 <a class="reference external" href="https://store.continuum.io/cshop/anaconda/">Anaconda Python distribution</a>
-for your chosen Python version. After downloading, update it, and install the
-dependencies.</p>
-<div class="section" id="dependencies-for-the-non-parallel-i-o-version">
-<h3>Dependencies for the non-parallel I/O version<a class="headerlink" href="#dependencies-for-the-non-parallel-i-o-version" title="Permalink to this headline">¶</a></h3>
-<p>Almost all dependencies for <code class="docutils literal"><span class="pre">pyasdf</span></code> with no parallel I/O support can be
-installed with <code class="docutils literal"><span class="pre">conda</span></code>, the remaining one is installed with <code class="docutils literal"><span class="pre">pip</span></code>:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda update conda
-$ conda install -c conda-forge obspy colorama pytest pip flake8 h5py dill prov
+for your chosen Python version.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p><strong>When to choose the parallel I/O version?</strong></p>
+<p>Please note that in most cases it is not worth it to install the parallel
+I/O version. For one most machines (aside from actual HPC machines)
+don&#8217;t even have the necessary hardware to do actually parallel I/O. Also
+seismological waveform data is usually not that big in volume so a single
+reading/writing thread might be sufficient.</p>
+<p class="last">But if your application does indeed benefit from parallel I/O follow the
+instructions below.</p>
+</div>
+<div class="section" id="non-parallel-pyasdf">
+<h3>Non-parallel <code class="docutils literal"><span class="pre">pyasdf</span></code><a class="headerlink" href="#non-parallel-pyasdf" title="Permalink to this headline">¶</a></h3>
+<p>This is very easy - just execute this one line and it will install all the
+dependencies including <code class="docutils literal"><span class="pre">pyasdf</span></code>.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda install -c conda-forge pyasdf
 </pre></div>
 </div>
 </div>
-<div class="section" id="dependencies-for-the-parallel-i-o-version">
-<h3>Dependencies for the parallel I/O version<a class="headerlink" href="#dependencies-for-the-parallel-i-o-version" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="pyasdf-with-parallel-i-o">
+<h3><code class="docutils literal"><span class="pre">pyasdf</span></code> with parallel I/O<a class="headerlink" href="#pyasdf-with-parallel-i-o" title="Permalink to this headline">¶</a></h3>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">There currently are some issues in combination of Python 3 and MPI so if
-you want to utilize parallel I/O best stick to Python 2.7 for now.</p>
+<p class="last">There currently might be some issues in combination of Python 3 and MPI
+so if you want to utilize parallel I/O best stick to Python 2.7 for now.</p>
 </div>
 <p>The version with parallel I/O support is a bit more difficult as the <code class="docutils literal"><span class="pre">h5py</span></code>
 installable via <code class="docutils literal"><span class="pre">conda</span></code> has no parallel I/O support.</p>
@@ -208,18 +218,11 @@ same that is used by your computer.</p>
 internal API for version 2.0. This has to be accounted for when installing the
 parallel <code class="docutils literal"><span class="pre">h5py</span></code> version. See here for more details:
 <a class="reference external" href="https://github.com/SeismicData/pyasdf/issues/11">https://github.com/SeismicData/pyasdf/issues/11</a></p>
-</div>
-<div class="section" id="installing-pyasdf">
-<h3>Installing pyasdf<a class="headerlink" href="#installing-pyasdf" title="Permalink to this headline">¶</a></h3>
-<p><code class="docutils literal"><span class="pre">pyasdf</span></code> is currently not on pypi but eventually be. For now, best install via git.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ git clone https://github.com/SeismicData/pyasdf.git
-$ <span class="nb">cd</span> pyasdf
-$ pip install -v -e .
+<p>Finally install <code class="docutils literal"><span class="pre">pyasdf</span></code> with</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ pip install pyasdf
 </pre></div>
 </div>
-<p>The <code class="docutils literal"><span class="pre">-e</span></code> flag results in an editable installation meaning the a simple <code class="docutils literal"><span class="pre">git</span>
-<span class="pre">pull</span></code> is enough to update <code class="docutils literal"><span class="pre">pyasdf</span></code>.</p>
-<p>After everything is installed, run the following command to print
+<p>After everything is installed, you can run the following command to print
 information about the current system.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ python -c <span class="s2">&quot;import pyasdf; pyasdf.print_sys_info()&quot;</span>
 </pre></div>
