@@ -209,7 +209,7 @@ self-explanatory.</p>
 </div>
 <div class="section" id="more-example-queries">
 <h2>More Example Queries<a class="headerlink" href="#more-example-queries" title="Permalink to this headline">¶</a></h2>
-<p>We&#8217;ll show some more example to give you a feel for how to construct queries
+<p>We’ll show some more example to give you a feel for how to construct queries
 and what they mean. The syntax is not as powerful as a full SQL implementation
 but for practical purposes it gets pretty close and it can express and resolve
 some fairly complex queries. You can chain an arbitrary number of constraints
@@ -225,7 +225,7 @@ all waveforms with a network starting with <code class="docutils literal"><span 
     <span class="o">...</span>
 </pre></div>
 </div>
-<p>String attributes (<code class="docutils literal"><span class="pre">network</span></code>, <code class="docutils literal"><span class="pre">station</span></code>, <code class="docutils literal"><span class="pre">channel</span></code>, ...) can also be
+<p>String attributes (<code class="docutils literal"><span class="pre">network</span></code>, <code class="docutils literal"><span class="pre">station</span></code>, <code class="docutils literal"><span class="pre">channel</span></code>, …) can also be
 queried by passing a list of potentially wildcarded strings. <strong>Each element in
 such a list is joined by a logical</strong> <code class="docutils literal"><span class="pre">OR</span></code>, e.g. the next query will select
 all stations starting with <code class="docutils literal"><span class="pre">B</span></code>, or the <code class="docutils literal"><span class="pre">CA</span></code> station, or any two letter
@@ -268,7 +268,7 @@ January 2015:</p>
     <span class="o">...</span>
 </pre></div>
 </div>
-<p>Get all waveforms if any label is either &#8220;Fun&#8221; or matches the pattern &#8220;A*C&#8221;:</p>
+<p>Get all waveforms if any label is either “Fun” or matches the pattern “A*C”:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">ifilter</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">labels</span> <span class="o">==</span> <span class="p">[</span><span class="s2">&quot;Fun&quot;</span><span class="p">,</span> <span class="s2">&quot;A*C&quot;</span><span class="p">]):</span>
     <span class="o">...</span>
 </pre></div>
@@ -345,7 +345,7 @@ Pass as a <a class="reference external" href="http://docs.obspy.org/packages/aut
 <td>The end time of the waveform.</td>
 </tr>
 <tr class="row-even"><td colspan="3"><strong>Waveform Attribute Parameters:</strong>
-Evaluated per waveform trace. Don&#8217;t use <code class="docutils literal"><span class="pre">==</span></code> for floats but rather a combination of <code class="docutils literal"><span class="pre">&gt;=</span></code> and <code class="docutils literal"><span class="pre">&lt;=</span></code>.</td>
+Evaluated per waveform trace. Don’t use <code class="docutils literal"><span class="pre">==</span></code> for floats but rather a combination of <code class="docutils literal"><span class="pre">&gt;=</span></code> and <code class="docutils literal"><span class="pre">&lt;=</span></code>.</td>
 </tr>
 <tr class="row-odd"><td><code class="docutils literal"><span class="pre">sampling_rate</span></code></td>
 <td><code class="docutils literal"><span class="pre">float</span></code></td>

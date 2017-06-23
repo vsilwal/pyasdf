@@ -159,11 +159,11 @@ sets, each processed in a different frequency band.</p>
 <p>It can be run with MPI. It scales fairly well and will utilize parallel I/O if
 your machine supports it. Please keep in mind that there is a significant
 start-up cost for Python on each core (special Python versions that get around
-that if really necessary are in existence) so don&#8217;t use too many cores.</p>
+that if really necessary are in existence) so don’t use too many cores.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ mpirun -n <span class="m">64</span> python process_observed.py
 </pre></div>
 </div>
-<p>If you don&#8217;t run it with MPI with will utilize Python&#8217;s <code class="docutils literal"><span class="pre">multiprocessing</span></code>
+<p>If you don’t run it with MPI with will utilize Python’s <code class="docutils literal"><span class="pre">multiprocessing</span></code>
 module and run it on each of the machines cores. I/O is not parallel and
 uses a round-robin scheme where only one core writes at single point in time.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ python process_observed.py

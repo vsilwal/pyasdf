@@ -173,7 +173,7 @@ for your chosen Python version.</p>
 <p><strong>When to choose the parallel I/O version?</strong></p>
 <p>Please note that in most cases it is not worth it to install the parallel
 I/O version. For one most machines (aside from actual HPC machines)
-don&#8217;t even have the necessary hardware to do actually parallel I/O. Also
+don’t even have the necessary hardware to do actually parallel I/O. Also
 seismological waveform data is usually not that big in volume so a single
 reading/writing thread might be sufficient.</p>
 <p class="last">But if your application does indeed benefit from parallel I/O follow the
@@ -205,7 +205,7 @@ $ conda install -c conda-forge obspy colorama pytest pip flake8 dill prov
 <p>For all of the following steps make sure that the MPI package of your local
 supercomputer/cluster is loaded. The <code class="docutils literal"><span class="pre">mpi4py</span></code> potentially shipping with
 Anaconda might not work on your cluster so uninstall it and reinstall with
-<code class="docutils literal"><span class="pre">pip</span></code> at which point it should link against your cluster&#8217;s MPI
+<code class="docutils literal"><span class="pre">pip</span></code> at which point it should link against your cluster’s MPI
 implementation.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda uninstall mpi4py
 $ pip install mpi4py
