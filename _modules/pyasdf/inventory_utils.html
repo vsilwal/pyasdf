@@ -324,27 +324,39 @@
     <span class="k">if</span> <span class="n">level</span> <span class="o">==</span> <span class="s2">&quot;station&quot;</span><span class="p">:</span>
         <span class="n">coordinates</span> <span class="o">=</span> <span class="p">{}</span>
 
-        <span class="c1"># Small state machine.</span>
-        <span class="n">net_state</span> <span class="o">=</span> <span class="kc">None</span>
-
-        <span class="n">tags</span> <span class="o">=</span> <span class="p">(</span><span class="n">network_tag</span><span class="p">,</span> <span class="n">station_tag</span><span class="p">)</span>
+        <span class="c1"># Just triggering on network and station tags and getting the</span>
+        <span class="c1"># station elements&#39; children does (for some reason) not work as the</span>
+        <span class="c1"># childrens will not be complete if there are a lot of them. Maybe</span>
+        <span class="c1"># this is some kind of shortcoming or bug of etree.iterparse()?</span>
+        <span class="n">tags</span> <span class="o">=</span> <span class="p">(</span><span class="n">network_tag</span><span class="p">,</span> <span class="n">station_tag</span><span class="p">,</span> <span class="n">latitude_tag</span><span class="p">,</span> <span class="n">longitude_tag</span><span class="p">,</span>
+                <span class="n">elevation_tag</span><span class="p">)</span>
         <span class="n">context</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">iterparse</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">events</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tags</span><span class="p">)</span>
 
+        <span class="c1"># Small state machine.</span>
+        <span class="n">current_network</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">current_station</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">current_coordinates</span> <span class="o">=</span> <span class="p">{}</span>
+
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">context</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">elem</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">station_tag</span><span class="p">:</span>
-                <span class="n">station_coordinates</span> <span class="o">=</span> <span class="p">{}</span>
-                <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">elem</span><span class="o">.</span><span class="n">getchildren</span><span class="p">():</span>
-                    <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">latitude_tag</span><span class="p">:</span>
-                        <span class="n">station_coordinates</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-                    <span class="k">elif</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">longitude_tag</span><span class="p">:</span>
-                        <span class="n">station_coordinates</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-                    <span class="k">elif</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">elevation_tag</span><span class="p">:</span>
-                        <span class="n">station_coordinates</span><span class="p">[</span><span class="s2">&quot;elevation_in_m&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
-                            <span class="n">child</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-                <span class="n">coordinates</span><span class="p">[</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">net_state</span><span class="p">,</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;code&quot;</span><span class="p">))]</span> <span class="o">=</span> \
-                    <span class="n">station_coordinates</span>
-            <span class="k">elif</span> <span class="n">elem</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">network_tag</span><span class="p">:</span>
-                <span class="n">net_state</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;code&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">elem</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">network_tag</span><span class="p">:</span>
+                <span class="n">current_network</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;code&#39;</span><span class="p">)</span>
+                <span class="n">current_station</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">current_coordinates</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">elif</span> <span class="n">elem</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">station_tag</span><span class="p">:</span>
+                <span class="n">current_station</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;code&#39;</span><span class="p">)</span>
+                <span class="n">current_coordinates</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">elif</span> <span class="n">elem</span><span class="o">.</span><span class="n">getparent</span><span class="p">()</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">station_tag</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">elem</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">latitude_tag</span><span class="p">:</span>
+                    <span class="n">current_coordinates</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">elem</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">longitude_tag</span><span class="p">:</span>
+                    <span class="n">current_coordinates</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">elem</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">elevation_tag</span><span class="p">:</span>
+                    <span class="n">current_coordinates</span><span class="p">[</span><span class="s2">&quot;elevation_in_m&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">current_coordinates</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="n">coordinates</span><span class="p">[</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">current_network</span><span class="p">,</span>
+                                           <span class="n">current_station</span><span class="p">)]</span> <span class="o">=</span> \
+                        <span class="n">current_coordinates</span>
+                    <span class="n">current_coordinates</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="n">coordinates</span>
 
     <span class="c1"># Return channel coordinates.</span>
