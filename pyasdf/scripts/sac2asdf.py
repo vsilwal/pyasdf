@@ -39,16 +39,16 @@ class _EventContainer(object):
         f.add_quakeml(cat)
 
 
-def add_to_adsf_file(filename, folder, tag, verbose=False):
+def add_to_asdf_file(filename, folder, tag, verbose=False):
     files = [os.path.join(folder, _i) for _i in os.listdir(folder)]
     if verbose:
         print("Found %i potential files to add." % len(files))
     print("Opening '%s' ..." % filename)
     with pyasdf.ASDFDataSet(filename) as f:
-        _add_to_adsf_file(f=f, files=files, tag=tag, verbose=verbose)
+        _add_to_asdf_file(f=f, files=files, tag=tag, verbose=verbose)
 
 
-def _add_to_adsf_file(f, files, tag, verbose=False):
+def _add_to_asdf_file(f, files, tag, verbose=False):
     count = 0
 
     event_handler = _EventContainer()
@@ -174,7 +174,7 @@ def __main__():
                          "'%s'." % (args.tag,
                                     pyasdf.asdf_data_set.TAG_REGEX.pattern))
 
-    add_to_adsf_file(filename=args.output_file, folder=args.folder,
+    add_to_asdf_file(filename=args.output_file, folder=args.folder,
                      verbose=args.verbose, tag=args.tag)
 
 
